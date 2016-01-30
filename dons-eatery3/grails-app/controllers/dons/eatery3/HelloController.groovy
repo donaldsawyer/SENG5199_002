@@ -4,6 +4,7 @@ class HelloController {
 
     //auto scaffolding doesn't work when the controller isn't named same as scaffold
     //def scaffold = Restaurant
+    // adding a comment
 
     def index() {
         render "Hello WORld"
