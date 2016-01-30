@@ -4,5 +4,4 @@ class RestaurantController {
 
     static scaffold = Restaurant
 
-    def index() {}
 }
