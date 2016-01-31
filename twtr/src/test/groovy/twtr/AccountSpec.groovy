@@ -54,4 +54,37 @@ class AccountSpec extends Specification {
         then:
         !sus.validate()
     }
+
+    /* UNIT TESTS WE STILL NEED
+    handle
+     - empty
+     - missing as required field (null)
+     emailAddress
+     - email format constraint
+     - empty
+     - duplicate
+     - missing as required field (null)
+     password
+     - format
+        + no digits
+        + no uppers
+        + no lowers
+        + less than 8
+        + more than 16
+        + valid, but with symbols
+     - missing as required field
+     displayName
+     - empty
+     - missing as required field
+     */
+
+    /* INTEGRATION TESTS WE STILL NEED
+    *** MAKE SURE WE DID THESE PROPERLY ***
+    unique email
+    unique handle
+
+    Account can have multiple followers
+
+    Accounts may follow each other
+     */
 }
