@@ -139,38 +139,37 @@ class AccountSpec extends Specification {
     // END OF EMAIL ADDRESS TESTS //
 
     // PASSWORD TESTS //
-    void "account with invalid password format :-("() {
+    void "account without password is invalid"() {
         when:
-        def sus = new Account(handle: goodHandle, emailAddress: goodEmail,
-                              password: "abc123abc", displayName: goodDisplayName)
+        def sus = new Account(handle: goodHandle, emailAddress: goodEmail, displayName: goodDisplayName)
 
         then:
         !sus.validate()
+    }
+
+    void "Account password variations"(String thePassword, boolean isValid) {
+        expect:
+        def sus = new Account(handle: goodHandle, password: thePassword, emailAddress: goodEmail, displayName: goodDisplayName)
+        sus.validate() == isValid
+
+        where:
+        thePassword || isValid
+        "abcdABCDE" || false
+        "abcd12345" || false
+        "ABCD12345" || false
+        "abAB123"   || false
+        "abcdeABCDE1234567" || false
+        "abc!ABC\$123" || true
+        "abcABC123" || true
     }
     // END OF PASSWORD TESTS //
 
     // DISPLAY NAME TESTS //
 
+
     // END OF DISPLAY NAME TESTS //
 
     /* UNIT TESTS WE STILL NEED
-    handle
-     - empty
-     - missing as required field (null)
-     emailAddress
-     - email format constraint
-     - empty
-     - duplicate
-     - missing as required field (null)
-     password
-     - format
-        + no digits
-        + no uppers
-        + no lowers
-        + less than 8
-        + more than 16
-        + valid, but with symbols
-     - missing as required field
      displayName
      - empty
      - missing as required field
