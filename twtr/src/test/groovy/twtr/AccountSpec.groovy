@@ -165,15 +165,30 @@ class AccountSpec extends Specification {
     // END OF PASSWORD TESTS //
 
     // DISPLAY NAME TESTS //
+    void "Account with a missing display name is invalid"() {
+        when:
+        def sus = new Account(handle: goodHandle, emailAddress: goodEmail, password: goodPassword)
 
+        then:
+        !sus.validate()
+    }
+    void "Account display name variations"(String theDisplayName, boolean isValid) {
+        expect:
+        def sus = new Account(handle: goodHandle, password: goodPassword, emailAddress: goodEmail, displayName: theDisplayName)
+        sus.validate() == isValid
+
+        where:
+        theDisplayName || isValid
+        null           || false
+        ""             || false
+        "d"            || true
+        "SCSU Huskies" || true
+
+    }
 
     // END OF DISPLAY NAME TESTS //
 
     /* UNIT TESTS WE STILL NEED
-     displayName
-     - empty
-     - missing as required field
-     */
 
     /* INTEGRATION TESTS WE STILL NEED
     *** MAKE SURE WE DID THESE PROPERLY ***
