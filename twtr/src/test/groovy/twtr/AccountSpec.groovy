@@ -47,8 +47,13 @@ class AccountSpec extends Specification {
         account1.save(flush: true)
 
         when:
+<<<<<<< HEAD
         def sus = new Account(handle: goodHandle, emailAddress: "testemail2@test.com",
                 password: goodPassword, displayName: goodDisplayName)
+=======
+        def sus = new Account(handle: "@scsu-huskies", emailAddress: "testemail@test.com",
+                              password: "abc123abc", displayName: "SCSU Huskies")
+>>>>>>> 4c839dc40edd599bba31529ef32bc2c961fb2562
 
         then:
         !sus.validate()
@@ -125,6 +130,7 @@ class AccountSpec extends Specification {
 
     void "accounts with the same email address cannot be used"() {
         setup:
+<<<<<<< HEAD
         Account account1 = new Account(handle: goodHandle, emailAddress: goodEmail,
                                        password: goodPassword, displayName: goodDisplayName)
         account1.save(flush: true)
@@ -132,6 +138,15 @@ class AccountSpec extends Specification {
         when:
         Account sus = new Account(handle: goodHandle+"2", emailAddress: goodEmail,
                                   password: goodPassword, displayName: goodDisplayName)
+=======
+        def account1 = new Account(handle: "@scsu-huskies", emailAddress: "testemail@test.com",
+                                   password: "abc123ABC", displayName: "SCSU Huskies")
+        account1.save(flush: true)
+
+        when:
+        def sus = new Account(handle: "@scsu-huskies", emailAddress: "testemail2@test.com",
+                              password: "abc123ABC", displayName: "SCSU Huskies")
+>>>>>>> 4c839dc40edd599bba31529ef32bc2c961fb2562
 
         then:
         !sus.validate()
