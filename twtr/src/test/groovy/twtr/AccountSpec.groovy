@@ -35,7 +35,7 @@ class AccountSpec extends Specification {
     void "account with invalid password format :-("() {
         when:
         def sus = new Account(handle: "@scsu-huskies", emailAddress: "testemail@test.com",
-                password: "abc123abc", displayName: "SCSU Huskies")
+                              password: "abc123abc", displayName: "SCSU Huskies")
 
         then:
         !sus.validate()
@@ -44,12 +44,12 @@ class AccountSpec extends Specification {
     void "accounts with same handle cannot be created"() {
         setup:
         def account1 = new Account(handle: "@scsu-huskies", emailAddress: "testemail@test.com",
-                password: "abc123ABC", displayName: "SCSU Huskies")
+                                   password: "abc123ABC", displayName: "SCSU Huskies")
         account1.save(flush: true)
 
         when:
         def sus = new Account(handle: "@scsu-huskies", emailAddress: "testemail2@test.com",
-                password: "abc123ABC", displayName: "SCSU Huskies")
+                              password: "abc123ABC", displayName: "SCSU Huskies")
 
         then:
         !sus.validate()
