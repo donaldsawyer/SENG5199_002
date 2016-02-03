@@ -47,6 +47,8 @@ class AccountSpec extends Specification {
         account1.save(flush: true)
 
         when:
+        def sus = new Account(handle: goodHandle, emailAddress: "testemail2@test.com",
+                password: goodPassword, displayName: goodDisplayName)
 
         then:
         !sus.validate()
