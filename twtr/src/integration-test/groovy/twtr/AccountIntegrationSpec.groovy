@@ -5,13 +5,11 @@ package twtr
  */
 
 import grails.test.mixin.integration.Integration
-import grails.test.mixin.integration.IntegrationTestMixin
 import grails.transaction.*
 import spock.lang.*
 
 @Integration
 @Rollback
-@TestMixin(IntegrationTestMixin)
 class AccountIntegrationSpec extends Specification {
 
     final static String handle = "@scsu-huskies"
