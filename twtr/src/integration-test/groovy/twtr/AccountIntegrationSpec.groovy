@@ -71,6 +71,7 @@ class AccountIntegrationSpec extends Specification {
         then:
         sus.validate()
         sus.followers.count {it} == 2
+        sus.followers.findAll{it -> (it.handle == account1.handle || it.handle == account2.handle)}
     }
 
     void "two accounts may follow each other"() {
