@@ -1,5 +1,8 @@
 package twtr
 
+/*
+  To run the integration test, use the command in Run Target: grails test-app -integration
+ */
 
 import grails.test.mixin.integration.Integration
 import grails.transaction.*
@@ -9,6 +12,21 @@ import spock.lang.*
 @Rollback
 class AccountIntegrationSpec extends Specification {
 
+    final static String handle = "@scsu-huskies"
+    final static String email  = "testemail@test.com"
+    final static String password = "abc123ABC"
+    final static String displayName = "SCSU Huskies"
+
+    final static String handle1 = "@scsu-huskies1"
+    final static String email1  = "testemail1@test.com"
+    final static String password1 = "abc123ABC"
+    final static String displayName1 = "SCSU Huskies1"
+
+    final static String handle2 = "@scsu-huskies2"
+    final static String email2  = "testemail2@test.com"
+    final static String password2 = "abc123ABC"
+    final static String displayName2 = "SCSU Huskies2"
+
     def setup() {
     }
 
@@ -17,13 +35,11 @@ class AccountIntegrationSpec extends Specification {
 
     void "saving an account with a non-unique email will fail"() {
         setup:
-        def account1 = new Account(handle: "@scsu-huskies1", emailAddress: "testemail@test.com",
-                                   password: "abc123ABC", displayName: "SCSU Huskies")
+        def account1 = new Account(handle: handle, emailAddress: email, password: password, displayName: displayName)
         account1.save(flush: true)
 
         when:
-        def sus = new Account(handle: "@scsu-huskies2", emailAddress: "testemail@test.com",
-                              password: "abc123ABC", displayName: "SCSU Huskies")
+        def sus = new Account(handle: handle1, emailAddress: email, password: password1, displayName: displayName1)
 
         then:
         !sus.validate()
@@ -31,13 +47,11 @@ class AccountIntegrationSpec extends Specification {
 
     void "saving an account with a non-unique handle will fail"() {
         setup:
-        def account1 = new Account(handle: "@scsu-huskies", emailAddress: "testemail1@test.com",
-                                   password: "abc123ABC", displayName: "SCSU Huskies")
+        def account1 = new Account(handle: handle, emailAddress: email, password: password, displayName: displayName)
         account1.save(flush: true)
 
         when:
-        def sus = new Account(handle: "@scsu-huskies", emailAddress: "testemail2@test.com",
-                              password: "abc123ABC", displayName: "SCSU Huskies")
+        def sus = new Account(handle: handle, emailAddress: email1, password: password1, displayName: displayName1)
 
         then:
         !sus.validate()
@@ -45,34 +59,31 @@ class AccountIntegrationSpec extends Specification {
 
     void "an account allows multiple followers"() {
         setup:
-        def sus = new Account(handle: "@scsu-huskies", emailAddress: "testemail1@test.com",
-                              password: "abc123ABC", displayName: "SCSU Huskies")
+        def sus = new Account(handle: handle, emailAddress: email, password: password, displayName: displayName)
         sus.save(flush: true)
 
-        def account1 = new Account(handle: "@scsu-student1", emailAddress: "testemail2@test.com",
-                                   password: "abc123ABC", displayName: "SCSU Student1")
+        def account1 = new Account(handle: handle1, emailAddress: email1, password: password1, displayName: displayName1)
         account1.save(flush: true)
 
-        def account2 = new Account(handle: "@scsu-student2", emailAddress: "testemail2@test.com",
-                                   password: "abc123ABC", displayName: "SCSU Student2")
+        def account2 = new Account(handle: handle2, emailAddress: email2, password: password2, displayName: displayName2)
         account2.save(flush: true)
 
         when:
-        account1.addToFollowers(sus)
-        account2.addToFollowers(sus)
+        account1.addToFollowing(sus)
+        account2.addToFollowing(sus)
 
         then:
         sus.validate()
+        //TBD - add other validation conditions
+
     }
 
     void "two accounts may follow each other"() {
         setup:
-        def sus1 = new Account(handle: "@scsu-student1", emailAddress: "testemail1@test.com",
-                               password: "abc123ABC", displayName: "SCSU Student1")
+        def sus1 = new Account(handle: handle1, emailAddress: email1, password: password1, displayName: displayName1)
         sus1.save(flush: true)
 
-        def sus2 = new Account(handle: "@scsu-student2", emailAddress: "testemail2@test.com",
-                               password: "abc123ABC", displayName: "SCSU Student2")
+        def sus2 = new Account(handle: handle2, emailAddress: email2, password: password2, displayName: displayName2)
         sus2.save(flush: true)
 
         when:
@@ -81,5 +92,8 @@ class AccountIntegrationSpec extends Specification {
 
         then:
         sus1.validate() && sus2.validate()
+        //TBD - add other validation conditions
+        //sus1.findAll{it.getFollowers()} == sus2.findAll{it.getfollowing()}
+        //sus2.findAll{it.getFollowers()} == sus1.findAll{it.getfollowing()}
     }
 }
