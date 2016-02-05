@@ -1,9 +1,5 @@
 package twtr
 
-/*
-  To run the integration test, use the command in Run Target: grails test-app -integration
- */
-
 import grails.test.mixin.integration.Integration
 import grails.transaction.*
 import spock.lang.*
@@ -69,13 +65,13 @@ class AccountIntegrationSpec extends Specification {
         account2.save(flush: true)
 
         when:
-        account1.addToFollowing(sus)
-        account2.addToFollowing(sus)
+        sus.addToFollowers(account1)
+        sus.addToFollowers(account2)
 
         then:
         sus.validate()
-        //TBD - add other validation conditions
-
+        sus.followers.count {it} == 2
+        sus.followers.findAll{it -> (it.handle == account1.handle || it.handle == account2.handle)}
     }
 
     void "two accounts may follow each other"() {
@@ -89,11 +85,18 @@ class AccountIntegrationSpec extends Specification {
         when:
         sus1.addToFollowers(sus2)
         sus2.addToFollowers(sus1)
+        sus1.addToFollowing(sus2)
+        sus2.addToFollowing(sus1)
 
         then:
         sus1.validate() && sus2.validate()
-        //TBD - add other validation conditions
-        //sus1.findAll{it.getFollowers()} == sus2.findAll{it.getfollowing()}
-        //sus2.findAll{it.getFollowers()} == sus1.findAll{it.getfollowing()}
+        sus1.followers.find{it.handle == sus2.handle} != null
+        !sus1.followers.find{it.handle == sus1.handle}
+        sus2.followers.find{it.handle == sus1.handle} != null
+        !sus2.followers.find{it.handle == sus2.handle}
+        sus1.following.find{it.handle == sus2.handle} != null
+        !sus1.following.find{it.handle == sus1.handle}
+        sus2.following.find{it.handle == sus1.handle} != null
+        !sus2.following.find{it.handle == sus2.handle}
     }
 }
