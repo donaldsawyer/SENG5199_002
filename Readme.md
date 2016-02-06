@@ -36,3 +36,4 @@ A test project from Don for learning grails, groovy, and IntelliJ for the class.
 A test project from Lulu for learning grails, groovy, and IntelliJ for the class.
 
 ## twtr
+Course project for SENG5199-002.
