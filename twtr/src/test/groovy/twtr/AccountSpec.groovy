@@ -29,7 +29,8 @@ class AccountSpec extends Specification {
     }
 
     // HAPPY PATH TESTS //
-    void "account field values follow constraints for new account :-)"() {
+    void "account field values follow constraints for new account"() {
+
         when: "Account is added using valid properties."
         def sus = new Account(handle: goodHandle, emailAddress: goodEmail,
                               password: goodPassword, displayName: goodDisplayName)
@@ -40,6 +41,7 @@ class AccountSpec extends Specification {
 
     // HANDLE TESTS //
     void "account handle variation: #description"() {
+
         when: "An Account is added with various handles."
         def sus = new Account(handle: handle, emailAddress: emailAddress, password: password, displayName: displayName)
 
@@ -65,6 +67,7 @@ class AccountSpec extends Specification {
 
     // EMAIL ADDRESS TESTS //
     void "account emailAddress variation: #description"() {
+
         when: "An account is added with various email address values."
         def sus = new Account(handle: handle, emailAddress: emailAddress, password: password, displayName: displayName)
 
@@ -97,6 +100,7 @@ class AccountSpec extends Specification {
 
     // PASSWORD TESTS //
     void "account without password is invalid"() {
+
         when: "An account is created without a password."
         def sus = new Account(handle: goodHandle, emailAddress: goodEmail, displayName: goodDisplayName)
 
@@ -105,26 +109,30 @@ class AccountSpec extends Specification {
         sus.errors["password"] != null
     }
 
-    void "Account password variations"(String thePassword, boolean isValid, boolean passwordError) {
-        expect:
+    void "Account password variations: #description"() {
+
+        when:
         def sus = new Account(handle: goodHandle, password: thePassword, emailAddress: goodEmail, displayName: goodDisplayName)
+
+        then:
         sus.validate() == isValid
         (sus.errors["password"] == null) == !passwordError
 
         where:
-        thePassword         | isValid   | passwordError
-        "abcdABCDE"         | false     | true
-        "abcd12345"         | false     | true
-        "ABCD12345"         | false     | true
-        "abAB123"           | false     | true
-        "abcdeABCDE1234567" | false     | true
-        "abc!ABC\$123"      | true      | false
-        "abcABC123"         | true      | false
+        description         | thePassword         | isValid   | passwordError
+        "No numbers"        | "abcdABCDE"         | false     | true
+        "No Uppers"         | "abcd12345"         | false     | true
+        "No lowers"         | "ABCD12345"         | false     | true
+        "7 chars"           | "abAB123"           | false     | true
+        "17 characters"     | "abcdeABCDE1234567" | false     | true
+        "Valid w/ symbols"  | "abc!ABC\$123"      | true      | false
+        "Valid no symbols"  | "abcABC123"         | true      | false
     }
     // END OF PASSWORD TESTS //
 
     // DISPLAY NAME TESTS //
     void "Account with a missing display name is invalid"() {
+
         when: "An account is created without a display name."
         def sus = new Account(handle: goodHandle, emailAddress: goodEmail, password: goodPassword)
 
@@ -132,18 +140,21 @@ class AccountSpec extends Specification {
         !sus.validate()
         sus.errors["displayName"] != null
     }
-    void "Account display name variations"(String theDisplayName, boolean isValid, boolean displayNameError) {
-        expect:
+
+    void "Account display name variations: #description"() {
+        when:
         def sus = new Account(handle: goodHandle, password: goodPassword, emailAddress: goodEmail, displayName: theDisplayName)
+
+        then: "a valid email will validate.  an invalid email will not validate and will have a displayName validation error."
         sus.validate() == isValid
         (sus.errors["displayName"] == null) == !displayNameError
 
         where:
-        theDisplayName | isValid    | displayNameError
-        null           | false      | true
-        ""             | false      | true
-        "d"            | true       | false
-        "SCSU Huskies" | true       | false
+        description         | theDisplayName | isValid    | displayNameError
+        "null display name" | null           | false      | true
+        "empty string"      | ""             | false      | true
+        "single character"  | "d"            | true       | false
+        "Awesome name"      |"SCSU Huskies"  | true       | false
 
     }
     // END OF DISPLAY NAME TESTS //
