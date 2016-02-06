@@ -7,6 +7,7 @@ import grails.test.mixin.TestMixin
 import grails.test.mixin.domain.DomainClassUnitTestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
 import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
@@ -40,6 +41,7 @@ class AccountSpec extends Specification {
     // END OF HAPPY PATH TESTS //
 
     // HANDLE TESTS //
+    @Unroll('handle: #description')
     void "account handle variation: #description"() {
 
         when: "An Account is added with various handles."
@@ -66,6 +68,7 @@ class AccountSpec extends Specification {
     // END OF HANDLE TESTS //
 
     // EMAIL ADDRESS TESTS //
+    @Unroll('emailAddress: #description')
     void "account emailAddress variation: #description"() {
 
         when: "An account is added with various email address values."
@@ -109,6 +112,7 @@ class AccountSpec extends Specification {
         sus.errors["password"] != null
     }
 
+    @Unroll('password: #description')
     void "Account password variations: #description"() {
 
         when:
@@ -141,6 +145,7 @@ class AccountSpec extends Specification {
         sus.errors["displayName"] != null
     }
 
+    @Unroll('displayName: #description')
     void "Account display name variations: #description"() {
         when:
         def sus = new Account(handle: goodHandle, password: goodPassword, emailAddress: goodEmail, displayName: theDisplayName)
