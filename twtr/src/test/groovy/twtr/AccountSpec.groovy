@@ -30,20 +30,20 @@ class AccountSpec extends Specification {
 
     // HAPPY PATH TESTS //
     void "account field values follow constraints for new account :-)"() {
-        when:
+        when: "Account is added using valid properties."
         def sus = new Account(handle: goodHandle, emailAddress: goodEmail,
                               password: goodPassword, displayName: goodDisplayName)
-        then:
+        then: "The Account should be valid against Account constraints."
         sus.validate()
     }
     // END OF HAPPY PATH TESTS //
 
     // HANDLE TESTS //
     void "account handle variation: #description"() {
-        when:
+        when: "An Account is added with various handles."
         def sus = new Account(handle: handle, emailAddress: emailAddress, password: password, displayName: displayName)
 
-        then:
+        then: "The Account validates appropriately against the Account constraints."
         sus.validate() == valid && ((sus.errors["handle"] == null) == !handleError)
 
         where:
@@ -55,20 +55,20 @@ class AccountSpec extends Specification {
 
     // theoretically, this is covered in the handle variation "Null handle test" //
     void "accounts missing a handle are invalid"() {
-        when:
+        when: "An account is created without a handle."
         def sus = new Account(emailAddress: goodEmail, password: goodPassword, displayName: goodDisplayName)
 
-        then:
+        then: "the account should be invalid."
         !sus.validate()
     }
     // END OF HANDLE TESTS //
 
     // EMAIL ADDRESS TESTS //
     void "account emailAddress variation: #description"() {
-        when:
+        when: "An account is added with various email address values."
         def sus = new Account(handle: handle, emailAddress: emailAddress, password: password, displayName: displayName)
 
-        then:
+        then: "The account validates appropriately against the Account constraints."
         sus.validate() == valid && ((sus.errors["emailAddress"] == null) == !emailError)
 
         where:
@@ -86,59 +86,64 @@ class AccountSpec extends Specification {
 
     // this is likely handled in the data-driven test above 'null email' //
     void "accounts missing an emailAddress are invalid"() {
-        when:
+        when: "An account is created without an email address."
         def sus = new Account(handle: goodHandle, password: goodPassword, displayName: goodDisplayName)
 
-        then:
+        then: "The account should be invalid due to an emailAddress error."
         !sus.validate()
+        sus.errors["emailAddress"] != null
     }
     // END OF EMAIL ADDRESS TESTS //
 
     // PASSWORD TESTS //
     void "account without password is invalid"() {
-        when:
+        when: "An account is created without a password."
         def sus = new Account(handle: goodHandle, emailAddress: goodEmail, displayName: goodDisplayName)
 
-        then:
+        then: "The account should be invalid due to a password error."
         !sus.validate()
+        sus.errors["password"] != null
     }
 
-    void "Account password variations"(String thePassword, boolean isValid) {
+    void "Account password variations"(String thePassword, boolean isValid, boolean passwordError) {
         expect:
         def sus = new Account(handle: goodHandle, password: thePassword, emailAddress: goodEmail, displayName: goodDisplayName)
         sus.validate() == isValid
+        (sus.errors["password"] == null) == !passwordError
 
         where:
-        thePassword || isValid
-        "abcdABCDE" || false
-        "abcd12345" || false
-        "ABCD12345" || false
-        "abAB123"   || false
-        "abcdeABCDE1234567" || false
-        "abc!ABC\$123" || true
-        "abcABC123" || true
+        thePassword         | isValid   | passwordError
+        "abcdABCDE"         | false     | true
+        "abcd12345"         | false     | true
+        "ABCD12345"         | false     | true
+        "abAB123"           | false     | true
+        "abcdeABCDE1234567" | false     | true
+        "abc!ABC\$123"      | true      | false
+        "abcABC123"         | true      | false
     }
     // END OF PASSWORD TESTS //
 
     // DISPLAY NAME TESTS //
     void "Account with a missing display name is invalid"() {
-        when:
+        when: "An account is created without a display name."
         def sus = new Account(handle: goodHandle, emailAddress: goodEmail, password: goodPassword)
 
-        then:
+        then: "The account is invalid due to a displayName error."
         !sus.validate()
+        sus.errors["displayName"] != null
     }
-    void "Account display name variations"(String theDisplayName, boolean isValid) {
+    void "Account display name variations"(String theDisplayName, boolean isValid, boolean displayNameError) {
         expect:
         def sus = new Account(handle: goodHandle, password: goodPassword, emailAddress: goodEmail, displayName: theDisplayName)
         sus.validate() == isValid
+        (sus.errors["displayName"] == null) == !displayNameError
 
         where:
-        theDisplayName || isValid
-        null           || false
-        ""             || false
-        "d"            || true
-        "SCSU Huskies" || true
+        theDisplayName | isValid    | displayNameError
+        null           | false      | true
+        ""             | false      | true
+        "d"            | true       | false
+        "SCSU Huskies" | true       | false
 
     }
     // END OF DISPLAY NAME TESTS //

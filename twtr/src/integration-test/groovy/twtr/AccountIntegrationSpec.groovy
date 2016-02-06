@@ -29,16 +29,20 @@ class AccountIntegrationSpec extends Specification {
     def cleanup() {
     }
 
-    void "saving an account with a non-unique email will fail"() {
-        setup:
+    void "saving an account with a non-unique email will fail."() {
+        setup: "Add the first account with email ${email}"
         def account1 = new Account(handle: handle, emailAddress: email, password: password, displayName: displayName)
         account1.save(flush: true)
 
-        when:
+        when: "Another account with ${email} is attempted to be saved."
         def sus = new Account(handle: handle1, emailAddress: email, password: password1, displayName: displayName1)
+        sus.save(flush: true)
 
-        then:
+        then: "The 2nd account should be invalid and only the 1st account should exist."
         !sus.validate()
+        Account.findAllByEmailAddress(email).size == 1
+        Account.findByEmailAddress(email).handle == handle
+        !Account.findByHandle(handle1)
     }
 
     void "saving an account with a non-unique handle will fail"() {
