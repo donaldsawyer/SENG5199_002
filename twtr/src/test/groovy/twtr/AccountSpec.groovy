@@ -41,7 +41,7 @@ class AccountSpec extends Specification {
     // END OF HAPPY PATH TESTS //
 
     // HANDLE TESTS //
-    @Unroll('handle: #description')
+    @Unroll
     void "account handle variation: #description"() {
 
         when: "An Account is added with various handles."
@@ -68,7 +68,7 @@ class AccountSpec extends Specification {
     // END OF HANDLE TESTS //
 
     // EMAIL ADDRESS TESTS //
-    @Unroll('emailAddress: #description')
+    @Unroll
     void "account emailAddress variation: #description"() {
 
         when: "An account is added with various email address values."
@@ -112,7 +112,7 @@ class AccountSpec extends Specification {
         sus.errors["password"] != null
     }
 
-    @Unroll('password: #description')
+    @Unroll
     void "Account password variations: #description"() {
 
         when:
@@ -145,7 +145,7 @@ class AccountSpec extends Specification {
         sus.errors["displayName"] != null
     }
 
-    @Unroll('displayName: #description')
+    @Unroll
     void "Account display name variations: #description"() {
         when:
         def sus = new Account(handle: goodHandle, password: goodPassword, emailAddress: goodEmail, displayName: theDisplayName)
