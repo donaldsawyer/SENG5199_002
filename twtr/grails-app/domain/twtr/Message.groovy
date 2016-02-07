@@ -1,7 +1,7 @@
 package twtr
 
 class Message {
-    Account sentFromAccount
+    static belongsTo = [sentFromAccount: Account]
     String messageText
 
     static constraints = {
