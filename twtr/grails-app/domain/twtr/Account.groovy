@@ -6,8 +6,7 @@ class Account {
     String password // 8-16 chars, at least 1 number, lower, upper
     String displayName
 
-    static hasMany = [followers : Account, following : Account,
-                      messages: Message]
+    static hasMany = [followers : Account, following : Account, messages: Message]
 
     static constraints = {
         handle blank: false, unique: true
