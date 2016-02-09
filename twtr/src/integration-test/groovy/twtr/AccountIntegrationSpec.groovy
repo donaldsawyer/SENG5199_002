@@ -46,19 +46,30 @@ class AccountIntegrationSpec extends Specification {
     }
 
     void "saving an account with a non-unique handle will fail"() {
-        setup:
+        setup: "Add the first account with handle ${handle}"
         def account1 = new Account(handle: handle, emailAddress: email, password: password, displayName: displayName)
         account1.save(flush: true)
+        def startingNumberOfAccount = Account.count()
 
-        when:
+        when: "Another account with ${handle} is attempted to be saved"
         def sus = new Account(handle: handle, emailAddress: email1, password: password1, displayName: displayName1)
+        sus.save(flush: true)
 
-        then:
+        then: "The 2nd account should be invalid and only the 1st account should exist"
         !sus.validate()
+        sus.hasErrors()
+        !sus.id
+        sus.errors.getFieldError('handle')
+        Account.findAllByHandle(handle).size == 1
+        Account.get(account1.id).handle == handle
+        Account.count() == startingNumberOfAccount
+
+        cleanup: "Deletes the account used for this test"
+        Account.get(account1.id).delete(flush: true, failOnError: true)
     }
 
     void "an account allows multiple followers"() {
-        setup:
+        setup: "Three accounts are created with valid properties"
         def sus = new Account(handle: handle, emailAddress: email, password: password, displayName: displayName)
         sus.save(flush: true)
 
@@ -68,15 +79,27 @@ class AccountIntegrationSpec extends Specification {
         def account2 = new Account(handle: handle2, emailAddress: email2, password: password2, displayName: displayName2)
         account2.save(flush: true)
 
-        when:
+        when: "Both account1 and account2 are added as followers of sus account"
         sus.addToFollowers(account1)
         sus.addToFollowers(account2)
+        sus.save(flush: true)
 
-        then:
+        then: "sus account should have two valid followers"
         sus.validate()
+        !sus.hasErrors()
         sus.followers.count {it} == 2
+        sus.followers.findAll {it -> it.id == account1.id}.size() == 1
+        sus.followers.findAll {it -> it.id == account2.id}.size() == 1
         sus.followers.findAll {it -> it.handle == account1.handle}.size() == 1
         sus.followers.findAll {it -> it.handle == account2.handle}.size() == 1
+        Account.get(sus.id).getFollowers().size() == 2
+        Account.get(sus.id).getFollowers().findAll {it -> it.id == account1.id}.size() == 1
+        Account.get(sus.id).getFollowers().findAll {it -> it.id == account2.id}.size() == 1
+
+        cleanup: "Delete the accounts used for this test"
+        sus.delete(flush: true, failOnError: true)
+        account1.delete(flush: true, failOnError: true)
+        account2.delete(flush: true, failOnError: true)
     }
 
     void "two accounts may follow each other"() {
