@@ -46,7 +46,7 @@ class AccountSpec extends Specification {
         when: "An Account is added with various handles."
         def sus = new Account(handle: handle, emailAddress: emailAddress, password: password, displayName: displayName)
 
-        then: "The Account validates appropriately against the Account constraints."
+        then: "The Account validates successfully against the Account constraints."
         sus.validate()
 
         where:
@@ -60,7 +60,7 @@ class AccountSpec extends Specification {
         when: "An Account is added with various handles."
         def sus = new Account(handle: handle, emailAddress: emailAddress, password: password, displayName: displayName)
 
-        then: "The Account validates appropriately against the Account constraints."
+        then: "The Account doesn't validate against the Account constraints."
         //sus.validate() == valid && ((sus.errors["handle"] == null) == !handleError)
         !sus.validate()
         sus.errors.errorCount == 1
@@ -85,25 +85,42 @@ class AccountSpec extends Specification {
 
     // EMAIL ADDRESS TESTS //
     @Unroll
-    void "account emailAddress variation: #description"() {
+    void "Valid Account emailAddress variation: #description"() {
+
+        when: "An account is added with various email address values."
+        def sus = new Account(handle: handle, emailAddress: emailAddress, password: password, displayName: displayName)
+
+        then: "The account validates successfully against the Account constraints."
+        sus.validate()
+
+        where:
+        description        | handle     | emailAddress | password     | displayName
+        'good email value' | goodHandle | goodEmail    | goodPassword | goodDisplayName
+        'good email 2'     | goodHandle | "a.b@c.com"  | goodPassword | goodDisplayName
+    }
+
+    @Unroll
+    void "Bad Account emailAddress variation: #description"() {
 
         when: "An account is added with various email address values."
         def sus = new Account(handle: handle, emailAddress: emailAddress, password: password, displayName: displayName)
 
         then: "The account validates appropriately against the Account constraints."
-        sus.validate() == valid && ((sus.errors["emailAddress"] == null) == !emailError)
+        //sus.validate() == valid && ((sus.errors["emailAddress"] == null) == !emailError)
+        !sus.validate()
+        sus.errors.errorCount == 1
+        sus.errors.getFieldError("emailAddress").rejectedValue == sus.emailAddress
+
 
         where:
-        description        | handle     | emailAddress | password     | displayName     | valid | emailError
-        'good email value' | goodHandle | goodEmail    | goodPassword | goodDisplayName | true  | false
-        'good email 2'     | goodHandle | "a.b@c.com"  | goodPassword | goodDisplayName | true  | false
-        'null email'       | goodHandle | null         | goodPassword | goodDisplayName | false | true
-        'empty email'      | goodHandle | ""           | goodPassword | goodDisplayName | false | true
-        'whitespace email' | goodHandle | "    "       | goodPassword | goodDisplayName | false | true
-        'no @ symbol'      | goodHandle | "umn.edu"    | goodPassword | goodDisplayName | false | true
-        'two @@ symbols'   | goodHandle | "a@@b.com"   | goodPassword | goodDisplayName | false | true
-        'two separate @@'  | goodHandle | "a@b@c.com"  | goodPassword | goodDisplayName | false | true
-        ', instead of .'   | goodHandle | "a@b,com"    | goodPassword | goodDisplayName | false | true
+        description        | handle     | emailAddress | password     | displayName
+        'null email'       | goodHandle | null         | goodPassword | goodDisplayName
+        'empty email'      | goodHandle | ""           | goodPassword | goodDisplayName
+        'whitespace email' | goodHandle | "    "       | goodPassword | goodDisplayName
+        'no @ symbol'      | goodHandle | "umn.edu"    | goodPassword | goodDisplayName
+        'two @@ symbols'   | goodHandle | "a@@b.com"   | goodPassword | goodDisplayName
+        'two separate @@'  | goodHandle | "a@b@c.com"  | goodPassword | goodDisplayName
+        ', instead of .'   | goodHandle | "a@b,com"    | goodPassword | goodDisplayName
     }
 
     // this is likely handled in the data-driven test above 'null email' //
@@ -129,28 +146,57 @@ class AccountSpec extends Specification {
     }
 
     @Unroll
-    void "Account password variations: #description"() {
+    void "Valid Account password variation: #description"() {
 
         when:
         def sus = new Account(handle: goodHandle, password: thePassword, emailAddress: goodEmail, displayName: goodDisplayName)
 
         then:
-        sus.validate() == isValid
-        (sus.errors["password"] == null) == !passwordError
+        sus.validate()
 
         where:
-        description        | thePassword         | isValid | passwordError
-        "No numbers"       | "abcdABCDE"         | false   | true
-        "No Uppers"        | "abcd12345"         | false   | true
-        "No lowers"        | "ABCD12345"         | false   | true
-        "7 chars"          | "abAB123"           | false   | true
-        "17 characters"    | "abcdeABCDE1234567" | false   | true
-        "Valid w/ symbols" | "abc!ABC\$123"      | true    | false
-        "Valid no symbols" | "abcABC123"         | true    | false
+        description        | thePassword
+        "Valid w/ symbols" | "abc!ABC\$123"
+        "Valid no symbols" | "abcABC123"
+    }
+
+    @Unroll
+    void "Invalid Account password variation: #description"() {
+
+        when:
+        def sus = new Account(handle: goodHandle, password: thePassword, emailAddress: goodEmail, displayName: goodDisplayName)
+
+        then:
+        !sus.validate()
+        sus.errors.errorCount == 1
+        sus.errors.getFieldError("password").rejectedValue == thePassword
+
+        where:
+        description        | thePassword
+        "No numbers"       | "abcdABCDE"
+        "No Uppers"        | "abcd12345"
+        "No lowers"        | "ABCD12345"
+        "7 chars"          | "abAB123"
+        "17 characters"    | "abcdeABCDE1234567"
+        "Null password"    | null
     }
     // END OF PASSWORD TESTS //
 
     // DISPLAY NAME TESTS //
+    @Unroll
+    void "Valid Account display name variation: #description"() {
+        when:
+        def sus = new Account(handle: goodHandle, password: goodPassword, emailAddress: goodEmail, displayName: theDisplayName)
+
+        then: "a valid email will validate.  an invalid email will not validate and will have a displayName validation error."
+        sus.validate()
+
+        where:
+        description         | theDisplayName
+        "single character"  | "d"
+        "Awesome name"      | "SCSU Huskies"
+    }
+
     void "Account with a missing display name is invalid"() {
 
         when: "An account is created without a display name."
@@ -162,20 +208,19 @@ class AccountSpec extends Specification {
     }
 
     @Unroll
-    void "Account display name variations: #description"() {
+    void "Invalid Account display name variation: #description"() {
         when:
         def sus = new Account(handle: goodHandle, password: goodPassword, emailAddress: goodEmail, displayName: theDisplayName)
 
         then: "a valid email will validate.  an invalid email will not validate and will have a displayName validation error."
-        sus.validate() == isValid
-        (sus.errors["displayName"] == null) == !displayNameError
+        !sus.validate()
+        sus.errors.errorCount == 1
+        sus.errors.getFieldError("displayName").rejectedValue == sus.displayName
 
         where:
-        description         | theDisplayName | isValid | displayNameError
-        "null display name" | null           | false   | true
-        "empty string"      | ""             | false   | true
-        "single character"  | "d"            | true    | false
-        "Awesome name"      | "SCSU Huskies" | true    | false
+        description         | theDisplayName
+        "null display name" | null
+        "empty string"      | ""
     }
     // END OF DISPLAY NAME TESTS //
 }
