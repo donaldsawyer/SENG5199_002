@@ -7,7 +7,7 @@ class HelloController {
     // adding a comment
 
     def index() {
-        render "Hello WORld"
+        render "Hello WORld!!!!!"
     }
 
     def goodbye()
