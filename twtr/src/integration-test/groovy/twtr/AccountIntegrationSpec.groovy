@@ -40,9 +40,13 @@ class AccountIntegrationSpec extends Specification {
 
         then: "The 2nd account should be invalid and only the 1st account should exist."
         !sus.validate()
+        Account.get(account1.id).handle == handle
+        !Account.findByHandle(sus.handle)
         Account.findAllByEmailAddress(email).size == 1
         Account.findByEmailAddress(email).handle == handle
-        !Account.findByHandle(handle1)
+
+        cleanup: "Deletes the account used for this test"
+        Account.list().each {it.delete(flush: true, failOnError: true) }
     }
 
     void "saving an account with a non-unique handle will fail"() {
@@ -59,7 +63,7 @@ class AccountIntegrationSpec extends Specification {
         !sus.validate()
         sus.hasErrors()
         !sus.id
-        sus.errors.getFieldError('handle')
+        sus.errors.getFieldError('handle').rejectedValue == sus.handle
         Account.findAllByHandle(handle).size == 1
         Account.get(account1.id).handle == handle
         Account.count() == startingNumberOfAccount
@@ -103,28 +107,56 @@ class AccountIntegrationSpec extends Specification {
     }
 
     void "two accounts may follow each other"() {
-        setup:
+        setup: "Two accounts are created with valid properties"
         def sus1 = new Account(handle: handle1, emailAddress: email1, password: password1, displayName: displayName1)
         sus1.save(flush: true)
 
         def sus2 = new Account(handle: handle2, emailAddress: email2, password: password2, displayName: displayName2)
         sus2.save(flush: true)
 
-        when:
-        sus1.addToFollowers(sus2)
-        sus2.addToFollowers(sus1)
+        when: "sus2 starts following sus1"
         sus1.addToFollowing(sus2)
-        sus2.addToFollowing(sus1)
+        sus2.addToFollowers(sus1)
+        sus1.save()
+        sus2.save(flush: true)
 
-        then:
-        sus1.validate() && sus2.validate()
-        sus1.followers.find{it.handle == sus2.handle} != null
-        !sus1.followers.find{it.handle == sus1.handle}
-        sus2.followers.find{it.handle == sus1.handle} != null
-        !sus2.followers.find{it.handle == sus2.handle}
-        sus1.following.find{it.handle == sus2.handle} != null
-        !sus1.following.find{it.handle == sus1.handle}
-        sus2.following.find{it.handle == sus1.handle} != null
-        !sus2.following.find{it.handle == sus2.handle}
+        then: "sus2 should be a follower of sus1"
+        Account.get(sus1.id)
+        Account.get(sus2.id)
+        Account.get(sus1.id).getFollowing().size() == 1
+        Account.get(sus2.id).getFollowers().size() == 1
+        (Account.get(sus2.id).getFollowers().findAll {it.id == sus1.id}).size() == 1
+        (Account.get(sus1.id).getFollowing().findAll {it.id == sus2.id}).size() == 1
+
+        // negative assertions //
+        !(Account.get(sus1.id).getFollowers())
+        !(Account.get(sus2.id).getFollowing())
+        !(Account.get(sus2.id).getFollowing().find {it.id == sus1.id})
+        !(Account.get(sus1.id).getFollowers().find {it.id == sus2.id})
+
+        when: "sus1 starts following sus2"
+        sus2.addToFollowing(sus1)
+        sus1.addToFollowers(sus2)
+        sus1.save()
+        sus2.save(flush: true)
+
+        then: "sus1 should be a follower of sus2"
+        // re-assert original state //
+        Account.get(sus1.id)
+        Account.get(sus2.id)
+        Account.get(sus1.id).getFollowing().size() == 1
+        Account.get(sus2.id).getFollowers().size() == 1
+        (Account.get(sus2.id).getFollowers().findAll {it.id == sus1.id}).size() == 1
+        (Account.get(sus1.id).getFollowing().findAll {it.id == sus2.id}).size() == 1
+
+        // new assertions //
+        Account.get(sus1.id).getFollowers().size() == 1
+        Account.get(sus2.id).getFollowing().size() == 1
+        (Account.get(sus2.id).getFollowing().findAll {it.id == sus1.id}).size() == 1
+        (Account.get(sus1.id).getFollowers().findAll {it.id == sus2.id}).size() == 1
+
+        cleanup: "Deletes the accounts used for this test"
+        Account.get(sus1.id).delete(failOnError: true)
+        Account.get(sus2.id).delete(flush: true, failOnError: true)
     }
 }
