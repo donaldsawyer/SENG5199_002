@@ -16,7 +16,7 @@ import spock.lang.Unroll
 @TestMixin(DomainClassUnitTestMixin)
 class AccountSpec extends Specification {
 
-    final static String goodHandle = "@scsu-huskies"
+    final static String goodHandle = "scsu_huskies"
     final static String goodEmail = "testemail@test.com"
     final static String goodPassword = "abc123ABC"
     final static String goodDisplayName = "SCSU Huskies"
@@ -67,10 +67,12 @@ class AccountSpec extends Specification {
         sus.errors.getFieldError("handle").rejectedValue == sus.handle
 
         where:
-        description         | handle | emailAddress | password     | displayName
-        'empty handle'      | ""     | goodEmail    | goodPassword | goodDisplayName
-        'null handle'       | null   | goodEmail    | goodPassword | goodDisplayName
-        'whitespace handle' | "  "   | goodEmail    | goodPassword | goodDisplayName
+        description         | handle       | emailAddress | password     | displayName
+        'empty handle'      | ""           | goodEmail    | goodPassword | goodDisplayName
+        'null handle'       | null         | goodEmail    | goodPassword | goodDisplayName
+        'whitespace handle' | "      "     | goodEmail    | goodPassword | goodDisplayName
+        'handle w/ space'   | "my handle"  | goodEmail    | goodPassword | goodDisplayName
+        "handle w/ @"       | "@my_handle" | goodEmail    | goodPassword | goodDisplayName
     }
 
     // theoretically, this is covered in the handle variation "Null handle test" //
@@ -172,13 +174,13 @@ class AccountSpec extends Specification {
         sus.errors.getFieldError("password").rejectedValue == thePassword
 
         where:
-        description        | thePassword
-        "No numbers"       | "abcdABCDE"
-        "No Uppers"        | "abcd12345"
-        "No lowers"        | "ABCD12345"
-        "7 chars"          | "abAB123"
-        "17 characters"    | "abcdeABCDE1234567"
-        "Null password"    | null
+        description     | thePassword
+        "No numbers"    | "abcdABCDE"
+        "No Uppers"     | "abcd12345"
+        "No lowers"     | "ABCD12345"
+        "7 chars"       | "abAB123"
+        "17 characters" | "abcdeABCDE1234567"
+        "Null password" | null
     }
     // END OF PASSWORD TESTS //
 
@@ -192,9 +194,9 @@ class AccountSpec extends Specification {
         sus.validate()
 
         where:
-        description         | theDisplayName
-        "single character"  | "d"
-        "Awesome name"      | "SCSU Huskies"
+        description        | theDisplayName
+        "single character" | "d"
+        "Awesome name"     | "SCSU Huskies"
     }
 
     void "Account with a missing display name is invalid"() {
