@@ -9,7 +9,7 @@ class Account {
     static hasMany = [followers : Account, following : Account, messages: Message]
 
     static constraints = {
-        handle blank: false, unique: true
+        handle blank: false, unique: true, matches:"^[a-zA-Z0-9_]{1,15}\$"
         emailAddress nullable: false, email: true, unique: true
         password nullable: false, matches: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}\$"
         displayName nullable: false

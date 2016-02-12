@@ -8,17 +8,17 @@ import spock.lang.*
 @Rollback
 class AccountIntegrationSpec extends Specification {
 
-    final static String handle = "@scsu-huskies"
+    final static String handle = "scsu_huskies"
     final static String email  = "testemail@test.com"
     final static String password = "abc123ABC"
     final static String displayName = "SCSU Huskies"
 
-    final static String handle1 = "@scsu-huskies1"
+    final static String handle1 = "scsu_huskies1"
     final static String email1  = "testemail1@test.com"
     final static String password1 = "abc123ABC"
     final static String displayName1 = "SCSU Huskies1"
 
-    final static String handle2 = "@scsu-huskies2"
+    final static String handle2 = "scsu_huskies2"
     final static String email2  = "testemail2@test.com"
     final static String password2 = "abc123ABC"
     final static String displayName2 = "SCSU Huskies2"
