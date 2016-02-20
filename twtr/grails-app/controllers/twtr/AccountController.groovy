@@ -1,19 +1,20 @@
 package twtr
 
 class AccountController {
-    
+
     def get() {
         def theAccount = Account.get(params.id)
         if(!theAccount) {
             response.sendError(404)
         }
         else {
-            render(contentType: "application/json") {
-                account (id: theAccount.id,
-                        handle: theAccount.handle,
-                        password: theAccount.password,
-                        displayName: theAccount.displayName)
-            }
+//            render(contentType: "application/json") {
+//                account (id: theAccount.id,
+//                        handle: theAccount.handle,
+//                        password: theAccount.password,
+//                        displayName: theAccount.displayName)
+//            }
+            [account: theAccount]
         }
     }
 
