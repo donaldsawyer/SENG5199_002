@@ -3,82 +3,47 @@ package twtr
 import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin
 import grails.test.mixin.domain.DomainClassUnitTestMixin
-import grails.test.mixin.support.GrailsUnitTestMixin
 import spock.lang.Specification
+import spock.lang.Unroll
 
-/**
- * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
- */
 @TestFor(Message)
 @TestMixin(DomainClassUnitTestMixin)
+@Unroll
 class MessageSpec extends Specification {
 
-    def setup() {
-    }
-
-    def cleanup() {
-    }
-
-    void "Message text is valid"() {
+    def 'Message text is valid: #description'() {
         setup:
-        def account = new Account(handle: "scsu_huskies", emailAddress: "testemail@test.com",
-                                  password: "abc123ABC", displayName: "SCSU Huskies")
+        def account = new Account(handle: 'scsu_huskies', emailAddress: 'testemail@test.com',
+                                  password: 'abc123ABC', displayName: 'SCSU Huskies')
 
         when:
-        Message sus = new Message(sentFromAccount: account, messageText: "Twitter Message - woohoo")
+        Message sus = new Message(sentFromAccount: account, messageText: messageText)
 
         then:
         sus.validate()
+
+        where:
+        description       | messageText
+        'very short'      | '1'
+        'almost too long' | '1'*40
     }
 
-    void "Message text is invalid because it's empty :-("() {
+    def "Message text is invalid because it's: #description"() {
         setup:
-        def account = new Account(handle: "scsu_huskies", emailAddress: "testemail@test.com",
-                                  password: "abc123ABC", displayName: "SCSU Huskies")
+        def account = new Account(handle: 'scsu_huskies', emailAddress: 'testemail@test.com',
+                                  password: 'abc123ABC', displayName: 'SCSU Huskies')
 
         when:
-        Message sus = new Message(sentFromAccount: account, messageText: "")
+        Message sus = new Message(sentFromAccount: account, messageText: '')
 
         then:
         !sus.validate()
+
+        where:
+        description | text
+        'null'      | null
+        'empty'     | ''
+        'too long'  | '1'*100
     }
 
-    void "Message text is invalid because it's too long :-("() {
-        setup:
-        def account = new Account(handle: "scsu_huskies", emailAddress: "testemail@test.com",
-                                  password: "abc123ABC", displayName: "SCSU Huskies")
-        String messageText = "11111222223333344444555556666677777888889"
-
-        when:
-        Message sus = new Message(sentFromAccount: account, messageText: messageText)
-
-        then:
-        !sus.validate()
-    }
-
-    void "Message text is valid because it's juuust right :-)"() {
-        setup:
-        def account = new Account(handle: "scsu_huskies", emailAddress: "testemail@test.com",
-                                  password: "abc123ABC", displayName: "SCSU Huskies")
-        String messageText = "1111122222333334444455555666667777788888"
-
-        when:
-        Message sus = new Message(sentFromAccount: account, messageText: messageText)
-
-        then:
-        sus.validate()
-    }
-
-    void "Message text is valid because it's the minimum flare :-)"() {
-        setup:
-        def account = new Account(handle: "scsu_huskies", emailAddress: "testemail@test.com",
-                                  password: "abc123ABC", displayName: "SCSU Huskies")
-        String messageText = "1"
-
-        when:
-        Message sus = new Message(sentFromAccount: account, messageText: messageText)
-
-        then:
-        sus.validate()
-    }
 }
