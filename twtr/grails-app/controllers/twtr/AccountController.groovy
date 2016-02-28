@@ -1,11 +1,16 @@
 package twtr
 
-class AccountController {
+import grails.rest.RestfulController
 
-    static scaffold = Account
+class AccountController extends RestfulController<Account> {
+    static responseFormats = ['json', 'xml']
 
-//    def index() {
-//        Account account = new Account()
-//        account.displayName.vali
-//    }
+    def AccountController (){
+        super (Account)
+    }
+
+    def handle() {
+        respond Account.findByHandle(params.id)
+    }
+
 }
