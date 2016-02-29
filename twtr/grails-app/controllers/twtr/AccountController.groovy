@@ -12,5 +12,4 @@ class AccountController extends RestfulController<Account> {
     def handle() {
         respond Account.findByHandle(params.id)
     }
-
 }
