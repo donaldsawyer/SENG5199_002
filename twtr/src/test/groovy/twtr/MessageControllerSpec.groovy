@@ -3,12 +3,13 @@ package twtr
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
-@TestFor(AccountController)
-class AccountControllerSpec extends Specification {
+@TestFor(MessageController)
+class MessageControllerSpec extends Specification {
 
     def setup() {
     }
 
     def cleanup() {
     }
+
 }
