@@ -20,11 +20,11 @@ class MessageController extends RestfulController<Message> {
     protected Message queryForResource(Serializable id) {
 
         //def jsonObj = request.JSON
-        def accountId = params.accountId
-
-        Message.where{
-            account.id == accountId
-        }.find()
+//        def accountId = params.accountId
+//
+//        Message.where{
+//            account.id == accountId
+//        }.find()
 
         //return super.queryForResource(id)
     }
