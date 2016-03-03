@@ -2,17 +2,13 @@ class UrlMappings {
 
     static mappings = {
         "/$controller/$action?/$id?" {
-//            "/message/$messageAction?/$messageId?"(resources: 'message')
-
             constraints {
                 // apply constraints here
             }
         }
 
-        "/account/"(resources:'account') {
-            "/message/$messageAction?"(resources:'message')
-
-
+        "/accounts"(resources:'account') {
+            "/messages"(resources: "Message")
         }
 
         "/"(view:"/index")
