@@ -7,12 +7,8 @@ class UrlMappings {
             }
         }
 
-        "/accounts/$action?/$id?"(resources:'account') {
-
-        }
-
-        "/messages/$messageAction?/$messageId?"(resources:'message') {
-
+        "/accounts"(resources:'account') {
+            "/messages"(resources: "Message")
         }
 
         "/"(view:"/index")
