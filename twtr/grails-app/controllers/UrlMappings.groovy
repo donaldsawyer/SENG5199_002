@@ -8,7 +8,7 @@ class UrlMappings {
         }
 
         "/accounts"(resources:'account') {
-            "/messages"(resources: "Message")
+            "/messages"(resources:'message')
         }
 
         "/"(view:"/index")

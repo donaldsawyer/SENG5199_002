@@ -1,5 +1,8 @@
 package twtr
 
+import grails.rest.Resource
+
+@Resource(uri='/accounts', formats=['json', 'xml'])
 class Account {
     String handle
     String emailAddress
