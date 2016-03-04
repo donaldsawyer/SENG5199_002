@@ -1,31 +1,51 @@
 package twtr
 
 import grails.rest.RestfulController
+import grails.transaction.Transactional
 
 class MessageController extends RestfulController<Message> {
 
+    static allowedMethods = [tweet: "POST"]
     static responseFormats = ['json', 'xml']
 
-    def MessageController () {
+    def MessageController() {
         super(Message)
     }
 
-    @Override
-    def save() {
-        //TBD - get the account ID/Handle and the message text
+    @Transactional
+    def tweet()
+    {
+        Account tweeter;
+        if(params.accountId != null)
+            tweeter = Account.get(params.accountId)
+        else if(params.handle != null)
+            tweeter = Account.findByHandle(params.handle)
 
+        Message newMessage = new Message(messageText: params.messageText)
+        tweeter.addToMessages(newMessage).save()
+//        Message newMessage = tweeter.addToMessages(messageText: params.messageText)
+        respond newMessage, [status: 201]
+    }
+
+    @Override
+    def index(Integer max) {
+        def accountId = params.accountId
+
+//        if(!!accountId) super.queryForResource(max)
+//        else {
+//
+//        }
+        respond Account.get(accountId).getMessages()
     }
 
     @Override
     protected Message queryForResource(Serializable id) {
 
-        //def jsonObj = request.JSON
-//        def accountId = params.accountId
-//
-//        Message.where{
-//            account.id == accountId
-//        }.find()
+        def accountId = params.accountId
 
-        //return super.queryForResource(id)
+//        return new Message(messageText: "$id+$accountId")
+        return Message.where {
+            id == id && sentFromAccount.id == accountId
+        }.find()
     }
 }
