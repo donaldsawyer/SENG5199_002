@@ -5,7 +5,7 @@ import grails.transaction.Transactional
 
 class MessageController extends RestfulController<Message> {
 
-    static allowedMethods = [tweet: "POST"]
+    static allowedMethods = [save: "POST", update: "PUT", patch: "PATCH", delete: "DELETE", tweet: "POST"]
     static responseFormats = ['json', 'xml']
 
     def MessageController() {
@@ -21,9 +21,7 @@ class MessageController extends RestfulController<Message> {
         else if(params.handle != null)
             tweeter = Account.findByHandle(params.handle)
 
-        Message newMessage = new Message(messageText: params.messageText)
-        tweeter.addToMessages(newMessage).save()
-//        Message newMessage = tweeter.addToMessages(messageText: params.messageText)
+        Message newMessage = new Message(sentFromAccount: tweeter, messageText: request.JSON.messageText).save()
         respond newMessage, [status: 201]
     }
 

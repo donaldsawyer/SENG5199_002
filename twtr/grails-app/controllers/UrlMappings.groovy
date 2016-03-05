@@ -9,6 +9,12 @@ class UrlMappings {
 
         "/accounts"(resources:'account') {
             "/messages"(resources:'message')
+
+        }
+
+        "/account/$id/startFollowing"(controller: 'account') {
+            action = [POST: 'startFollowing']
+
         }
 
         "/"(view:"/index")
