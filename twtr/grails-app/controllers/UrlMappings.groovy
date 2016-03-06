@@ -13,7 +13,7 @@ class UrlMappings {
                 action = [POST: 'startFollowing']
             }
             "/followers"(controller:'account') {
-                action = [GET: 'getFollowers']
+                action = [GET: 'followers']
             }
         }
 

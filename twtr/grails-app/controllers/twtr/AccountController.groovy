@@ -31,12 +31,17 @@ class AccountController extends RestfulController<Account> {
     }
 
     // TODO: USE A GORM QUERY TO FETCH BY ID //
-    def getFollowers() {
+    def followers() {
         int maximum = params.max == null ? 1 : Integer.parseInt(params.max)
-        def accountId = params.accountId
+        int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
+        long accountId = Long.parseLong(params.accountId)
 
-        Account account = Account.get(accountId)
 
-        respond account.getFollowers()
+//        respond getParams()
+       respond Account.createCriteria().list {
+           following {
+               idEq(accountId)
+           }
+       }
     }
 }
