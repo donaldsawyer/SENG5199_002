@@ -54,17 +54,8 @@ class AccountFunctionalSpec extends GebSpec{
 
         then:
         response.status == 201
-//        Account.count() == startingAccountNum + 1
-
-//        when:
-//        accountID = response.responseData[id]
-//        Account sut = Account.get(accountID)
 
         then:
-//        sut.handle == goodHandle
-//        sut.password == goodPassword
-//        sut.emailAddress == goodPassword
-//        sut.displayName == goodDisplayName
         response.responseData['handle'] == goodHandle
         response.responseData['emailAddress'] == goodEmail
         response.responseData['displayName'] == goodDisplayName

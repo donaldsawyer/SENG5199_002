@@ -9,12 +9,12 @@ class UrlMappings {
 
         "/accounts"(resources:'account') {
             "/messages"(resources:'message')
-
-        }
-
-        "/account/$id/startFollowing"(controller: 'account') {
-            action = [POST: 'startFollowing']
-
+            "/startFollowing"(controller: 'account') {
+                action = [POST: 'startFollowing']
+            }
+            "/followers"(controller:'account') {
+                action = [GET: 'getFollowers']
+            }
         }
 
         "/"(view:"/index")
