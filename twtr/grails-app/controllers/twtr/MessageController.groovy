@@ -16,12 +16,33 @@ class MessageController extends RestfulController<Message> {
     def tweet()
     {
         Account tweeter;
+        def messageText = request.JSON.messageText
+
+
         if(params.accountId != null)
-            tweeter = Account.get(params.accountId)
+            tweeter = Account.findById(params.accountId)
         else if(params.handle != null)
             tweeter = Account.findByHandle(params.handle)
+        else
+        {
+            response.sendError(422)
+            return
+        }
 
-        Message newMessage = new Message(sentFromAccount: tweeter, messageText: request.JSON.messageText).save()
+        //respond tweeter
+
+        if(!tweeter) {
+            response.sendError(404)
+            return
+        }
+
+        //This validation does not work - gives 500 server error
+//        if(messageText.size() > 40) {
+//            response.sendError(422)
+//            return
+//        }
+
+        Message newMessage = new Message(sentFromAccount: tweeter, messageText: messageText).save()
         respond newMessage, [status: 201]
     }
 
