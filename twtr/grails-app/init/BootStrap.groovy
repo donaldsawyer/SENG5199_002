@@ -1,3 +1,4 @@
+import grails.converters.JSON
 import twtr.Account
 import twtr.Message
 
@@ -18,6 +19,16 @@ class BootStrap {
 
         acct4.addToMessages(messageText: "Message 4_1").save()
 
+        JSON.registerObjectMarshaller(Account) { Account a ->
+            return [id: a.id,
+                    handle: a.handle,
+                    emailAddress: a.emailAddress,
+                    displayName: a.displayName,
+                    followerCount: a.followers.size(),
+                    followingCount: a.following.size(),
+                    messageCount: a.messages.size()
+            ]
+        }
     }
     def destroy = {
     }
