@@ -2,6 +2,7 @@ package twtr
 
 import geb.spock.GebSpec
 import grails.converters.JSON
+import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
 import org.springframework.boot.test.IntegrationTest
 import spock.lang.Shared
@@ -9,65 +10,135 @@ import spock.lang.Stepwise
 
 @IntegrationTest
 @Stepwise
-class AccountFunctionalSpec extends GebSpec{
+class AccountFunctionalSpec extends GebSpec {
 
     final static String goodHandle = 'scsu_huskies'
-    final static String goodEmail  = 'testemail@test.com'
+    final static String goodEmail = 'testemail@test.com'
     final static String goodPassword = 'abc123ABC'
     final static String goodDisplayName = 'SCSU Huskies'
 
     final static String handle1 = 'scsu_huskies1'
-    final static String email1  = 'testemail1@test.com'
+    final static String email1 = 'testemail1@test.com'
     final static String password1 = 'abc123ABC'
     final static String displayName1 = 'SCSU Huskies1'
 
     @Shared
-    def accountID
+    def goodid
 
-    //@Shared
-    //def startingAccountNum
+    @Shared
+    def goodid2
 
     RESTClient restClient
 
-
-
     def setup
     {
-        restClient = new RESTClient("http://localhost:8080/account/")
+        restClient = new RESTClient("http://localhost:8080")
         //startingAccountNum = getStartingAccountNum()
     }
 
-
-    def 'create an account with valid JSON data'()
-    {
-        given:
-        Account account = new Account(handle: goodHandle, emailAddress: goodEmail,
-                password: goodPassword, displayName: goodDisplayName)
-
-        //def accountJSON = account as JSON
-
+    def 'get all accounts'() {
         when:
-        def response = restClient.post(path: 'save', contentType: 'application/json',
-                                       body: [handle: goodHandle, emailAddress: goodEmail,
-                                              password: goodPassword, displayName: goodDisplayName])
-        def code = response
+        def response = restClient.get(path: '/accounts')
+
+        then:
+        response.status == 200
+        response.data.size() == 0
+
+    }
+
+    def 'create an account with valid JSON data'() {
+        when:
+        def response = restClient.post(path: '/accounts', contentType: 'application/json',
+                body: [handle  : goodHandle, emailAddress: goodEmail,
+                       password: goodPassword, displayName: goodDisplayName])
 
         then:
         response.status == 201
+        response.data
+
+        when:
+        goodid = response.data.id
 
         then:
-        response.responseData['handle'] == goodHandle
-        response.responseData['emailAddress'] == goodEmail
-        response.responseData['displayName'] == goodDisplayName
-        response.responseData['password'] == goodPassword
+        goodid
+        response.data.handle == goodHandle
+        response.data.emailAddress == goodEmail
+        response.data.displayName == goodDisplayName
+        response.data.password == goodPassword
+        response.data.messageCount == 0
+        response.data.followerCount == 0
+        response.data.followingCount == 0
     }
 
-    def 'get the account created with #goodHandle'() {
+    def 'get the account just created.'() {
+        when:
+        def response = restClient.get(path:"/accounts/${goodid}")
 
+        then:
+        response.status == 200
+        response.data.id == goodid
+        response.data.handle == goodHandle
+        response.data.emailAddress == goodEmail
+        response.data.displayName == goodDisplayName
+        response.data.password == goodPassword
+        response.data.messageCount == 0
+        response.data.followerCount == 0
+        response.data.followingCount == 0
     }
 
-    def 'create an account with invalid'()
-    {
+    def 'update account #goodid with new display name'() {
+//        given:
+//        def sut = new Account(id: goodid, handle: goodHandle, emailAddress: goodEmail, displayName: 'Huskies Number 1!')
 
+        when:
+        def response = restClient.put(path:"/accounts/${goodid}",
+                                      body: [id: goodid,
+                                             handle: goodHandle,
+                                             emailAddress: goodEmail,
+                                             password: goodPassword,
+                                             displayName: 'Huskies Number 1!'],
+                                      contentType:'application/json')
+
+        then:
+        response.status == 200
+        response.data.displayName == 'Huskies Number 1!'
+    }
+
+    def 'get the account just updated.'() {
+        when:
+        def response = restClient.get(path:"/accounts/${goodid}")
+
+        then:
+        response.status == 200
+        response.data.id == goodid
+        response.data.handle == goodHandle
+        response.data.emailAddress == goodEmail
+        response.data.displayName == 'Huskies Number 1!'
+        response.data.password == goodPassword
+        response.data.messageCount == 0
+        response.data.followerCount == 0
+        response.data.followingCount == 0
+    }
+
+
+    def 'delete the new account'() {
+        when:
+        def response = restClient.delete(path:"/accounts/${goodid}")
+
+        then:
+        response.status == 204
+
+        when:
+        restClient.get(path:"/accounts/${goodid}")
+
+        then:
+        thrown(HttpResponseException)
+
+        when:
+        response = restClient.get(path:'/accounts')
+
+        then:
+        response.status == 200
+        response.data.size() == 0
     }
 }
