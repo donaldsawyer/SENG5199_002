@@ -47,7 +47,8 @@ class AccountController extends RestfulController<Account> {
         int maximum = params.max == null ? 1 : Integer.parseInt(params.max)
         int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
         long accountId = Long.parseLong(params.accountId)
-
-        respond Account.getAll(Account.get(accountId).following*.id)
+        
+        respond Account.findAll("from Account as a where a.id in (:accounts) order by a.id",
+            [accounts: Account.get(accountId).following*.id], [max: maximum, offset: offset])
     }
 }
