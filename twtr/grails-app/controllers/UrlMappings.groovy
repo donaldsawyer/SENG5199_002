@@ -8,20 +8,23 @@ class UrlMappings {
         }
 
         "/accounts"(resources:'account') {
-            "/messages"(resources:'message')
+            "/messages"(resources:'message') {}
             "/startFollowing"(controller: 'account') {
                 action = [POST: 'startFollowing']
-            }
-            "/followers"(controller:'account') {
-                action = [GET: 'followers']
             }
             "/following"(controller:'account') {
                 action = [GET: 'following']
             }
+            "/followers"(controller:'account') {
+                action = [GET: 'followers']
+            }
+            "/feed"(controller:'account') {
+                action = [GET: 'feed']
+            }
         }
 
         "/"(view:"/index")
-        "500"(view:'/error')
-        "404"(view:'/notFound')
+//        "500"(view:'/error')
+//        "404"(view:'/notFound')
     }
 }
