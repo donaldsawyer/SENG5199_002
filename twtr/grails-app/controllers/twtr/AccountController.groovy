@@ -35,12 +35,11 @@ class AccountController extends RestfulController<Account> {
         int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
         long accountId = Long.parseLong(params.accountId)
 
-
-//        respond getParams()
-       respond Account.createCriteria().list {
+       respond Account.createCriteria().list(max: maximum, offset: offset) {
            following {
                idEq(accountId)
            }
+           order('id', 'asc')
        }
     }
 
@@ -49,7 +48,6 @@ class AccountController extends RestfulController<Account> {
         int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
         long accountId = Long.parseLong(params.accountId)
 
-//        respond getParams()
         respond Account.getAll(Account.get(accountId).following*.id)
     }
 }
