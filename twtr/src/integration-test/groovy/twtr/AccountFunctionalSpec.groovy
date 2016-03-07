@@ -2,13 +2,15 @@ package twtr
 
 import geb.spock.GebSpec
 import grails.converters.JSON
+import grails.test.mixin.integration.Integration
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
 import org.springframework.boot.test.IntegrationTest
 import spock.lang.Shared
 import spock.lang.Stepwise
 
-@IntegrationTest
+
+@Integration
 @Stepwise
 class AccountFunctionalSpec extends GebSpec {
 
