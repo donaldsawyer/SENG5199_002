@@ -15,6 +15,9 @@ class UrlMappings {
             "/followers"(controller:'account') {
                 action = [GET: 'followers']
             }
+            "/following"(controller:'account') {
+                action = [GET: 'following']
+            }
         }
 
         "/"(view:"/index")

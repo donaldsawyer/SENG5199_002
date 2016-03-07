@@ -30,7 +30,6 @@ class AccountController extends RestfulController<Account> {
         respond follower
     }
 
-    // TODO: USE A GORM QUERY TO FETCH BY ID //
     def followers() {
         int maximum = params.max == null ? 1 : Integer.parseInt(params.max)
         int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
@@ -43,5 +42,14 @@ class AccountController extends RestfulController<Account> {
                idEq(accountId)
            }
        }
+    }
+
+    def following() {
+        int maximum = params.max == null ? 1 : Integer.parseInt(params.max)
+        int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
+        long accountId = Long.parseLong(params.accountId)
+
+//        respond getParams()
+        respond Account.getAll(Account.get(accountId).following*.id)
     }
 }
