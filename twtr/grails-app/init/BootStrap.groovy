@@ -34,6 +34,14 @@ class BootStrap {
                     messageCount: !a.messages ? 0 : a.messages.size()
             ]
         }
+
+        JSON.registerObjectMarshaller(Message) { Message a ->
+            return [handle: a.sentFromAccount.handle,
+                    messageText: a.messageText,
+                    dateCreated: a.dateCreated,
+                    lastUpdated: a.lastUpdated
+            ]
+        }
     }
     def destroy = {
     }

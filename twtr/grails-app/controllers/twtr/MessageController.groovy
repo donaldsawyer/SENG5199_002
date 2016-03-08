@@ -50,7 +50,7 @@ class MessageController extends RestfulController<Message> {
 
         def accountId = params.accountId
 
-        respond results = Message.createCriteria().list(max: maximum, offset: offset) {
+        respond Message.createCriteria().list(max: maximum, offset: offset) {
             eq('sentFromAccount', Account.get(accountId))
             order('dateCreated', 'desc')
         }
@@ -64,5 +64,13 @@ class MessageController extends RestfulController<Message> {
         return Message.where {
             id == id && sentFromAccount.id == accountId
         }.find()
+    }
+
+    def search(){
+        def searchText = params.text
+
+        def results = Message.where {messageText ==~ "%${searchText}%"}.list()
+
+        respond results
     }
 }
