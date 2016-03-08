@@ -1,5 +1,6 @@
 package twtr
 
+import grails.converters.JSON
 import grails.rest.RestfulController
 import grails.transaction.Transactional
 
@@ -31,7 +32,8 @@ class AccountController extends RestfulController<Account> {
 
         Account follower = Account.get(params.accountId)
         followAccount.addToFollowers(follower).save()
-        follower.addToFollowing(followAccount).save()
+        follower.addToFollowing(followAccount).save(flush: true)
+
         respond follower, [status: 201]
     }
 
@@ -40,12 +42,8 @@ class AccountController extends RestfulController<Account> {
         int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
         long accountId = Long.parseLong(params.accountId)
 
-       respond Account.createCriteria().list(max: maximum, offset: offset) {
-           following {
-               idEq(accountId)
-           }
-           order('id', 'asc')
-       }
+        respond Account.findAll("from Account as a where a.id in (:accounts) order by a.id",
+                [accounts: Account.get(accountId).followers*.id], [max: maximum, offset: offset])
     }
 
     def following() {
