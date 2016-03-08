@@ -23,10 +23,6 @@ class UrlMappings {
             }
         }
 
-        "/search"(controller:'message') {
-            action = [GET: 'search']
-        }
-
         "/"(view:"/index")
 //        "500"(view:'/error')
 //        "404"(view:'/notFound')
