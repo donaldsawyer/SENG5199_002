@@ -3,6 +3,8 @@ package twtr
 import grails.rest.RestfulController
 import grails.transaction.Transactional
 
+import java.text.SimpleDateFormat
+
 class AccountController extends RestfulController<Account> {
     static responseFormats = ['json', 'xml']
 
@@ -30,18 +32,43 @@ class AccountController extends RestfulController<Account> {
         respond follower
     }
 
-    // TODO: USE A GORM QUERY TO FETCH BY ID //
     def followers() {
-        int maximum = params.max == null ? 1 : Integer.parseInt(params.max)
+        int maximum = params.max == null ? 10 : Integer.parseInt(params.max)
         int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
         long accountId = Long.parseLong(params.accountId)
 
-
-//        respond getParams()
-       respond Account.createCriteria().list {
+       respond Account.createCriteria().list(max: maximum, offset: offset) {
            following {
                idEq(accountId)
            }
+           order('id', 'asc')
        }
+    }
+
+    def following() {
+        int maximum = params.max == null ? 10 : Integer.parseInt(params.max)
+        int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
+        long accountId = Long.parseLong(params.accountId)
+
+        respond Account.findAll("from Account as a where a.id in (:accounts) order by a.id",
+            [accounts: Account.get(accountId).following*.id], [max: maximum, offset: offset])
+    }
+
+    def feed() {
+//        respond getParams()
+        int maximum = params.max == null ? 10 : Integer.parseInt(params.max)
+        int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
+        def fromDate = params.fromDate
+        long accountId = Long.parseLong(params.accountId)
+
+        def accountIds = Account.get(accountId).following*.id
+
+        respond Message.createCriteria().list(max: maximum, offset: offset) {
+            'in'('sentFromAccount', Account.get(accountId).following)
+            if(fromDate != null) {
+                gte('dateCreated', new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(fromDate))
+            }
+            order('dateCreated', 'desc')
+        }
     }
 }
