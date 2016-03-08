@@ -25,22 +25,19 @@ class MessageController extends RestfulController<Message> {
             tweeter = Account.findByHandle(params.handle)
         else
         {
-            response.sendError(422)
+            response.sendError(406)
             return
         }
-
-        //respond tweeter
 
         if(!tweeter) {
             response.sendError(404)
             return
         }
 
-        //This validation does not work - gives 500 server error
-//        if(messageText.size() > 40) {
-//            response.sendError(422)
-//            return
-//        }
+        if(!messageText || messageText.size() > 40) {
+            response.sendError(406)
+            return
+        }
 
         Message newMessage = new Message(sentFromAccount: tweeter, messageText: messageText).save()
         respond newMessage, [status: 201]
@@ -48,13 +45,15 @@ class MessageController extends RestfulController<Message> {
 
     @Override
     def index(Integer max) {
+        int maximum = params.max == null ? 10 : Integer.parseInt(params.max)
+        int offset = params.offset == null ? 0: Integer.parseInt(params.offset)
+
         def accountId = params.accountId
 
-//        if(!!accountId) super.queryForResource(max)
-//        else {
-//
-//        }
-        respond Account.get(accountId).getMessages()
+        respond results = Message.createCriteria().list(max: maximum, offset: offset) {
+            eq('sentFromAccount', Account.get(accountId))
+            order('dateCreated', 'desc')
+        }
     }
 
     @Override
@@ -62,7 +61,6 @@ class MessageController extends RestfulController<Message> {
 
         def accountId = params.accountId
 
-//        return new Message(messageText: "$id+$accountId")
         return Message.where {
             id == id && sentFromAccount.id == accountId
         }.find()
