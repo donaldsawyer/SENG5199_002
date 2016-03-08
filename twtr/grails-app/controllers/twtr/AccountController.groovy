@@ -21,15 +21,18 @@ class AccountController extends RestfulController<Account> {
         def accountId = params.accountId
 
         Account followAccount;
-        if(params.followAccount == null)
+        if(params.followAccount == null) {
             respond getParams()
-        else
+            return
+        }
+        else {
             followAccount = Account.get(params.followAccount)
+        }
 
         Account follower = Account.get(params.accountId)
         followAccount.addToFollowers(follower).save()
         follower.addToFollowing(followAccount).save()
-        respond follower
+        respond follower, [status: 201]
     }
 
     def followers() {
@@ -55,7 +58,6 @@ class AccountController extends RestfulController<Account> {
     }
 
     def feed() {
-//        respond getParams()
         int maximum = params.max == null ? 10 : Integer.parseInt(params.max)
         int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
         def fromDate = params.fromDate
