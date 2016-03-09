@@ -261,7 +261,7 @@ class MessageFunctionalSpec extends GebSpec {
 
     def 'search for messages containing specific search term'(){
         when:
-        def response = restClient.get(path: 'message/search', query: [text: searchItem1])
+        def response = restClient.get(path: '/message/search', query: [text: searchItem1])
 
         then:
         response.status == 200
@@ -271,7 +271,7 @@ class MessageFunctionalSpec extends GebSpec {
         // Add more test cases here //
 
         when:
-        response = restclient.get(path: 'message/search', query: [text: searchItem2])
+        response = restClient.get(path: '/message/search', query: [text: searchItem2])
 
         then:
         response.status == 200
@@ -281,5 +281,10 @@ class MessageFunctionalSpec extends GebSpec {
         // Add more test cases here //
 
     }
+
+//    def cleanup() {
+//        restClient.delete(path:"/accounts/${goodId1}")
+//        restClient.delete(path:"/accounts/${goodId2}")
+//    }
 
 }
