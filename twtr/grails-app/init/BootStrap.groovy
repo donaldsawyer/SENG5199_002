@@ -29,8 +29,8 @@ class BootStrap {
                     emailAddress: a.emailAddress,
                     displayName: a.displayName,
                     password:a.password,
-                    followerCount: !a.followers ? 0 : a.followers.size(),
-                    followingCount: !a.following ? 0 : a.following.size(),
+                    followerCount: a.followerCount,
+                    followingCount: a.followingCount,
                     messageCount: !a.messages ? 0 : a.messages.size()
             ]
         }

@@ -27,9 +27,6 @@ class AccountFunctionalSpec extends GebSpec {
     @Shared
     def goodid
 
-    @Shared
-    def goodid2
-
     RESTClient restClient
 
     def setup
