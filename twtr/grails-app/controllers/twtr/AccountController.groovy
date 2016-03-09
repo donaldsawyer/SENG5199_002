@@ -6,6 +6,8 @@ import grails.transaction.Transactional
 
 import java.text.SimpleDateFormat
 
+import static org.springframework.http.HttpStatus.NO_CONTENT
+
 class AccountController extends RestfulController<Account> {
     static responseFormats = ['json', 'xml']
 
@@ -23,7 +25,7 @@ class AccountController extends RestfulController<Account> {
 
         Account followAccount;
         if(params.followAccount == null) {
-            respond getParams()
+            response.sendError(422)
             return
         }
         else {
@@ -70,5 +72,32 @@ class AccountController extends RestfulController<Account> {
             }
             order('dateCreated', 'desc')
         }
+    }
+
+    @Override
+    @Transactional
+    def delete() {
+        if(handleReadOnly()) {
+            return
+        }
+
+        Account instance = queryForResource(params.id)
+        if (instance == null) {
+            transactionStatus.setRollbackOnly()
+            notFound()
+            return
+        }
+
+        // all of the references to the account being deleted must be deleted first //
+        // without this, referential integrity violations will occur //
+        instance.followers.each { it -> it.removeFromFollowing(instance)}
+        instance.following.each { it -> it.removeFromFollowers(instance)}
+        instance.followers.clear()
+        instance.following.clear()
+        instance.messages.clear()
+        instance.save(flush: true)
+        instance.delete flush:true
+
+        render status: NO_CONTENT
     }
 }
