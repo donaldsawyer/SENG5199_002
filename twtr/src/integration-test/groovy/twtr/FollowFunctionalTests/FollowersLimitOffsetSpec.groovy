@@ -103,7 +103,27 @@ class FollowersLimitOffsetSpec extends GebSpec {
     }
 
     def 'use offset parameter'() {
+        when:
+        def response = restClient.get(path:"/accounts/${goodIds[0]}/followers", query: [offset:1])
 
+        then:
+        response.status == 200
+        response.data
+        response.data.size() == 10
+        goodIds[2..(numberOfAccountsCreated-1)].each { it ->
+            assert response.data.find { a -> a.id == it }.followingCount == 1
+        }
+
+        when:
+        response = restClient.get(path:"/accounts/${goodIds[0]}/followers", query: [offset:3, max:2])
+
+        then:
+        response.status == 200
+        response.data
+        response.data.size() == 2
+        goodIds[4..5].each { it ->
+            assert response.data.find { a -> a.id == it }.followingCount == 1
+        }
     }
 
     def 'cleanup test data'() {
