@@ -20,5 +20,6 @@ class Account {
 
     long getFollowerCount() { !followers ? 0 : followers.size() }
     long getFollowingCount() { !following ? 0 : following.size() }
-    static transients = ['followerCount', 'followingCount']
+    long getMessageCount() {!messages ? 0 : messages.size() }
+    static transients = ['followerCount', 'followingCount', 'messageCount']
 }
