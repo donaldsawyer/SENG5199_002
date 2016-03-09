@@ -32,8 +32,6 @@ class GetFollowersHappySpec extends GebSpec {
     }
 
     def cleanup() {
-//        restClient.delete(path:"/accounts/${goodId1}")
-//        restClient.delete(path:"/accounts/${goodId2}")
     }
 
     def addAccount(String postfix) {
@@ -49,7 +47,7 @@ class GetFollowersHappySpec extends GebSpec {
         when:
         goodId1 = addAccount('1')
         goodId2 = addAccount('2')
-        def response = restClient.get(path:'/accounts')
+        def response = restClient.get(path: '/accounts')
 
         then:
         response.status == 200
@@ -68,7 +66,7 @@ class GetFollowersHappySpec extends GebSpec {
         data2.followingCount == 0
 
         when:
-        response = restClient.get(path:"/accounts/$goodId1")
+        response = restClient.get(path: "/accounts/$goodId1")
 
         then:
         response.status == 200
@@ -78,7 +76,7 @@ class GetFollowersHappySpec extends GebSpec {
         response.data.followingCount == 0
 
         when:
-        response = restClient.get(path:"/accounts/$goodId2")
+        response = restClient.get(path: "/accounts/$goodId2")
 
         then:
         response.status == 200
@@ -88,28 +86,28 @@ class GetFollowersHappySpec extends GebSpec {
         response.data.followingCount == 0
 
         when:
-        response = restClient.get(path:"/accounts/$goodId1/followers")
+        response = restClient.get(path: "/accounts/$goodId1/followers")
 
         then:
         response.status == 200
         response.data.size == 0
 
         when:
-        response = restClient.get(path:"/accounts/$goodId2/followers")
+        response = restClient.get(path: "/accounts/$goodId2/followers")
 
         then:
         response.status == 200
         response.data.size == 0
 
         when:
-        response = restClient.get(path:"/accounts/$goodId1/following")
+        response = restClient.get(path: "/accounts/$goodId1/following")
 
         then:
         response.status == 200
         response.data.size == 0
 
         when:
-        response = restClient.get(path:"/accounts/$goodId2/following")
+        response = restClient.get(path: "/accounts/$goodId2/following")
 
         then:
         response.status == 200
@@ -118,8 +116,8 @@ class GetFollowersHappySpec extends GebSpec {
 
     def '#goodId1 follows #goodId2'() {
         when:
-        def response = restClient.post(path:"/accounts/$goodId1/startFollowing", query: [followAccount: goodId2],
-                contentType: 'application/json', body:[])
+        def response = restClient.post(path: "/accounts/$goodId1/startFollowing", query: [followAccount: goodId2],
+                contentType: 'application/json', body: [])
 
         then:
         response.status == 201
@@ -128,7 +126,7 @@ class GetFollowersHappySpec extends GebSpec {
         response.data.followingCount == 1
 
         when:
-        response = restClient.get(path:'/accounts')
+        response = restClient.get(path: '/accounts')
 
         then:
         response.status == 200
@@ -147,7 +145,7 @@ class GetFollowersHappySpec extends GebSpec {
         data2.followingCount == 0
 
         when:
-        response = restClient.get(path:"/accounts/$goodId1")
+        response = restClient.get(path: "/accounts/$goodId1")
 
         then:
         response.status == 200
@@ -157,7 +155,7 @@ class GetFollowersHappySpec extends GebSpec {
         response.data.followingCount == 1
 
         when:
-        response = restClient.get(path:"/accounts/$goodId2")
+        response = restClient.get(path: "/accounts/$goodId2")
 
         then:
         response.status == 200
@@ -167,28 +165,52 @@ class GetFollowersHappySpec extends GebSpec {
         response.data.followingCount == 0
 
         when:
-        response = restClient.get(path:"/accounts/$goodId1/followers")
+        response = restClient.get(path: "/accounts/$goodId1/followers")
 
         then:
         response.status == 200
         response.data.size == 0
 
         when:
-        response = restClient.get(path:"/accounts/$goodId2/followers")
+        response = restClient.get(path: "/accounts/$goodId2/followers")
 
         then:
         response.status == 200
         response.data.size == 1
 
         when:
-        response = restClient.get(path:"/accounts/$goodId1/following")
+        def postfix = '1'
+        def data = response.data.find { it -> it.id == goodId1 }
+
+        then:
+        data.id == goodId1
+        data.handle == goodHandle + postfix
+        data.displayName == goodDisplayName + postfix
+        data.emailAddress == goodEmailAccount + postfix + goodEmailDomain
+        data.followingCount == 1
+        data.followerCount == 0
+
+        when:
+        response = restClient.get(path: "/accounts/$goodId1/following")
 
         then:
         response.status == 200
         response.data.size == 1
 
         when:
-        response = restClient.get(path:"/accounts/$goodId2/following")
+        postfix = '2'
+        data = response.data.find { it -> it.id == goodId2 }
+
+        then:
+        data.id == goodId2
+        data.handle == goodHandle + postfix
+        data.displayName == goodDisplayName + postfix
+        data.emailAddress == goodEmailAccount + postfix + goodEmailDomain
+        data.followingCount == 0
+        data.followerCount == 1
+
+        when:
+        response = restClient.get(path: "/accounts/$goodId2/following")
 
         then:
         response.status == 200
@@ -197,8 +219,8 @@ class GetFollowersHappySpec extends GebSpec {
 
     def '#goodId2 follows #goodId1'() {
         when:
-        def response = restClient.post(path:"/accounts/$goodId2/startFollowing", query: [followAccount: goodId1],
-                contentType: 'application/json', body:[])
+        def response = restClient.post(path: "/accounts/$goodId2/startFollowing", query: [followAccount: goodId1],
+                contentType: 'application/json', body: [])
 
         then:
         response.status == 201
@@ -207,7 +229,7 @@ class GetFollowersHappySpec extends GebSpec {
         response.data.followingCount == 1
 
         when:
-        response = restClient.get(path:'/accounts')
+        response = restClient.get(path: '/accounts')
 
         then:
         response.status == 200
@@ -226,7 +248,7 @@ class GetFollowersHappySpec extends GebSpec {
         data2.followingCount == 1
 
         when:
-        response = restClient.get(path:"/accounts/$goodId1")
+        response = restClient.get(path: "/accounts/$goodId1")
 
         then:
         response.status == 200
@@ -236,7 +258,7 @@ class GetFollowersHappySpec extends GebSpec {
         response.data.followingCount == 1
 
         when:
-        response = restClient.get(path:"/accounts/$goodId2")
+        response = restClient.get(path: "/accounts/$goodId2")
 
         then:
         response.status == 200
@@ -246,39 +268,87 @@ class GetFollowersHappySpec extends GebSpec {
         response.data.followingCount == 1
 
         when:
-        response = restClient.get(path:"/accounts/$goodId1/followers")
+        response = restClient.get(path: "/accounts/$goodId1/followers")
 
         then:
         response.status == 200
         response.data.size == 1
 
         when:
-        response = restClient.get(path:"/accounts/$goodId2/followers")
+        def postfix = '2'
+        def data = response.data.find { it -> it.id == goodId2 }
+
+        then:
+        data.id == goodId2
+        data.handle == goodHandle + postfix
+        data.displayName == goodDisplayName + postfix
+        data.emailAddress == goodEmailAccount + postfix + goodEmailDomain
+        data.followingCount == 1
+        data.followerCount == 1
+
+        when:
+        response = restClient.get(path: "/accounts/$goodId2/followers")
 
         then:
         response.status == 200
         response.data.size == 1
 
         when:
-        response = restClient.get(path:"/accounts/$goodId1/following")
+        postfix = '1'
+        data = response.data.find { it -> it.id == goodId1 }
+
+        then:
+        data.id == goodId1
+        data.handle == goodHandle + postfix
+        data.displayName == goodDisplayName + postfix
+        data.emailAddress == goodEmailAccount + postfix + goodEmailDomain
+        data.followingCount == 1
+        data.followerCount == 1
+
+        when:
+        response = restClient.get(path: "/accounts/$goodId1/following")
 
         then:
         response.status == 200
         response.data.size == 1
 
         when:
-        response = restClient.get(path:"/accounts/$goodId2/following")
+        postfix = '2'
+        data = response.data.find { it -> it.id == goodId2 }
+
+        then:
+        data.id == goodId2
+        data.handle == goodHandle + postfix
+        data.displayName == goodDisplayName + postfix
+        data.emailAddress == goodEmailAccount + postfix + goodEmailDomain
+        data.followingCount == 1
+        data.followerCount == 1
+
+        when:
+        response = restClient.get(path: "/accounts/$goodId2/following")
 
         then:
         response.status == 200
         response.data.size == 1
+
+        when:
+        postfix = '1'
+        data = response.data.find { it -> it.id == goodId1 }
+
+        then:
+        data.id == goodId1
+        data.handle == goodHandle + postfix
+        data.displayName == goodDisplayName + postfix
+        data.emailAddress == goodEmailAccount + postfix + goodEmailDomain
+        data.followingCount == 1
+        data.followerCount == 1
     }
 
     def '#goodId2 follows a new account'() {
         when:
         goodId3 = addAccount('3')
-        def response = restClient.post(path:"/accounts/$goodId2/startFollowing", query: [followAccount: goodId3],
-                contentType: 'application/json', body:[])
+        def response = restClient.post(path: "/accounts/$goodId2/startFollowing", query: [followAccount: goodId3],
+                contentType: 'application/json', body: [])
 
         then:
         response.status == 201
@@ -287,7 +357,7 @@ class GetFollowersHappySpec extends GebSpec {
         response.data.followingCount == 2
 
         when:
-        response = restClient.get(path:'/accounts')
+        response = restClient.get(path: '/accounts')
 
         then:
         response.status == 200
@@ -310,7 +380,7 @@ class GetFollowersHappySpec extends GebSpec {
         data3.followingCount == 0
 
         when:
-        response = restClient.get(path:"/accounts/$goodId1")
+        response = restClient.get(path: "/accounts/$goodId1")
 
         then:
         response.status == 200
@@ -320,7 +390,7 @@ class GetFollowersHappySpec extends GebSpec {
         response.data.followingCount == 1
 
         when:
-        response = restClient.get(path:"/accounts/$goodId2")
+        response = restClient.get(path: "/accounts/$goodId2")
 
         then:
         response.status == 200
@@ -330,7 +400,7 @@ class GetFollowersHappySpec extends GebSpec {
         response.data.followingCount == 2
 
         when:
-        response = restClient.get(path:"/accounts/$goodId3")
+        response = restClient.get(path: "/accounts/$goodId3")
 
         then:
         response.status == 200
@@ -340,42 +410,114 @@ class GetFollowersHappySpec extends GebSpec {
         response.data.followingCount == 0
 
         when:
-        response = restClient.get(path:"/accounts/$goodId1/followers")
+        response = restClient.get(path: "/accounts/$goodId1/followers")
 
         then:
         response.status == 200
         response.data.size == 1
 
         when:
-        response = restClient.get(path:"/accounts/$goodId2/followers")
+        def postfix = '2'
+        def data = response.data.find { it -> it.id == goodId2 }
+
+        then:
+        data.id == goodId2
+        data.handle == goodHandle + postfix
+        data.displayName == goodDisplayName + postfix
+        data.emailAddress == goodEmailAccount + postfix + goodEmailDomain
+        data.followingCount == 2
+        data.followerCount == 1
+
+        when:
+        response = restClient.get(path: "/accounts/$goodId2/followers")
 
         then:
         response.status == 200
         response.data.size == 1
 
         when:
-        response = restClient.get(path:"/accounts/$goodId3/followers")
+        postfix = '1'
+        data = response.data.find { it -> it.id == goodId1 }
+
+        then:
+        data.id == goodId1
+        data.handle == goodHandle + postfix
+        data.displayName == goodDisplayName + postfix
+        data.emailAddress == goodEmailAccount + postfix + goodEmailDomain
+        data.followingCount == 1
+        data.followerCount == 1
+
+        when:
+        response = restClient.get(path: "/accounts/$goodId3/followers")
 
         then:
         response.status == 200
         response.data.size == 1
 
         when:
-        response = restClient.get(path:"/accounts/$goodId1/following")
+        postfix = '2'
+        data = response.data.find { it -> it.id == goodId2 }
+
+        then:
+        data.id == goodId2
+        data.handle == goodHandle + postfix
+        data.displayName == goodDisplayName + postfix
+        data.emailAddress == goodEmailAccount + postfix + goodEmailDomain
+        data.followingCount == 2
+        data.followerCount == 1
+
+        when:
+        response = restClient.get(path: "/accounts/$goodId1/following")
 
         then:
         response.status == 200
         response.data.size == 1
 
         when:
-        response = restClient.get(path:"/accounts/$goodId2/following")
+        postfix = '2'
+        data = response.data.find { it -> it.id == goodId2 }
+
+        then:
+        data.id == goodId2
+        data.handle == goodHandle + postfix
+        data.displayName == goodDisplayName + postfix
+        data.emailAddress == goodEmailAccount + postfix + goodEmailDomain
+        data.followingCount == 2
+        data.followerCount == 1
+
+        when:
+        response = restClient.get(path: "/accounts/$goodId2/following")
 
         then:
         response.status == 200
         response.data.size == 2
 
         when:
-        response = restClient.get(path:"/accounts/$goodId3/following")
+        postfix = '1'
+        data = response.data.find { it -> it.id == goodId1 }
+
+        then:
+        data.id == goodId1
+        data.handle == goodHandle + postfix
+        data.displayName == goodDisplayName + postfix
+        data.emailAddress == goodEmailAccount + postfix + goodEmailDomain
+        data.followingCount == 1
+        data.followerCount == 1
+
+        when:
+        postfix = '3'
+        data = response.data.find { it -> it.id == goodId3 }
+
+        then:
+        data.id == goodId3
+        data.handle == goodHandle + postfix
+        data.displayName == goodDisplayName + postfix
+        data.emailAddress == goodEmailAccount + postfix + goodEmailDomain
+        data.followingCount == 0
+        data.followerCount == 1
+
+        when:
+        response = restClient.get(path: "/accounts/$goodId3/following")
 
         then:
         response.status == 200
@@ -384,10 +526,10 @@ class GetFollowersHappySpec extends GebSpec {
 
     def 'cleanup test data'() {
         when:
-        def response = restClient.delete(path:"/accounts/${goodId1}")
-        response = restClient.delete(path:"/accounts/${goodId2}")
-        response = restClient.delete(path:"/accounts/${goodId3}")
-        response = restClient.get(path:'/accounts')
+        def response = restClient.delete(path: "/accounts/${goodId1}")
+        response = restClient.delete(path: "/accounts/${goodId2}")
+        response = restClient.delete(path: "/accounts/${goodId3}")
+        response = restClient.get(path: '/accounts')
 
         then:
         response.data.size() == 0
