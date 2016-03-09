@@ -25,7 +25,7 @@ class AccountController extends RestfulController<Account> {
 
         Account followAccount;
         if(params.followAccount == null) {
-            respond getParams()
+            response.sendError(422)
             return
         }
         else {
