@@ -88,6 +88,8 @@ class AccountController extends RestfulController<Account> {
             return
         }
 
+        // all of the references to the account being deleted must be deleted first //
+        // without this, referential integrity violations will occur //
         instance.followers.each { it -> it.removeFromFollowing(instance)}
         instance.following.each { it -> it.removeFromFollowers(instance)}
         instance.followers.clear()
@@ -97,12 +99,5 @@ class AccountController extends RestfulController<Account> {
         instance.delete flush:true
 
         render status: NO_CONTENT
-//        request.withFormat {
-//            form multipartForm {
-//                flash.message = message(code: 'default.deleted.message', args: [message(code: "${resourceClassName}.label".toString(), default: resourceClassName), instance.id])
-//                redirect action:"index", method:"GET"
-//            }
-//            '*'{ render status: NO_CONTENT } // NO CONTENT STATUS CODE
-//        }
     }
 }
