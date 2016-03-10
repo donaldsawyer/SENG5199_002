@@ -36,7 +36,6 @@ class AccountFunctionalSpec extends GebSpec {
         then:
         response.status == 200
         response.data.size() == 0
-
     }
 
     def 'create an account with valid JSON data'() {
@@ -65,7 +64,7 @@ class AccountFunctionalSpec extends GebSpec {
 
     def 'get the account just created.'() {
         when:
-        def response = restClient.get(path:"/accounts/${goodid}")
+        def response = restClient.get(path: "/accounts/${goodid}")
 
         then:
         response.status == 200
@@ -84,13 +83,13 @@ class AccountFunctionalSpec extends GebSpec {
 //        def sut = new Account(id: goodid, handle: goodHandle, emailAddress: goodEmail, displayName: 'Huskies Number 1!')
 
         when:
-        def response = restClient.put(path:"/accounts/${goodid}",
-                                      body: [id: goodid,
-                                             handle: goodHandle,
-                                             emailAddress: goodEmail,
-                                             password: goodPassword,
-                                             displayName: 'Huskies Number 1!'],
-                                      contentType:'application/json')
+        def response = restClient.put(path: "/accounts/${goodid}",
+                body: [id          : goodid,
+                       handle      : goodHandle,
+                       emailAddress: goodEmail,
+                       password    : goodPassword,
+                       displayName : 'Huskies Number 1!'],
+                contentType: 'application/json')
 
         then:
         response.status == 200
@@ -99,7 +98,7 @@ class AccountFunctionalSpec extends GebSpec {
 
     def 'get the account just updated.'() {
         when:
-        def response = restClient.get(path:"/accounts/${goodid}")
+        def response = restClient.get(path: "/accounts/${goodid}")
 
         then:
         response.status == 200
@@ -113,22 +112,21 @@ class AccountFunctionalSpec extends GebSpec {
         response.data.followingCount == 0
     }
 
-
     def 'delete the new account'() {
         when:
-        def response = restClient.delete(path:"/accounts/${goodid}")
+        def response = restClient.delete(path: "/accounts/${goodid}")
 
         then:
         response.status == 204
 
         when:
-        restClient.get(path:"/accounts/${goodid}")
+        restClient.get(path: "/accounts/${goodid}")
 
         then:
         thrown(HttpResponseException)
 
         when:
-        response = restClient.get(path:'/accounts')
+        response = restClient.get(path: '/accounts')
 
         then:
         response.status == 200

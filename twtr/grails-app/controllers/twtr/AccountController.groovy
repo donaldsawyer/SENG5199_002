@@ -18,7 +18,7 @@ class AccountController extends RestfulController<Account> {
     def handle() {
 
         Account account = Account.findByHandle(params.id)
-        if(!account) {
+        if (!account) {
             response.sendError(404)
             return
         }

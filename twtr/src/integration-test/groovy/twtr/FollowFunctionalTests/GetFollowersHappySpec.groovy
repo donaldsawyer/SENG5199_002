@@ -31,9 +31,6 @@ class GetFollowersHappySpec extends GebSpec {
         restClient = new RESTClient("http://localhost:8080")
     }
 
-    def cleanup() {
-    }
-
     def addAccount(String postfix) {
         def response = restClient.post(path: '/accounts', contentType: 'application/json',
                 body: [handle      : goodHandle + postfix,
