@@ -7,6 +7,7 @@ import geb.spock.*
 
 @Integration
 @Stepwise
+@Unroll
 class CreateMessagesHappySpec extends GebSpec {
 
     final static String goodHandle = 'scsu_huskies'
