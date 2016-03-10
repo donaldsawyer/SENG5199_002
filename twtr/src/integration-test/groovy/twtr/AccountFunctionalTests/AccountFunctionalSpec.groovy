@@ -79,9 +79,6 @@ class AccountFunctionalSpec extends GebSpec {
     }
 
     def 'update account #goodid with new display name'() {
-//        given:
-//        def sut = new Account(id: goodid, handle: goodHandle, emailAddress: goodEmail, displayName: 'Huskies Number 1!')
-
         when:
         def response = restClient.put(path: "/accounts/${goodid}",
                 body: [id          : goodid,

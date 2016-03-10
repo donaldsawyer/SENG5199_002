@@ -40,7 +40,7 @@ class FollowHappySpec extends GebSpec {
         return response.data.id
     }
 
-    def 'only two are available with no followers or following'() {
+    def 'only two accounts with no followers or following'() {
         when:
         goodId1 = addAccount('1')
         goodId2 = addAccount('2')
@@ -71,7 +71,7 @@ class FollowHappySpec extends GebSpec {
         response.data.id == goodId2
     }
 
-    def '#goodId1 can follow #goodId2'() {
+    def 'Account 1 can follow Account 2'() {
         when:
         def response = restClient.get(path: "/accounts/${goodId1}")
 
@@ -145,7 +145,7 @@ class FollowHappySpec extends GebSpec {
         data.followerCount == 0
     }
 
-    def '#goodId2 can follow #goodId1'() {
+    def 'Account 2 can follow Account 1'() {
         when:
         def response = restClient.post(path: "/accounts/${goodId2}/startFollowing", query: [followAccount: goodId1],
                 contentType: 'application/json', body: [])
@@ -200,7 +200,7 @@ class FollowHappySpec extends GebSpec {
         data.followerCount == 1
     }
 
-    def '#goodId1 follows another account'() {
+    def 'Account 1 follows Account 3'() {
         setup:
         goodId3 = addAccount('3')
 
