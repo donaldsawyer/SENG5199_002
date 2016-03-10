@@ -31,7 +31,7 @@ class BootStrap {
                     password:a.password,
                     followerCount: a.followerCount,
                     followingCount: a.followingCount,
-                    messageCount: !a.messages ? 0 : a.messages.size()
+                    messageCount: a.messageCount
             ]
         }
 

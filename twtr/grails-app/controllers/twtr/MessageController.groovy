@@ -69,7 +69,7 @@ class MessageController extends RestfulController<Message> {
     def search(){
         def searchText = params.text
 
-        def results = Message.where {messageText ==~ "%${searchText}%"}.list()
+        def results = Message.where {messageText ==~ "%$searchText%"}.list()
 
         respond results
     }
