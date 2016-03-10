@@ -19,13 +19,15 @@ class MessageController extends RestfulController<Message> {
         def messageText = request.JSON.messageText
 
 
-        if(params.accountId != null)
-            tweeter = Account.findById(params.accountId)
+        if(params.accountId != null) {
+            if(params.accountId.isLong())
+                tweeter = Account.findById(params.accountId)
+        }
         else if(params.handle != null)
             tweeter = Account.findByHandle(params.handle)
         else
         {
-            response.sendError(406)
+            response.sendError(404)
             return
         }
 
@@ -69,7 +71,9 @@ class MessageController extends RestfulController<Message> {
     def search(){
         def searchText = params.text
 
-        def results = Message.where {messageText ==~ "%$searchText%"}.list()
+        def results = Message.where {messageText ==~ "%$searchText%"}.list(){
+            order('dateCreated', 'asc')
+        }
 
         respond results
     }

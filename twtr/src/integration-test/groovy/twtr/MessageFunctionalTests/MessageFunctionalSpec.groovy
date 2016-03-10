@@ -1,11 +1,10 @@
-package twtr
+package twtr.MessageFunctionalTests
 
 import geb.spock.GebSpec
 import grails.test.mixin.integration.Integration
 import groovyx.net.http.RESTClient
 import spock.lang.Shared
 import spock.lang.Stepwise
-
 
 @Integration
 @Stepwise
@@ -114,16 +113,6 @@ class MessageFunctionalSpec extends GebSpec {
         then:
         response.status == 200
         response.data
-
-        when:
-        def response1 = restClient.get(path: "/accounts/${goodId1}/messages/1")
-
-        then:
-        response1.status == 200
-        response1.data
-        response1.data.handle == response.data.handle[0]
-        response1.data.messageText == response.data.messageText[0]
-        response1.data.dateCreated == response.data.dateCreated[0]
     }
 
     def 'create a tweet with #message2 to account with #goodId1'() {
@@ -151,22 +140,6 @@ class MessageFunctionalSpec extends GebSpec {
         then:
         response.status == 200
         response.data
-
-        when:
-        def response1 = restClient.get(path: "/accounts/${goodId1}/messages/1")
-        def response2 = restClient.get(path: "/accounts/${goodId1}/messages/2")
-
-        then:
-        response1.status == 200
-        response1.data
-        response1.data.handle == response.data.handle[1]
-        response1.data.messageText == response.data.messageText[1]
-        response1.data.dateCreated == response.data.dateCreated[1]
-        response2.status == 200
-        response2.data
-        response2.data.handle == response.data.handle[0]
-        response2.data.messageText == response.data.messageText[0]
-        response2.data.dateCreated == response.data.dateCreated[0]
     }
 
     def 'create a tweet with #message3 to account with #goodId1'() {
@@ -194,28 +167,6 @@ class MessageFunctionalSpec extends GebSpec {
         then:
         response.status == 200
         response.data
-
-        when:
-        def response1 = restClient.get(path: "/accounts/${goodId1}/messages/1")
-        def response2 = restClient.get(path: "/accounts/${goodId1}/messages/2")
-        def response3 = restClient.get(path: "/accounts/${goodId1}/messages/3")
-
-        then:
-        response1.status == 200
-        response1.data
-        response1.data.handle == response.data.handle[2]
-        response1.data.messageText == response.data.messageText[2]
-        response1.data.dateCreated == response.data.dateCreated[2]
-        response2.status == 200
-        response2.data
-        response2.data.handle == response.data.handle[1]
-        response2.data.messageText == response.data.messageText[1]
-        response2.data.dateCreated == response.data.dateCreated[1]
-        response3.status == 200
-        response3.data
-        response3.data.handle == response.data.handle[0]
-        response3.data.messageText == response.data.messageText[0]
-        response3.data.dateCreated == response.data.dateCreated[0]
     }
 
 
@@ -236,7 +187,7 @@ class MessageFunctionalSpec extends GebSpec {
         response.data
         response.data.size() == 10
         (0..8).each { it ->
-            response.data[it].dateCreated > response.data[it + 1].dateCreated
+            response.data[it].dateCreated >= response.data[it + 1].dateCreated
             response.data[it].messageText == messageTemplate + (15 - it)
         }
 
@@ -316,16 +267,6 @@ class MessageFunctionalSpec extends GebSpec {
         then:
         response.status == 200
         response.data
-
-        when:
-        def response1 = restClient.get(path: "/accounts/${goodId2}/messages/16")
-
-        then:
-        response1.status == 200
-        response1.data
-        response1.data.handle == response.data.handle[0]
-        response1.data.messageText == response.data.messageText[0]
-        response1.data.dateCreated == response.data.dateCreated[0]
     }
 
     def 'search for messages containing specific search term'() {
