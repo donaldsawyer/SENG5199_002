@@ -4,12 +4,13 @@ import geb.spock.GebSpec
 import grails.test.mixin.integration.Integration
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
-import jdk.internal.jfr.events.ExceptionThrownEvent
 import org.apache.http.HttpResponse
 import spock.lang.Shared
 import spock.lang.Stepwise
+import spock.lang.Unroll
 
 @Integration
+@Unroll
 class BadAccountValuesSpec extends GebSpec {
     final static String goodHandle = 'scsu_huskies'
     final static String goodEmail = 'testemail@test.com'
