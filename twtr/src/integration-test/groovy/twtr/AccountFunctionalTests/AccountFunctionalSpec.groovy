@@ -1,4 +1,4 @@
-package twtr
+package twtr.AccountFunctionalTests
 
 import geb.spock.GebSpec
 import grails.converters.JSON
@@ -19,11 +19,6 @@ class AccountFunctionalSpec extends GebSpec {
     final static String goodPassword = 'abc123ABC'
     final static String goodDisplayName = 'SCSU Huskies'
 
-    final static String handle1 = 'scsu_huskies1'
-    final static String email1 = 'testemail1@test.com'
-    final static String password1 = 'abc123ABC'
-    final static String displayName1 = 'SCSU Huskies1'
-
     @Shared
     def goodid
 
@@ -32,7 +27,6 @@ class AccountFunctionalSpec extends GebSpec {
     def setup
     {
         restClient = new RESTClient("http://localhost:8080")
-        //startingAccountNum = getStartingAccountNum()
     }
 
     def 'get all accounts'() {
