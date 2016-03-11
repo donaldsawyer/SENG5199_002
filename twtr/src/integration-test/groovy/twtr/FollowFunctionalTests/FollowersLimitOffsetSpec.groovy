@@ -37,27 +37,29 @@ class FollowersLimitOffsetSpec extends GebSpec {
         return response.data.id
     }
 
-    def 'use limit query parameter'() {
-        when: '11 accounts are added'
+    def 'max parameter for account index defaults to 10 results'() {
+        when:
         (1..numberOfAccountsCreated).each { it ->
             goodIds.add(addAccount("$it"))
         }
         def response = restClient.get(path: '/accounts')
 
-        then: 'only the first 10 accounts should be returned by default'
+        then:
         response.status == 200
         response.data.size() == 10
         goodIds[0..9].each { it ->
             assert response.data.find { d -> d.id == it }
         }
+    }
 
+    def 'max parameter for followers endpoint defaults to 10 results'() {
         when: 'account 1 is followed by all other accounts'
-        goodIds[1..(numberOfAccountsCreated-1)].each { it ->
+        goodIds[1..(numberOfAccountsCreated - 1)].each { it ->
             restClient.post(path: "/accounts/$it/startFollowing",
                     query: [followAccount: goodIds[0]],
                     contentType: 'application/json')
         }
-        response = restClient.get(path:"/accounts/${goodIds[0]}")
+        def response = restClient.get(path: "/accounts/${goodIds[0]}")
 
         then:
         response.status == 200
@@ -66,18 +68,20 @@ class FollowersLimitOffsetSpec extends GebSpec {
         response.data.followerCount == 11
 
         when: 'no limit is used for follow'
-        response = restClient.get(path:"/accounts/${goodIds[0]}/followers")
+        response = restClient.get(path: "/accounts/${goodIds[0]}/followers")
 
         then:
         response.status == 200
         response.data
         response.data.size == 10
         goodIds[1..10].each { it ->
-            assert response.data.find { a -> a.id == it}.followingCount == 1
+            assert response.data.find { a -> a.id == it }.followingCount == 1
         }
+    }
 
-        when: 'max of 11 is used for follow'
-        response = restClient.get(path:"/accounts/${goodIds[0]}/followers", query:[max:11])
+    def 'max 11 for followers endpoint with 11 followers'() {
+        when:
+        def response = restClient.get(path:"/accounts/${goodIds[0]}/followers", query:[max:11])
 
         then:
         response.status == 200
@@ -99,20 +103,23 @@ class FollowersLimitOffsetSpec extends GebSpec {
         }
     }
 
-    def 'use offset parameter'() {
+    def 'use only offset parameter for followers'() {
         when:
-        def response = restClient.get(path:"/accounts/${goodIds[0]}/followers", query: [offset:1])
+        def response = restClient.get(path: "/accounts/${goodIds[0]}/followers", query: [offset: 1])
 
         then:
         response.status == 200
         response.data
         response.data.size() == 10
-        goodIds[2..(numberOfAccountsCreated-1)].each { it ->
+        goodIds[2..(numberOfAccountsCreated - 1)].each { it ->
             assert response.data.find { a -> a.id == it }.followingCount == 1
         }
+    }
+
+    def 'use offset parameter and max parameter for followers'() {
 
         when:
-        response = restClient.get(path:"/accounts/${goodIds[0]}/followers", query: [offset:3, max:2])
+        def response = restClient.get(path:"/accounts/${goodIds[0]}/followers", query: [offset:3, max:2])
 
         then:
         response.status == 200

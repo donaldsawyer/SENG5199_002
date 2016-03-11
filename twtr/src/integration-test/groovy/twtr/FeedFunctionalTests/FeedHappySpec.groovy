@@ -161,10 +161,10 @@ class FeedHappySpec extends GebSpec {
 
     def 'remove test data'() {
         when:
-        def response = restClient.delete(path: "/accounts/${goodId1}")
-        response = restClient.delete(path: "/accounts/${goodId2}")
-        response = restClient.delete(path: "/accounts/${goodId3}")
-        response = restClient.get(path: '/accounts')
+        restClient.delete(path: "/accounts/${goodId1}")
+        restClient.delete(path: "/accounts/${goodId2}")
+        restClient.delete(path: "/accounts/${goodId3}")
+        def response = restClient.get(path: '/accounts')
 
         then:
         response.data.size() == 0

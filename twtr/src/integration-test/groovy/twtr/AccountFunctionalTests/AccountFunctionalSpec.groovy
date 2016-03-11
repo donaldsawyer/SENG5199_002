@@ -1,4 +1,4 @@
-package twtr
+package twtr.AccountFunctionalTests
 
 import geb.spock.GebSpec
 import grails.converters.JSON
@@ -19,11 +19,6 @@ class AccountFunctionalSpec extends GebSpec {
     final static String goodPassword = 'abc123ABC'
     final static String goodDisplayName = 'SCSU Huskies'
 
-    final static String handle1 = 'scsu_huskies1'
-    final static String email1 = 'testemail1@test.com'
-    final static String password1 = 'abc123ABC'
-    final static String displayName1 = 'SCSU Huskies1'
-
     @Shared
     def goodid
 
@@ -32,7 +27,6 @@ class AccountFunctionalSpec extends GebSpec {
     def setup
     {
         restClient = new RESTClient("http://localhost:8080")
-        //startingAccountNum = getStartingAccountNum()
     }
 
     def 'get all accounts'() {
@@ -42,7 +36,6 @@ class AccountFunctionalSpec extends GebSpec {
         then:
         response.status == 200
         response.data.size() == 0
-
     }
 
     def 'create an account with valid JSON data'() {
@@ -71,7 +64,7 @@ class AccountFunctionalSpec extends GebSpec {
 
     def 'get the account just created.'() {
         when:
-        def response = restClient.get(path:"/accounts/${goodid}")
+        def response = restClient.get(path: "/accounts/${goodid}")
 
         then:
         response.status == 200
@@ -86,17 +79,14 @@ class AccountFunctionalSpec extends GebSpec {
     }
 
     def 'update account #goodid with new display name'() {
-//        given:
-//        def sut = new Account(id: goodid, handle: goodHandle, emailAddress: goodEmail, displayName: 'Huskies Number 1!')
-
         when:
-        def response = restClient.put(path:"/accounts/${goodid}",
-                                      body: [id: goodid,
-                                             handle: goodHandle,
-                                             emailAddress: goodEmail,
-                                             password: goodPassword,
-                                             displayName: 'Huskies Number 1!'],
-                                      contentType:'application/json')
+        def response = restClient.put(path: "/accounts/${goodid}",
+                body: [id          : goodid,
+                       handle      : goodHandle,
+                       emailAddress: goodEmail,
+                       password    : goodPassword,
+                       displayName : 'Huskies Number 1!'],
+                contentType: 'application/json')
 
         then:
         response.status == 200
@@ -105,7 +95,7 @@ class AccountFunctionalSpec extends GebSpec {
 
     def 'get the account just updated.'() {
         when:
-        def response = restClient.get(path:"/accounts/${goodid}")
+        def response = restClient.get(path: "/accounts/${goodid}")
 
         then:
         response.status == 200
@@ -119,22 +109,21 @@ class AccountFunctionalSpec extends GebSpec {
         response.data.followingCount == 0
     }
 
-
     def 'delete the new account'() {
         when:
-        def response = restClient.delete(path:"/accounts/${goodid}")
+        def response = restClient.delete(path: "/accounts/${goodid}")
 
         then:
         response.status == 204
 
         when:
-        restClient.get(path:"/accounts/${goodid}")
+        restClient.get(path: "/accounts/${goodid}")
 
         then:
         thrown(HttpResponseException)
 
         when:
-        response = restClient.get(path:'/accounts')
+        response = restClient.get(path: '/accounts')
 
         then:
         response.status == 200

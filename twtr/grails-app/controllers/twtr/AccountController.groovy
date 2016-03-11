@@ -11,24 +11,28 @@ import static org.springframework.http.HttpStatus.NO_CONTENT
 class AccountController extends RestfulController<Account> {
     static responseFormats = ['json', 'xml']
 
-    def AccountController (){
-        super (Account)
+    def AccountController() {
+        super(Account)
     }
 
     def handle() {
-        respond Account.findByHandle(params.id)
-    }
 
+        Account account = Account.findByHandle(params.id)
+        if (!account) {
+            response.sendError(404)
+            return
+        }
+        respond account
+    }
 
     def startFollowing() {
         def accountId = params.accountId
 
         Account followAccount;
-        if(params.followAccount == null) {
+        if (params.followAccount == null) {
             response.sendError(422)
             return
-        }
-        else {
+        } else {
             followAccount = Account.get(params.followAccount)
         }
 
@@ -54,7 +58,7 @@ class AccountController extends RestfulController<Account> {
         long accountId = Long.parseLong(params.accountId)
 
         respond Account.findAll("from Account as a where a.id in (:accounts) order by a.id",
-            [accounts: Account.get(accountId).following*.id], [max: maximum, offset: offset])
+                [accounts: Account.get(accountId).following*.id], [max: maximum, offset: offset])
     }
 
     def feed() {
@@ -67,7 +71,7 @@ class AccountController extends RestfulController<Account> {
 
         respond Message.createCriteria().list(max: maximum, offset: offset) {
             'in'('sentFromAccount', Account.get(accountId).following)
-            if(fromDate != null) {
+            if (fromDate != null) {
                 gte('dateCreated', new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX").parse(fromDate))
             }
             order('dateCreated', 'desc')
@@ -77,7 +81,7 @@ class AccountController extends RestfulController<Account> {
     @Override
     @Transactional
     def delete() {
-        if(handleReadOnly()) {
+        if (handleReadOnly()) {
             return
         }
 
@@ -90,13 +94,13 @@ class AccountController extends RestfulController<Account> {
 
         // all of the references to the account being deleted must be deleted first //
         // without this, referential integrity violations will occur //
-        instance.followers.each { it -> it.removeFromFollowing(instance)}
-        instance.following.each { it -> it.removeFromFollowers(instance)}
+        instance.followers.each { it -> it.removeFromFollowing(instance) }
+        instance.following.each { it -> it.removeFromFollowers(instance) }
         instance.followers.clear()
         instance.following.clear()
         instance.messages.clear()
         instance.save(flush: true)
-        instance.delete flush:true
+        instance.delete flush: true
 
         render status: NO_CONTENT
     }

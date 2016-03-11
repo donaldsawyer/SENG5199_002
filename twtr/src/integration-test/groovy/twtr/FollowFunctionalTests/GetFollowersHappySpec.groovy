@@ -31,9 +31,6 @@ class GetFollowersHappySpec extends GebSpec {
         restClient = new RESTClient("http://localhost:8080")
     }
 
-    def cleanup() {
-    }
-
     def addAccount(String postfix) {
         def response = restClient.post(path: '/accounts', contentType: 'application/json',
                 body: [handle      : goodHandle + postfix,
@@ -526,10 +523,10 @@ class GetFollowersHappySpec extends GebSpec {
 
     def 'cleanup test data'() {
         when:
-        def response = restClient.delete(path: "/accounts/${goodId1}")
-        response = restClient.delete(path: "/accounts/${goodId2}")
-        response = restClient.delete(path: "/accounts/${goodId3}")
-        response = restClient.get(path: '/accounts')
+        restClient.delete(path: "/accounts/${goodId1}")
+        restClient.delete(path: "/accounts/${goodId3}")
+        restClient.delete(path: "/accounts/${goodId2}")
+        def response = restClient.get(path: '/accounts')
 
         then:
         response.data.size() == 0
