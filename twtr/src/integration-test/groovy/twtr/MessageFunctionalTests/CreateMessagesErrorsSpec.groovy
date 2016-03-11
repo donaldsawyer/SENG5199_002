@@ -3,6 +3,7 @@ package twtr.MessageFunctionalTests
 import grails.test.mixin.integration.Integration
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
+import org.apache.http.HttpResponse
 import spock.lang.*
 import geb.spock.*
 
@@ -127,7 +128,7 @@ class CreateMessagesErrorsSpec extends GebSpec {
         error.message.contains('Not Found')
     }
 
-    def 'create a message with valid account Id and #badMessage'() {
+    def 'create a message with valid account Id and message: #badMessage'() {
         when:
         def response = restClient.get(path: "/accounts/${goodId}")
 
@@ -162,6 +163,35 @@ class CreateMessagesErrorsSpec extends GebSpec {
         response.data.messageCount == 0
     }
 
+    def 'return most recent messages with badOffset: #badOffset'() {
+        when:
+        restClient.get(path: "/accounts/${goodId}/messages", query: [offset: badOffset])
+
+        then:
+        HttpResponseException error = thrown(HttpResponseException)
+        error.statusCode == 400
+        error.message.contains('Bad Request')
+
+        where:
+        description                           | badOffset
+        'invalid Offset - letters'            | 'abc'
+        'invalid Offset - special characters' | '**'
+    }
+
+    def 'return most recent messages with badMax: #badMax'() {
+        when:
+        restClient.get(path: "/accounts/${goodId}/messages", query: [offset: badMax])
+
+        then:
+        HttpResponseException error = thrown(HttpResponseException)
+        error.statusCode == 400
+        error.message.contains('Bad Request')
+
+        where:
+        description                        | badMax
+        'invalid Max - letters'            | 'abc'
+        'invalid Max - special characters' | '**'
+    }
 
     def 'clean up accounts'() {
         when:

@@ -104,7 +104,7 @@ class MessagesLimitOffsetSpec extends GebSpec {
         response.data[9].messageText == goodMessage + '3'
     }
 
-    def 'return most recent messages with #customLimit'() {
+    def 'return most recent messages with max: #customLimit'() {
         when:
         def response = restClient.get(path: "/accounts/${goodId}/messages", query: [max: customLimit])
         def messagesCount = customLimit > numberOfMessagesCreated ? numberOfMessagesCreated : customLimit
@@ -128,7 +128,7 @@ class MessagesLimitOffsetSpec extends GebSpec {
         'limit of 20' | 20
     }
 
-    def 'return most recent messages with #customOffset'() {
+    def 'return most recent messages with offset: #customOffset'() {
         when:
         def response = restClient.get(path: "/accounts/${goodId}/messages", query: [max: numberOfMessagesCreated, offset: customOffset])
         def messagesCount = (numberOfMessagesCreated >= customOffset) ? (numberOfMessagesCreated - customOffset) : 0
