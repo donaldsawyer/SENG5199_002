@@ -6,7 +6,6 @@ import groovyx.net.http.RESTClient
 import spock.lang.Shared
 import spock.lang.Stepwise
 
-
 @Integration
 @Stepwise
 class FollowHappySpec extends GebSpec {

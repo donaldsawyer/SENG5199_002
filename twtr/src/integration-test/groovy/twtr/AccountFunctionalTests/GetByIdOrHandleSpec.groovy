@@ -91,7 +91,7 @@ class GetByIdOrHandleSpec extends GebSpec {
 
     def 'get by invalid handle: #description'() {
         when:
-        def response = restClient.get(path: "/account/handle/$handle")
+        restClient.get(path: "/account/handle/$handle")
 
         then:
         HttpResponseException problem = thrown(HttpResponseException)
@@ -108,7 +108,7 @@ class GetByIdOrHandleSpec extends GebSpec {
 
     def 'get by invalid id: #description'() {
         when:
-        def response = restClient.get(path: "/accounts/$accountId")
+        restClient.get(path: "/accounts/$accountId")
 
         then:
         HttpResponseException problem = thrown(HttpResponseException)
@@ -125,7 +125,7 @@ class GetByIdOrHandleSpec extends GebSpec {
 
     def 'get by invalid numeric id'() {
         when:
-        def response = restClient.get(path: "/accounts/${goodIds.max { it.value }.value + 1}")
+        restClient.get(path: "/accounts/${goodIds.max { it.value }.value + 1}")
 
         then:
         HttpResponseException problem = thrown(HttpResponseException)

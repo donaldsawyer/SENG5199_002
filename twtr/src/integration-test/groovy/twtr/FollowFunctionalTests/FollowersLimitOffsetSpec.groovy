@@ -117,7 +117,6 @@ class FollowersLimitOffsetSpec extends GebSpec {
     }
 
     def 'use offset parameter and max parameter for followers'() {
-
         when:
         def response = restClient.get(path:"/accounts/${goodIds[0]}/followers", query: [offset:3, max:2])
 
