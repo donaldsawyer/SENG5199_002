@@ -6,6 +6,7 @@ import grails.transaction.Transactional
 class MessageController extends RestfulController<Message> {
 
     static allowedMethods = [save: "POST", update: "PUT", patch: "PATCH", delete: "DELETE", tweet: "POST"]
+    static responseFormats = ['json', 'xml']
 
     def MessageController() {
         super(Message)
