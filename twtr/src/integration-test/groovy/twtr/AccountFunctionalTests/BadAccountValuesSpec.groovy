@@ -44,7 +44,7 @@ class BadAccountValuesSpec extends GebSpec {
 
     def 'bad handle format: #description'() {
         when:
-        def response = restClient.post(path: '/accounts', contentType: 'application/json',
+        restClient.post(path: '/accounts', contentType: 'application/json',
                 body: [handle  : handle, emailAddress: goodEmail2,
                        password: goodPassword, displayName: goodDisplayName])
 
@@ -54,7 +54,7 @@ class BadAccountValuesSpec extends GebSpec {
         problem.message.contains('Unprocessable Entity')
 
         when:
-        response = restClient.get(path: '/accounts')
+        def response = restClient.get(path: '/accounts')
 
         then:
         response.status == 200
@@ -80,7 +80,7 @@ class BadAccountValuesSpec extends GebSpec {
 
     def 'bad email address: #description'() {
         when:
-        def response = restClient.post(path: '/accounts', contentType: 'application/json',
+        restClient.post(path: '/accounts', contentType: 'application/json',
                 body: [handle  : goodHandle2, emailAddress: emailAddress,
                        password: goodPassword, displayName: goodDisplayName])
 
@@ -90,7 +90,7 @@ class BadAccountValuesSpec extends GebSpec {
         problem.message.contains('Unprocessable Entity')
 
         when:
-        response = restClient.get(path: '/accounts')
+        def response = restClient.get(path: '/accounts')
 
         then:
         response.status == 200
@@ -118,7 +118,7 @@ class BadAccountValuesSpec extends GebSpec {
 
     def 'bad password: #description'() {
         when:
-        def response = restClient.post(path: '/accounts', contentType: 'application/json',
+        restClient.post(path: '/accounts', contentType: 'application/json',
                 body: [handle  : goodHandle2, emailAddress: goodEmail2,
                        password: password, displayName: goodDisplayName])
 
@@ -128,7 +128,7 @@ class BadAccountValuesSpec extends GebSpec {
         problem.message.contains('Unprocessable Entity')
 
         when:
-        response = restClient.get(path: '/accounts')
+        def response = restClient.get(path: '/accounts')
 
         then:
         response.status == 200
