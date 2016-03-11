@@ -31,11 +31,6 @@ class FollowHappySpec extends GebSpec {
         restClient = new RESTClient("http://localhost:8080")
     }
 
-    def cleanup() {
-//        restClient.delete(path:"/accounts/${goodId1}")
-//        restClient.delete(path:"/accounts/${goodId2}")
-    }
-
     def addAccount(String postfix) {
         def response = restClient.post(path: '/accounts', contentType: 'application/json',
                 body: [handle      : goodHandle + postfix,
@@ -45,7 +40,7 @@ class FollowHappySpec extends GebSpec {
         return response.data.id
     }
 
-    def 'only two are available with no followers or following'() {
+    def 'only two accounts with no followers or following'() {
         when:
         goodId1 = addAccount('1')
         goodId2 = addAccount('2')
@@ -56,7 +51,7 @@ class FollowHappySpec extends GebSpec {
         response.data.size() == 2
 
         when:
-        response = restClient.get(path:"/accounts/${goodId1}")
+        response = restClient.get(path: "/accounts/${goodId1}")
 
         then:
         response.status == 200
@@ -66,7 +61,7 @@ class FollowHappySpec extends GebSpec {
         response.data.id == goodId1
 
         when:
-        response = restClient.get(path:"/accounts/${goodId2}")
+        response = restClient.get(path: "/accounts/${goodId2}")
 
         then:
         response.status == 200
@@ -76,9 +71,9 @@ class FollowHappySpec extends GebSpec {
         response.data.id == goodId2
     }
 
-    def '#goodId1 can follow #goodId2'() {
+    def 'Account 1 can follow Account 2'() {
         when:
-        def response = restClient.get(path:"/accounts/${goodId1}")
+        def response = restClient.get(path: "/accounts/${goodId1}")
 
         then:
         response.status == 200
@@ -87,8 +82,8 @@ class FollowHappySpec extends GebSpec {
         response.data.followingCount == 0
 
         when:
-        response = restClient.post(path:"/accounts/${goodId1}/startFollowing", query: [followAccount: goodId2],
-                contentType: 'application/json', body:[])
+        response = restClient.post(path: "/accounts/${goodId1}/startFollowing", query: [followAccount: goodId2],
+                contentType: 'application/json', body: [])
 
         then:
         response.status == 201
@@ -98,7 +93,7 @@ class FollowHappySpec extends GebSpec {
         response.data.followingCount == 1
 
         when:
-        response = restClient.get(path:"/accounts/${goodId1}")
+        response = restClient.get(path: "/accounts/${goodId1}")
 
         then:
         response.status == 200
@@ -108,7 +103,7 @@ class FollowHappySpec extends GebSpec {
         response.data.followingCount == 1
 
         when:
-        response = restClient.get(path:"/accounts/${goodId1}/following")
+        response = restClient.get(path: "/accounts/${goodId1}/following")
 
         then:
         response.status == 200
@@ -124,7 +119,7 @@ class FollowHappySpec extends GebSpec {
         data.followerCount == 1
 
         when:
-        response = restClient.get(path:"/accounts/${goodId2}")
+        response = restClient.get(path: "/accounts/${goodId2}")
 
         then:
         response.status == 200
@@ -134,7 +129,7 @@ class FollowHappySpec extends GebSpec {
         response.data.followingCount == 0
 
         when:
-        response = restClient.get(path:"/accounts/${goodId2}/followers")
+        response = restClient.get(path: "/accounts/${goodId2}/followers")
 
         then:
         response.status == 200
@@ -150,10 +145,10 @@ class FollowHappySpec extends GebSpec {
         data.followerCount == 0
     }
 
-    def '#goodId2 can follow #goodId1'() {
+    def 'Account 2 can follow Account 1'() {
         when:
-        def response = restClient.post(path:"/accounts/${goodId2}/startFollowing", query: [followAccount: goodId1],
-                contentType: 'application/json', body:[])
+        def response = restClient.post(path: "/accounts/${goodId2}/startFollowing", query: [followAccount: goodId1],
+                contentType: 'application/json', body: [])
 
         then:
         response.status == 201
@@ -163,7 +158,7 @@ class FollowHappySpec extends GebSpec {
         response.data.followingCount == 1
 
         when:
-        response = restClient.get(path:"/accounts/${goodId2}")
+        response = restClient.get(path: "/accounts/${goodId2}")
 
         then:
         response.status == 200
@@ -173,7 +168,7 @@ class FollowHappySpec extends GebSpec {
         response.data.followingCount == 1
 
         when:
-        response = restClient.get(path:"/accounts/${goodId2}/following")
+        response = restClient.get(path: "/accounts/${goodId2}/following")
 
         then:
         response.status == 200
@@ -189,7 +184,7 @@ class FollowHappySpec extends GebSpec {
         data.followerCount == 1
 
         when:
-        response = restClient.get(path:"/accounts/${goodId1}/followers")
+        response = restClient.get(path: "/accounts/${goodId1}/followers")
 
         then:
         response.status == 200
@@ -205,13 +200,13 @@ class FollowHappySpec extends GebSpec {
         data.followerCount == 1
     }
 
-    def '#goodId1 follows another account'() {
+    def 'Account 1 follows Account 3'() {
         setup:
         goodId3 = addAccount('3')
 
         when:
-        def response = restClient.post(path:"/accounts/${goodId1}/startFollowing", query: [followAccount: goodId3],
-                contentType: 'application/json', body:[])
+        def response = restClient.post(path: "/accounts/${goodId1}/startFollowing", query: [followAccount: goodId3],
+                contentType: 'application/json', body: [])
 
         then:
         response.status == 201
@@ -221,7 +216,7 @@ class FollowHappySpec extends GebSpec {
         response.data.followingCount == 2
 
         when:
-        response = restClient.get(path:"/accounts/${goodId1}")
+        response = restClient.get(path: "/accounts/${goodId1}")
 
         then:
         response.status == 200
@@ -231,7 +226,7 @@ class FollowHappySpec extends GebSpec {
         response.data.followingCount == 2
 
         when:
-        response = restClient.get(path:"/accounts/${goodId1}/following")
+        response = restClient.get(path: "/accounts/${goodId1}/following")
 
         then:
         response.status == 200
@@ -247,7 +242,7 @@ class FollowHappySpec extends GebSpec {
         data.followerCount == 1
 
         when:
-        response = restClient.get(path:"/accounts/${goodId3}")
+        response = restClient.get(path: "/accounts/${goodId3}")
 
         then:
         response.status == 200
@@ -257,7 +252,7 @@ class FollowHappySpec extends GebSpec {
         response.data.followingCount == 0
 
         when:
-        response = restClient.get(path:"/accounts/${goodId3}/followers")
+        response = restClient.get(path: "/accounts/${goodId3}/followers")
 
         then:
         response.status == 200
@@ -275,10 +270,10 @@ class FollowHappySpec extends GebSpec {
 
     def 'cleanup tests'() {
         when:
-        def response = restClient.delete(path:"/accounts/${goodId1}")
-        response = restClient.delete(path:"/accounts/${goodId2}")
-        response = restClient.delete(path:"/accounts/${goodId3}")
-        response = restClient.get(path:'/accounts')
+        restClient.delete(path: "/accounts/${goodId1}")
+        restClient.delete(path: "/accounts/${goodId2}")
+        restClient.delete(path: "/accounts/${goodId3}")
+        def response = restClient.get(path: '/accounts')
 
         then:
         response.data.size() == 0

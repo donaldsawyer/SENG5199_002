@@ -8,6 +8,7 @@ import geb.spock.*
 
 @Integration
 @Stepwise
+@Unroll
 class MessagesLimitOffsetSpec extends GebSpec {
 
     final static String goodHandle = 'scsu_huskies'
