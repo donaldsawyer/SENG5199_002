@@ -99,6 +99,7 @@ class MessagesLimitOffsetSpec extends GebSpec {
         (0..8).each { it ->
             response.data[it].dateCreated >= response.data[it + 1].dateCreated
             response.data[it].messageText == goodMessage + (12 - it).toString()
+            response.data[it].dateCreated == dateCreated[12 - it]
         }
         response.data[9].messageText == goodMessage + '3'
     }
@@ -115,6 +116,7 @@ class MessagesLimitOffsetSpec extends GebSpec {
         (0..(messagesCount - 2)).each { it ->
             response.data[it].dateCreated >= response.data[it + 1].dateCreated
             response.data[it].messageText == goodMessage + (12 - it).toString()
+            response.data[it].dateCreated == dateCreated[12 - it]
         }
         response.data[messagesCount - 1].messageText == goodMessage + (12 - (messagesCount - 1))
 
@@ -137,7 +139,8 @@ class MessagesLimitOffsetSpec extends GebSpec {
         if (messagesCount > 1) {
             (0..(messagesCount - 2)).each { it ->
                 response.data[it].dateCreated >= response.data[it + 1].dateCreated
-                response.data[it].messageText == goodMessage + (numberOfMessagesCreated - customOffset - it).toString()
+                response.data[it].messageText == goodMessage + (messagesCount - it).toString()
+                response.data[it].dateCreated == dateCreated[messagesCount - it]
             }
         }
 
