@@ -44,8 +44,30 @@ class MessageController extends RestfulController<Message> {
 
     @Override
     def index(Integer max) {
-        int maximum = params.max == null ? 10 : Integer.parseInt(params.max)
-        int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
+        int maximum
+        int offset
+
+        if(params.max){
+            if(params.max.isLong())
+                maximum = Integer.parseInt(params.max)
+            else {
+                response.sendError(400)
+                return
+            }
+        }
+        else
+            maximum = 10
+
+        if(params.offset){
+            if(params.offset.isLong())
+                offset = Integer.parseInt(params.offset)
+            else {
+                response.sendError(400)
+                return
+            }
+        }
+        else
+            offset = 0
 
         def accountId = params.accountId
 
