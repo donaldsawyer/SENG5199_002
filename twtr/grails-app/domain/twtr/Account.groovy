@@ -1,5 +1,8 @@
 package twtr
 
+import grails.rest.Resource
+
+//@Resource(uri='/accounts', formats=['json', 'xml'])
 class Account {
     String handle
     String emailAddress
@@ -14,4 +17,9 @@ class Account {
         password nullable: false, matches: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}\$"
         displayName nullable: false
     }
+
+    long getFollowerCount() { !followers ? 0 : followers.size() }
+    long getFollowingCount() { !following ? 0 : following.size() }
+    long getMessageCount() {!messages ? 0 : messages.size() }
+    static transients = ['followerCount', 'followingCount', 'messageCount']
 }
