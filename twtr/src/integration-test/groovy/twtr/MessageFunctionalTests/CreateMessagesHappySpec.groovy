@@ -73,13 +73,13 @@ class CreateMessagesHappySpec extends GebSpec {
         response.status == 201
         response.data
         response.data.handle == "$goodHandle$accountNumber"
-        response.data.messageText == messageText
+        response.data.messageText == message
 
         where:
-        description                   | message          | messageText
-        'valid message text - short'  | shortMessageText | shortMessageText
-        'valid message text - normal' | goodMessageText  | goodMessageText
-        'valid message text - long'   | longMessageText  | longMessageText
+        description                   | message
+        'valid message text - short'  | shortMessageText
+        'valid message text - normal' | goodMessageText
+        'valid message text - long'   | longMessageText
     }
 
     def 'validate account Id with #goodId has messages created'() {
@@ -103,13 +103,13 @@ class CreateMessagesHappySpec extends GebSpec {
         response.status == 201
         response.data
         response.data.handle == "$goodHandle$accountNumber"
-        response.data.messageText == messageText
+        response.data.messageText == message
 
         where:
-        description                   | message          | messageText
-        'valid message text - short'  | shortMessageText | shortMessageText
-        'valid message text - normal' | goodMessageText  | goodMessageText
-        'valid message text - long'   | longMessageText  | longMessageText
+        description                   | message
+        'valid message text - short'  | shortMessageText
+        'valid message text - normal' | goodMessageText
+        'valid message text - long'   | longMessageText
     }
 
     def 'validate account Id with #goodHandle+#accountNumber has messages created'() {

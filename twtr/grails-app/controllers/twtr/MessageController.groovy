@@ -13,30 +13,27 @@ class MessageController extends RestfulController<Message> {
     }
 
     @Transactional
-    def tweet()
-    {
+    def tweet() {
         Account tweeter;
         def messageText = request.JSON.messageText
 
 
-        if(params.accountId != null) {
-            if(params.accountId.isLong())
+        if (params.accountId) {
+            if (params.accountId.isLong())
                 tweeter = Account.findById(params.accountId)
-        }
-        else if(params.handle != null)
+        } else if (params.handle)
             tweeter = Account.findByHandle(params.handle)
-        else
-        {
+        else {
             response.sendError(404)
             return
         }
 
-        if(!tweeter) {
+        if (!tweeter) {
             response.sendError(404)
             return
         }
 
-        if(!messageText || messageText.size() > 40) {
+        if (!messageText || messageText.size() > 40) {
             response.sendError(406)
             return
         }
@@ -48,7 +45,7 @@ class MessageController extends RestfulController<Message> {
     @Override
     def index(Integer max) {
         int maximum = params.max == null ? 10 : Integer.parseInt(params.max)
-        int offset = params.offset == null ? 0: Integer.parseInt(params.offset)
+        int offset = params.offset == null ? 0 : Integer.parseInt(params.offset)
 
         def accountId = params.accountId
 
@@ -68,10 +65,10 @@ class MessageController extends RestfulController<Message> {
         }.find()
     }
 
-    def search(){
+    def search() {
         def searchText = params.text
 
-        def results = Message.where {messageText ==~ "%$searchText%"}.list(){
+        def results = Message.where { messageText ==~ "%$searchText%" }.list() {
             order('dateCreated', 'asc')
         }
 
