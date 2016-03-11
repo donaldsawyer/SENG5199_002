@@ -152,7 +152,7 @@ class CreateMessagesErrorsSpec extends GebSpec {
         'invalid message text - null'     | null
     }
 
-    def 'validate that no messages were created for account with #badId'() {
+    def 'validate that no messages were created for account with #goodId'() {
         when:
         def response = restClient.get(path: "/accounts/${goodId}")
 
