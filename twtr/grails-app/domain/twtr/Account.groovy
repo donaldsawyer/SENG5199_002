@@ -14,4 +14,9 @@ class Account {
         password nullable: false, matches: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}\$"
         displayName nullable: false
     }
+
+    long getFollowerCount() { !followers ? 0 : followers.size() }
+    long getFollowingCount() { !following ? 0 : following.size() }
+    long getMessageCount() {!messages ? 0 : messages.size() }
+    static transients = ['followerCount', 'followingCount', 'messageCount']
 }
