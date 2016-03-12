@@ -6,41 +6,26 @@ import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
 import spock.lang.Shared
 import spock.lang.Unroll
+import twtr.TwtrFunctionalTestBase
 
 @Integration
 @Unroll
-class GetByIdOrHandleSpec extends GebSpec {
-    final static String goodHandle = 'scsu_huskies'
-    final static String goodEmailAccount = 'testemail'
-    final static String goodEmailDomain = '@scsu.edu'
-    final static String goodPassword = 'abc123ABC'
-    final static String goodDisplayName = 'SCSU Huskies'
+class GetByIdOrHandleSpec extends TwtrFunctionalTestBase {
 
     @Shared
     def goodIds = [:]
 
-    RESTClient restClient
-
     def setup() {
         restClient = new RESTClient("http://localhost:8080")
 
-        addAccount('1')
-        addAccount('2')
-        addAccount('3')
+        goodIds << ['1': addAccount('1')]
+        goodIds << ['2': addAccount('2')]
+        goodIds << ['3': addAccount('3')]
     }
 
     def cleanup() {
-        goodIds.each { it -> restClient.delete(path: "/accounts/${it.value}") }
+        deleteAccounts(goodIds)
         goodIds.clear()
-    }
-
-    def addAccount(String postfix) {
-        def response = restClient.post(path: '/accounts', contentType: 'application/json',
-                body: [handle      : goodHandle + postfix,
-                       emailAddress: goodEmailAccount + postfix + goodEmailDomain,
-                       password    : goodPassword,
-                       displayName : goodDisplayName + postfix])
-        goodIds << ["$postfix": response.data.id]
     }
 
     def 'get by valid account id: #description'() {

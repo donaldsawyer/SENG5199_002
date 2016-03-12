@@ -2,6 +2,203 @@
 
 twtr is a case study for learning how to do web programming using Grails/Groovy for SENG5199-002 Web Programming.
 
+# Assignment 2 Quick Reference
+
+## Helpers for Implementation of Requirements
+**Bootstrap**
+
+- Marshaller for Accounts
+- Marshaller for Messages
+
+**twtr.TwtrFunctionalTestBase**
+
+Implements helpers for adding and deleting accounts.  Reused throughout functional tests.
+
+## A1 - Create Account
+A1: Create a REST endpoint that receives JSON data to create an Account.
+
+### Functional Test Classes
+
+- `twtr.AccountFunctionalTests.AccountFunctionalSpec`
+
+### REST Endpoints
+
+POST {base}/accounts
+
+####Query Parameters
+None
+
+####JSON Body
+
+	{
+		handle:
+		emailAddress:
+		password:
+		displayName:
+	}
+
+## A2 - Errors for Invalid Account Values During Creation
+Return an error response from the create Account endpoint if the account values are invalid.
+
+### Functional Test Classes
+- `twtr.AccountFunctionalTests.AccountFunctionalSpec.BadAccountValuesSpec`
+
+
+## A3 - Return Account Values
+Create a REST endpoint that returns JSON data with Account values for a user based on an account id or handle address. (data-driven test).
+
+### Functional Test Classes
+- `twtr.AccountFunctionalTests.AccountFunctionalSpec.GetByIdOrHandleSpec`
+
+### REST Endpoints
+
+**By Id:**
+GET {baseUrl}/accounts/$id
+
+**By Handle:**
+GET {baseUrl}/acccount/handle/$id
+
+## M1 - Create message (tweet) by Id or Handle
+Create a REST endpoint will create a Message given a specified Account id or handle and message text.
+
+### Functional Test Classes
+- `twtr.MessageFunctionalTests.CreateMessagesHappySpec`
+- `twtr.MessageFunctionalTests.MessageFunctionalSpec`
+
+### REST Endpoints
+
+POST {baseUrl}/message/tweet
+
+### Query Parameters
+**accountId:** 
+Tweet by Account Id
+
+**handle:** 
+Tweet by Handle
+
+### JSON Body
+	{
+		messageText:
+	}
+
+## M2 - Error if Invalid Account or Message
+Return an error response from the create Message endpoint if user is not found or message text is not valid (data-driven test).
+
+### Functional Test Classes
+- `twtr.MessageFunctionalTests.CreateMessagesErrorsSpec`
+
+## M3 & M4 - Get Most Recent Messages (tweets) for an Account
+**M3:** 
+Create a REST endpoint that will return the most recent messages for an Account. The endpoint must honor a limit parameter that caps the number of responses. The default limit is 10. (data-driven test)
+
+**M4:**
+Support an offset parameter into the recent Messages endpoint to provide paged responses.
+
+### Functional Test Classes
+- `twtr.MessageFunctionalTests.MessagesLimitOffsetSpec`
+- `twtr.MessageFunctionalTests.MessageFunctionalSpec`
+
+### REST Endpoints
+GET {baseUrl}/accounts/***accountId***/messages
+
+### Query Parameters
+**max:**
+Maximum number of tweets
+
+**offset:**
+Number of messages to skip (for paging)
+
+## M5 - Search for messages (tweets)
+Create a REST endpoint that will search for messages containing a specified search term. Each response value will be a JSON object containing the Message details (text, date) as well as the Account (handle).
+
+*This returns all messages that contain the text, regardless of account.*
+
+### Functional Test Classes
+- `twtr.MessageFunctionalTests.MessageFunctionalSpec`
+
+### REST Endpoints
+GET {baseUrl}/message/search
+
+### Query Parameters
+**text:**
+The message text to search for.
+
+## F1 - Allow Accounts to follow other Accounts
+Create a REST endpoint that will allow one account to follow another.
+
+### Functional Test Classes
+- `twtr.FollowFunctionalTests.FollowHappySpec`
+
+### REST Endpoints
+POST {baseUrl}/accounts/***accountId***/startFollowing
+
+### Query Parameters
+**followAccount:**
+The account that $acccountId will start following.
+
+**Returns:**
+The account that started following (same as /accounts/***accountId***).
+
+## F2 - Follower/Following Count Properties
+For the endpoint created for requirement A3, add properties for total counts of followers and following for the account.
+
+*Implementation Notes:
+- Implemented using transient properties on the Account domain class
+- Custom Account marshaler added to the Bootstrap.groovy*
+
+### Functional Test Classes
+- `twtr.AccountFunctionalTests.AccountFunctionalSpec`
+- `twtr.FollowFunctionalTests.FollowHappySpec`
+
+### REST Endpoints
+
+GET {baseUrl}/accounts
+
+GET {baseUrl}/accounts/***accountId***
+
+## F3 - Get Followers for an Account
+Add an endpoint to get the followers for an account. This will return the details about the followers (handle, name, email, id). Add the limit and offset logic implemented for messages to this endpoint.
+
+***BONUS:***  An endpoint was also created for allowing the retrieval of the accounts an Account is following.
+
+### Functional Test Classes
+- `twtr.FollowFunctionalTests.GetFollowersHappySpec`
+- `twtr.FollowFunctionalTests.FollowersLimitOffsetSpec`
+- *no spec for following endpoint yet*
+
+### REST Endpoints
+GET {baseUrl}/accounts/***accountId***/followers
+
+GET {baseUrl}/accounts/***accountId***/following
+
+### Query Parameters
+**max:** max number of Accounts to return.
+
+**offset:** number of Accounts to skip (for paging).
+
+## F4 - Retrieve an Account Feed
+Create a ‘feed’ endpoint which will return the most recent messages by Accounts being followed by an Account. Include a response limit parameter. Include a parameter to only look for messages after a specified date.
+
+### Functional Test Classes
+- `twtr.FeedFunctionalTests.FeedHappySpec`
+
+### REST Endpoints
+GET {baseUrl}/accounts/***accountId***/feed
+
+### Query Parameters
+**max:** max number of messages to return.
+
+**offset:** number of messages to skip (for paging).
+
+**fromDate:** get messages at/after a specific date.  Format: *yyyy-MM-dd'T'HH:mm:ssZ*
+
+
+----------
+----------
+# DETAILED README BELOW
+----------
+----------
+
 # REST Services
 *twtr* exposes RESTful web services that can be used for actions to be taken in the system.
 

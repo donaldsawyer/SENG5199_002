@@ -8,21 +8,15 @@ import groovyx.net.http.RESTClient
 import org.springframework.boot.test.IntegrationTest
 import spock.lang.Shared
 import spock.lang.Stepwise
+import twtr.TwtrFunctionalTestBase
 
 
 @Integration
 @Stepwise
-class AccountFunctionalSpec extends GebSpec {
-
-    final static String goodHandle = 'scsu_huskies'
-    final static String goodEmail = 'testemail@test.com'
-    final static String goodPassword = 'abc123ABC'
-    final static String goodDisplayName = 'SCSU Huskies'
+class AccountFunctionalSpec extends TwtrFunctionalTestBase {
 
     @Shared
     def goodid
-
-    RESTClient restClient
 
     def setup
     {
