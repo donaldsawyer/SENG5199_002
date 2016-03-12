@@ -8,19 +8,14 @@ import org.apache.http.HttpResponse
 import spock.lang.Shared
 import spock.lang.Stepwise
 import spock.lang.Unroll
+import twtr.TwtrFunctionalTestBase
 
 @Integration
 @Unroll
-class BadAccountValuesSpec extends GebSpec {
-    final static String goodHandle = 'scsu_huskies'
-    final static String goodEmail = 'testemail@test.com'
-    final static String goodPassword = 'abc123ABC'
-    final static String goodDisplayName = 'SCSU Huskies'
+class BadAccountValuesSpec extends TwtrFunctionalTestBase {
 
-    final static String goodHandle2 = 'scsu_huskies2'
-    final static String goodEmail2 = 'testemail2@test.com'
-
-    RESTClient restClient
+    final static String goodHandle2 = goodHandle + '2'
+    final static String goodEmail2 = goodEmailAccount + '2' + goodEmailDomain
 
     @Shared
     def goodId
@@ -31,15 +26,13 @@ class BadAccountValuesSpec extends GebSpec {
     def setup() {
         restClient = new RESTClient('http://localhost:8080')
 
-        goodId = restClient.post(path: '/accounts', contentType: 'application/json',
-                body: [handle  : goodHandle, emailAddress: goodEmail,
-                       password: goodPassword, displayName: goodDisplayName]).data?.id
+        goodId = addAccount('')
 
         startingAccountCount = restClient.get(path: '/accounts').data?.size()
     }
 
     def cleanup() {
-        restClient.delete(path: "/accounts/$goodId")
+        deleteAccount(goodId)
     }
 
     def 'bad handle format: #description'() {
@@ -151,6 +144,4 @@ class BadAccountValuesSpec extends GebSpec {
         '30 characters' | 'aA1' * 10
         'Null password' | null
     }
-
-
 }
