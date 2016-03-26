@@ -5,15 +5,11 @@ import grails.test.mixin.integration.Integration
 import groovyx.net.http.RESTClient
 import spock.lang.Shared
 import spock.lang.Stepwise
+import twtr.TwtrFunctionalTestBase
 
 @Integration
 @Stepwise
-class FeedHappySpec extends GebSpec {
-    final static String goodHandle = 'scsu_huskies'
-    final static String goodEmailAccount = 'testemail'
-    final static String goodEmailDomain = '@scsu.edu'
-    final static String goodPassword = 'abc123ABC'
-    final static String goodDisplayName = 'SCSU Huskies'
+class FeedHappySpec extends TwtrFunctionalTestBase {
     final static String messageText = 'Hello World! Message #'
 
     @Shared
@@ -28,19 +24,8 @@ class FeedHappySpec extends GebSpec {
     @Shared
     def messagesSent = [:]
 
-    RESTClient restClient
-
     def setup() {
         restClient = new RESTClient("http://localhost:8080")
-    }
-
-    def addAccount(String postfix) {
-        def response = restClient.post(path: '/accounts', contentType: 'application/json',
-                body: [handle      : goodHandle + postfix,
-                       emailAddress: goodEmailAccount + postfix + goodEmailDomain,
-                       password    : goodPassword,
-                       displayName : goodDisplayName + postfix])
-        return response.data.id
     }
 
     def tweet(def id, String postfix) {
@@ -161,9 +146,9 @@ class FeedHappySpec extends GebSpec {
 
     def 'remove test data'() {
         when:
-        restClient.delete(path: "/accounts/${goodId1}")
-        restClient.delete(path: "/accounts/${goodId2}")
-        restClient.delete(path: "/accounts/${goodId3}")
+        deleteAccount(goodId1)
+        deleteAccount(goodId2)
+        deleteAccount(goodId3)
         def response = restClient.get(path: '/accounts')
 
         then:

@@ -5,16 +5,12 @@ import grails.test.mixin.integration.Integration
 import groovyx.net.http.RESTClient
 import spock.lang.Shared
 import spock.lang.Stepwise
+import twtr.TwtrFunctionalTestBase
 
 
 @Integration
 @Stepwise
-class FollowersLimitOffsetSpec extends GebSpec {
-    final static String goodHandle = 'scsu_huskies'
-    final static String goodEmailAccount = 'testemail'
-    final static String goodEmailDomain = '@scsu.edu'
-    final static String goodPassword = 'abc123ABC'
-    final static String goodDisplayName = 'SCSU Huskies'
+class FollowersLimitOffsetSpec extends TwtrFunctionalTestBase {
 
     @Shared
     def goodIds = []
@@ -22,19 +18,8 @@ class FollowersLimitOffsetSpec extends GebSpec {
     @Shared
     int numberOfAccountsCreated = 12
 
-    RESTClient restClient
-
     def setup() {
         restClient = new RESTClient("http://localhost:8080")
-    }
-
-    def addAccount(String postfix) {
-        def response = restClient.post(path: '/accounts', contentType: 'application/json',
-                body: [handle      : goodHandle + postfix,
-                       emailAddress: goodEmailAccount + postfix + goodEmailDomain,
-                       password    : goodPassword,
-                       displayName : goodDisplayName + postfix])
-        return response.data.id
     }
 
     def 'max parameter for account index defaults to 10 results'() {
@@ -131,7 +116,7 @@ class FollowersLimitOffsetSpec extends GebSpec {
 
     def 'cleanup test data'() {
         when:
-        goodIds.each { it -> restClient.delete(path:"/accounts/$it")}
+        deleteAccounts(goodIds)
 
         then:
         restClient.get(path:'/accounts')?.data?.size() == 0
