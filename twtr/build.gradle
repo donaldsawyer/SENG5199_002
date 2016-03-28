@@ -78,7 +78,12 @@ dependencies {
 
     console "org.grails:grails-console"
 
+    // Making REST calls from functional tests
     testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
+
+    // Spring REST Security
+    compile 'org.grails.plugins:spring-security-rest:2.0.0.M2'
+    compile 'org.grails.plugins:spring-security-rest-gorm:2.0.0.M2'
 
     testRuntime 'org.seleniumhq.selenium:selenium-firefox-driver:2.44.0'
     testRuntime 'org.seleniumhq.selenium:selenium-chrome-driver:2.44.0'
