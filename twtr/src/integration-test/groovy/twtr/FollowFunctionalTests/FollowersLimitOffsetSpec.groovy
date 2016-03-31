@@ -3,11 +3,12 @@ package twtr.FollowFunctionalTests
 import geb.spock.GebSpec
 import grails.test.mixin.integration.Integration
 import groovyx.net.http.RESTClient
+import org.junit.Ignore
 import spock.lang.Shared
 import spock.lang.Stepwise
 import twtr.TwtrFunctionalTestBase
 
-
+@Ignore
 @Integration
 @Stepwise
 class FollowersLimitOffsetSpec extends TwtrFunctionalTestBase {

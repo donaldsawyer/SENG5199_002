@@ -5,12 +5,13 @@ import grails.converters.JSON
 import grails.test.mixin.integration.Integration
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
+import org.junit.Ignore
 import org.springframework.boot.test.IntegrationTest
 import spock.lang.Shared
 import spock.lang.Stepwise
 import twtr.TwtrFunctionalTestBase
 
-
+@Ignore
 @Integration
 @Stepwise
 class AccountFunctionalSpec extends TwtrFunctionalTestBase {

@@ -7,6 +7,7 @@ import org.apache.http.HttpResponse
 import spock.lang.*
 import geb.spock.*
 
+@Ignore
 @Integration
 @Stepwise
 @Unroll

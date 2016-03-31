@@ -22,7 +22,7 @@ class AccountSecurityFunctionalSpec extends GebSpec {
 
     def 'calling accounts endpoint without token is forbidden'() {
         when:
-        restClient.get(path: '/api/restaurants')
+        restClient.get(path: '/accounts')
 
         then:
         HttpResponseException problem = thrown(HttpResponseException)
@@ -47,7 +47,7 @@ class AccountSecurityFunctionalSpec extends GebSpec {
 
     def 'using token access to accounts endpoint is allowed'() {
         when:
-        def response = restClient.get(path: '/api/restaurants', headers: ['X-Auth-Token': token])
+        def response = restClient.get(path: '/accounts', headers: ['X-Auth-Token': token])
 
         then:
         response.status == 200
