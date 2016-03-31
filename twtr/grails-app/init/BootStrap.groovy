@@ -1,10 +1,17 @@
 import grails.converters.JSON
+import security.Role
+import security.User
+import security.UserRole
 import twtr.Account
 import twtr.Message
 
 class BootStrap {
 
     def init = { servletContext ->
+
+        def admin = new User(username: 'admin', password: 'r00t!').save(flush: true, failOnError: true)
+        def role = new Role(authority: 'ROLE_READ').save(flush: true, failOnError: true)
+        new UserRole(user: admin, role: role).save(flush: true, failOnError: true)
 
         environments {
             development {
