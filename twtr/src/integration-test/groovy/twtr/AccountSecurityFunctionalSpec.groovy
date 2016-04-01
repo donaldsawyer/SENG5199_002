@@ -30,9 +30,11 @@ class AccountSecurityFunctionalSpec extends GebSpec {
         problem.message.contains('Forbidden')
     }
 
-    def 'passing a valid username and passowrd generates a token'() {
+    def 'passing a valid username and password generates a token'() {
         setup:
-        def authentication = ([username: 'admin', password: 'r00t!'] as JSON) as String
+        def authentication = ([
+                username: 'admin',
+                password: 'ABCDr00t!'] as JSON) as String
 
         when:
         def response = restClient.post(path: '/api/login', body: authentication, requestContentType: 'application/json')
@@ -51,6 +53,6 @@ class AccountSecurityFunctionalSpec extends GebSpec {
 
         then:
         response.status == 200
-        response.data.size() == 0
+        response.data.size() == 1
     }
 }

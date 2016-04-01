@@ -99,8 +99,8 @@ class AccountIntegrationSpec extends Specification {
         sus.followers.findAll {it -> it.handle == account1.handle}.size() == 1
         sus.followers.findAll {it -> it.handle == account2.handle}.size() == 1
         Account.get(sus.id).getFollowers().size() == 2
-        Account.get(sus.id).getFollowers().findAll {it -> it.id == account1.id}.size() == 1
-        Account.get(sus.id).getFollowers().findAll {it -> it.id == account2.id}.size() == 1
+        Account.get(sus.id).getFollowers().findAll { it -> it.id == account1.id}.size() == 1
+        Account.get(sus.id).getFollowers().findAll { it -> it.id == account2.id}.size() == 1
 
         cleanup: 'Delete the accounts used for this test'
         sus.delete(flush: true, failOnError: true)
