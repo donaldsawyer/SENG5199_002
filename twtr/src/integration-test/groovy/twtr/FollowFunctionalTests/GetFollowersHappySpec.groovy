@@ -3,9 +3,11 @@ package twtr.FollowFunctionalTests
 import geb.spock.GebSpec
 import grails.test.mixin.integration.Integration
 import groovyx.net.http.RESTClient
+import org.junit.Ignore
 import spock.lang.Shared
 import spock.lang.Stepwise
 
+@Ignore
 @Integration
 @Stepwise
 class GetFollowersHappySpec extends GebSpec {

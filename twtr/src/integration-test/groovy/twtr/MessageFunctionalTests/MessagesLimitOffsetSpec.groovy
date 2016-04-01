@@ -5,7 +5,7 @@ import groovyx.net.http.RESTClient
 import spock.lang.*
 import geb.spock.*
 
-
+@Ignore
 @Integration
 @Stepwise
 @Unroll
