@@ -1,6 +1,5 @@
 package twtr
 
-import grails.converters.JSON
 import grails.rest.RestfulController
 import grails.transaction.Transactional
 

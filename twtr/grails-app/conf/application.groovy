@@ -2,7 +2,7 @@ grails.plugin.springsecurity.filterChain.chainMap = [
 
         //Stateless chain
         [
-                pattern: '/api/**',
+                pattern: '/**',
                 filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'
         ]
 
@@ -13,13 +13,15 @@ grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName = 'sec
 grails.plugin.springsecurity.rest.token.validation.useBearerToken = false
 grails.plugin.springsecurity.rest.token.validation.headerName = 'X-Auth-Token'
 
-grails.plugin.springsecurity.userLookup.userDomainClassName = 'security.User'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'security.UserRole'
-grails.plugin.springsecurity.authority.className = 'security.Role'
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'twtr.Account'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'twtr.AccountRole'
+grails.plugin.springsecurity.authority.className = 'twtr.Role'
+grails.plugin.springsecurity.userLookup.usernamePropertyName = 'handle'
+grails.plugin.springsecurity.userLookup.passwordPropertyName = 'password'
 
 grails.plugin.springsecurity.securityConfigType = 'InterceptUrlMap'
 grails.plugin.springsecurity.interceptUrlMap = [
         [
-                [pattern: '/api/restaurants/**', access: ['ROLE_READ']]
+                [pattern: '/**', access: ['ROLE_READ']]
         ]
 ]
