@@ -14,7 +14,8 @@ public class AdminLoginOk extends TwtrFunctionalTestBase
         go '/'
         $("#login-form input[id=loginHandle]").value("admin")
         $("#login-form input[id=loginPassword]").value("ABCDr00t!")
-        $("#login-form input[type=submit]").click()
+        $("#login-form button[id=do-login]").click()
+        sleep(1000)
 
         then:
         $("#auth-token").text() != "{}"
