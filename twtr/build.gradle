@@ -72,9 +72,12 @@ dependencies {
     testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails.plugins:geb"
 
-
     // Note: It is recommended to update to a more robust driver (Chrome, Firefox etc.)
-    testRuntime 'org.seleniumhq.selenium:selenium-htmlunit-driver:2.44.0'
+    testRuntime 'org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.0'
+    testRuntime 'org.seleniumhq.selenium:selenium-firefox-driver:2.53.0'
+    testRuntime 'org.seleniumhq.selenium:selenium-chrome-driver:2.53.0'
+
+    testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 
     console "org.grails:grails-console"
 
@@ -85,8 +88,11 @@ dependencies {
     compile 'org.grails.plugins:spring-security-rest:2.0.0.M2'
     compile 'org.grails.plugins:spring-security-rest-gorm:2.0.0.M2'
 
-    testRuntime 'org.seleniumhq.selenium:selenium-firefox-driver:2.44.0'
-    testRuntime 'org.seleniumhq.selenium:selenium-chrome-driver:2.44.0'
+    testCompile ("org.grails.plugins:geb"){
+        exclude group: 'org.seleniumhq.selenium'
+    }
+
+    testCompile 'com.google.guava:guava:18.0'
 }
 
 task wrapper(type: Wrapper) {
@@ -108,3 +114,5 @@ bower {
     }
 }
 
+compileJava.dependsOn bowerInstall
+clean.dependsOn bowerClean
