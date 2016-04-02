@@ -9,7 +9,7 @@
 </head>
 
 <body ng-app="app">
-<h1>Hello World - Web Development UI </h1>
+<h1>Hello World</h1>
 
 <div ng-controller="welcomeController">
     <h2>{{greeting}}</h2>
