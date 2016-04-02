@@ -1,4 +1,4 @@
-package twtr
+package twtr.webappTests
 
 import geb.spock.GebSpec
 import grails.test.mixin.integration.Integration

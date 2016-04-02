@@ -108,6 +108,10 @@ bower {
         excludes 'jquery'
     }
 
+    'angular-route'('1.3.x') {
+        source 'angular-route.js'
+    }
+
     'angular'('1.3.x') {
         source 'angular.js'
         source 'angular-csp.css'
