@@ -5,17 +5,50 @@ angular.module('app').controller('headerController', function ($scope, $location
     };
 });
 //
-angular.module('app').controller('mainController', function ($scope, $location, attendeeService) {
-    $scope.message = 'Default Routed Page (Home)';
-    $scope.toggle = true;
-    //$scope.attendees = attendeeService.getAttendees();
-    //$scope.attendeePage = function () {
-    //    $location.path("/attendee");
-    //};
-    //
-    //$scope.deleteAttendee = function (id) {
-    //    attendeeService.deleteAttendee(id)
-    //};
+angular.module('app').controller('mainController', function ($scope, $location, $http, authService) {
+
+    $scope.auth = {};
+    $scope.auth.token = authService.getToken();
+
+    $scope.doLogin = function() {
+
+        var credentials = new Object();
+        credentials.username = $scope.auth.username;
+        credentials.password = $scope.auth.password;
+
+        var jsonString= JSON.stringify(credentials);
+
+        authService.setToken({});
+
+        $http.post('/api/login', credentials)
+            .success(function (data) {
+                authService.setUsername(data.username);
+                authService.setToken(data.access_token);
+                //$scope.auth.roles = data.roles;
+            })
+            .error(function (error) {
+                $scope.auth.authError = error;
+            })
+            .finally(function () {
+                $scope.auth.token = authService.getToken();
+                $location.path("/home");
+            })
+    }
+});
+
+angular.module('app').controller('searchController', function ($scope, $location, $http, authService) {
+
+    $scope.message = "Search Controller";
+
+    $scope.auth = {};
+    $scope.auth.token = authService.getToken();
+});
+
+angular.module('app').controller('userDetailController', function($scope, $location, $http, authService) {
+    $scope.message = "User Detail Controller";
+
+    $scope.auth = {};
+    $scope.auth.token = authService.getToken();
 });
 //
 //app.controller('aboutController', function ($scope) {

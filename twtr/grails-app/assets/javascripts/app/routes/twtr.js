@@ -4,16 +4,13 @@ app.config(function ($routeProvider) {
             templateUrl: '/app/home.htm',
             controller: 'mainController'
         })
-        .when('/about', {
-            templateUrl: 'twtr/partials/about.html',
-            controller: 'aboutController'
+        .when('/search', {
+            templateUrl: '/app/search.htm',
+            controller: 'searchController'
         })
-        .when('/contact', {
-            templateUrl: 'twtr/partials/contact.html',
-            controller: 'contactController'
-        })
-        .when('/attendee/:action?/:id?', {
-            templateUrl: 'twtr/partials/attendee.html'
+        .when('/userDetail', {
+            templateUrl: '/app/userDetail.htm',
+            controller: 'userDetailController'
         })
         .otherwise({
             redirectTo: '/home'
