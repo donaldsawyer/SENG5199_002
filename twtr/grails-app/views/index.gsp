@@ -8,12 +8,26 @@
     <asset:stylesheet src="application.css"/>
 </head>
 
-<body ng-app="app">
-<h1>Hello World</h1>
+<body ng-app="app" ng-controller="headerController">
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">MSSE Angular Routing</a>
+        </div>
 
-<div ng-controller="welcomeController">
-    <h2>{{greeting}}</h2>
-</div>
+        <ul class="nav navbar-nav navbar-right">
+            <li ng-class="{ active: isActive('/home')}"><a href="#home">Home</a></li>
+            %{--<li ng-class="{ active: isActive('/about')}"><a href="#about">About</a></li>--}%
+            %{--<li ng-class="{ active: isActive('/contact')}"><a href="#contact">Contact</a></li>--}%
+        </ul>
+    </div>
+</nav>
+
+<div ng-view></div>
+
+<footer class="jumbotron text-center">
+    <p>Footer Content</p>
+</footer>
 
 </body>
 </html>

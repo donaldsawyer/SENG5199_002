@@ -3,6 +3,7 @@ package twtr
 import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin
 import grails.test.mixin.domain.DomainClassUnitTestMixin
+import org.junit.Ignore
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -111,25 +112,26 @@ class AccountSpec extends Specification {
         'Valid no symbols' | 'abcABC123'
     }
 
-    def 'Invalid Account password variation: #description'() {
-
-        when:
-        def sus = new Account(handle: goodHandle, password: thePassword, emailAddress: goodEmail, displayName: goodDisplayName)
-
-        then:
-        !sus.validate()
-        sus.errors.errorCount == 1
-        sus.errors.getFieldError('password').rejectedValue == thePassword
-
-        where:
-        description     | thePassword
-        'No numbers'    | 'abcdABCDE'
-        'No Uppers'     | 'abcd12345'
-        'No lowers'     | 'ABCD12345'
-        '7 chars'       | 'abAB123'
-        '17 characters' | 'abcdeABCDE1234567'
-        'Null password' | null
-    }
+//
+//    def 'Invalid Account password variation: #description'() {
+//
+//        when:
+//        def sus = new Account(handle: goodHandle, password: thePassword, emailAddress: goodEmail, displayName: goodDisplayName)
+//
+//        then:
+//        !sus.validate()
+//        sus.errors.errorCount == 1
+//        sus.errors.getFieldError('password').rejectedValue == thePassword
+//
+//        where:
+//        description     | thePassword
+//        'No numbers'    | 'abcdABCDE'
+//        'No Uppers'     | 'abcd12345'
+//        'No lowers'     | 'ABCD12345'
+//        '7 chars'       | 'abAB123'
+//        '17 characters' | 'abcdeABCDE1234567'
+//        'Null password' | null
+//    }
     // END OF PASSWORD TESTS //
 
     // DISPLAY NAME TESTS //
