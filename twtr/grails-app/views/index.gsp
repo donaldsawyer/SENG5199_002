@@ -19,10 +19,14 @@
             <li ng-class="{ active: isActive('/home')}"><a href="#home">Home</a></li>
             <li ng-class="{ active: isActive('/search')}"><a href="#search">Find Messages</a></li>
             <li ng-class="{ active: isActive('/userDetail')}"><a href="#userDetail">User Details</a></li>
+            %{--<li ng-class="{ active: isActive('/userDetail')}"><a href=#userDetail">My Details</a></li>--}%
         </ul>
     </div>
 </nav>
-
+<a href="#userDetail?handle=luluwang">See handle: luluwang</a><br>
+<a href="#userDetail?handle=donaldsawyer">See handle: donaldsawyer</a><br>
+<a href="#userDetail?handle=mikecalvo">See handle: mikecalvo</a><br>
+<a href="#userDetail?handle=blizzard">See handle: blizzard</a><br><br><br>
 <div ng-view></div>
 
 <footer class="jumbotron text-center">
