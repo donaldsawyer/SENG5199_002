@@ -1,4 +1,57 @@
-User!
-<div>
-    {{ auth.token }}
+
+<div data-ng-init="getAccount()">
+    Account Details for {{ account.displayName }}
 </div>
+<div>
+    Auth Token: {{ auth.token }}
+</div>
+<div>
+    My Page?: {{ myDetail }}
+</div>
+
+<form id="login-form">
+    <div class="form-group">
+        <h2>Twtr Page for @{{ account.handle }}</h2>
+        <br />
+        <!--<div class="control-group">-->
+            <!--<label for="userHandle" class="control-label">Twtr Handle</label>-->
+            <!--<div class="controls">-->
+                <!--<input id="userHandle" class="form-control"-->
+                       <!--type="text" ng-model="account.handle" ng-readonly="!myDetail" />-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <br />
+
+        <div class="control-group">
+            <label for="userDisplayName" class="control-label">Display Name</label>
+            <div class="controls">
+                <input id="userDisplayName" class="form-control"
+                       type="text" ng-model="account.displayName" ng-readonly="!myDetail" />
+            </div>
+        </div>
+        <br/>
+        <button id="save-account" class="btn btn-primary" ng-click="saveDetails()" type="submit" ng-disabled="!myDetail">Save Changes</button>
+    </div>
+    <!--<button id="do-login" type="submit" class="btn btn-primary" ng-click="doLogin()">Login Now</button>-->
+</form>
+
+<!--<div class="container well">-->
+    <!--<button id="get-tweets" class="btn" ng-click="getTweets()">get tweets</button>-->
+    <!--<br />-->
+    <!--Tweets: {{ account.tweets }}-->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="column-header">Tweet Text</th>
+                <th class="column-header">Date/Time Tweeted</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="tweet in account.tweets">
+                <td> {{ tweet.messageText }}</td>
+                <td> {{ tweet.dateCreated }}</td>
+            </tr>
+        </tbody>
+    </table>
+<!--</div>-->

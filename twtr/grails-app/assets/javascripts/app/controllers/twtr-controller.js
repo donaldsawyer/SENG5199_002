@@ -20,6 +20,7 @@ angular.module('app').controller('mainController', function ($scope, $location, 
 
         authService.setToken({});
 
+        //TODO: Refactor this into the authService
         $http.post('/api/login', credentials)
             .success(function (data) {
                 authService.setUsername(data.username);
@@ -32,7 +33,7 @@ angular.module('app').controller('mainController', function ($scope, $location, 
             .finally(function () {
                 $scope.auth.token = authService.getToken();
                 $location.path("/home");
-            })
+            });
     }
 });
 
@@ -44,12 +45,6 @@ angular.module('app').controller('searchController', function ($scope, $location
     $scope.auth.token = authService.getToken();
 });
 
-angular.module('app').controller('userDetailController', function($scope, $location, $http, authService) {
-    $scope.message = "User Detail Controller";
-
-    $scope.auth = {};
-    $scope.auth.token = authService.getToken();
-});
 //
 //app.controller('aboutController', function ($scope) {
 //    $scope.message = 'About Page';
