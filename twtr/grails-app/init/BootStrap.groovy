@@ -31,24 +31,13 @@ class BootStrap {
                 new AccountRole(account: acct3, role: role).save(flush: true, failOnError: true)
                 new AccountRole(account: acct4, role: role).save(flush: true, failOnError: true)
 
-                acct1.addToMessages(messageText: "Message 1_1");
-                acct1.addToMessages(messageText: "Message 1_2");
-                acct1.addToMessages(messageText: "Message 1_3");
-                acct1.addToMessages(messageText: "Message 1_4");
-                acct1.addToMessages(messageText: "Message 1_5");
-                acct1.addToMessages(messageText: "Message 1_6");
-                acct1.addToMessages(messageText: "Message 1_7");
-                acct1.addToMessages(messageText: "Message 1_8");
-                acct1.addToMessages(messageText: "Message 1_9");
-                acct1.addToMessages(messageText: "Message 1_10");
-                acct1.addToMessages(messageText: "Message 1_11");
-                acct1.addToMessages(messageText: "Message 1_12");
-                acct1.addToMessages(messageText: "Message 1_13");
-                acct1.addToMessages(messageText: "Message 1_14");
-                acct1.addToMessages(messageText: "Message 1_15").save()
+                // add some messages for lulu //
+                (1..15).each { id -> acct1.addToMessages(messageText: "Lulu Written Message #$id").save(flush: true) }
 
-                acct4.addToMessages(messageText: "Message 4_1").save()
+                // add a message for blizzard //
+                acct4.addToMessages(messageText: "Message 4_1").save(flush: true)
 
+                // add some messages for the admin //
                 (1..20).each { id ->
                     admin.addToMessages(messageText: "Admin Written Message #$id").save(flush: true)
                 }
