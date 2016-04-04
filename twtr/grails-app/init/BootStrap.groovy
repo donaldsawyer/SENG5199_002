@@ -41,6 +41,9 @@ class BootStrap {
                 (1..20).each { id ->
                     admin.addToMessages(messageText: "Admin Written Message #$id").save(flush: true)
                 }
+
+                acct1.addToFollowers(admin).save(flush: true);
+                admin.addToFollowing(acct1).save(flush: true);
             }
         }
 

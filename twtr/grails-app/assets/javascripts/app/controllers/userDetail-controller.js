@@ -23,6 +23,7 @@ angular.module('app').controller('userDetailController', function($scope, $locat
                 accountService.setAccount(data);
                 $scope.account = accountService.getAccount();
                 $scope.getTweets();
+                $scope.isFollower();
             })
             .error(function (error) {
                 //TODO: error handling
@@ -49,10 +50,26 @@ angular.module('app').controller('userDetailController', function($scope, $locat
             })
     };
 
+    $scope.isFollower = function() {
+        $http.get('/accounts/' + $scope.account.id + '/followers',
+            {headers: {'X-Auth-Token': authService.getToken().toString()}})
+            .success(function(data) {
+                accountService.setFollowers(data);
+                $scope.account.followers = data;
+            })
+            .error(function(error) {
+                //TODO: error handling
+            })
+            .finally( function() {
+                $scope.account.amIfollowing = accountService.isFollower($scope.auth.username);
+                $location.path("/userDetail");
+            })
+    };
+
     $scope.saveDetails = function() {
         var updates = new Object();
         updates.displayName = $scope.account.displayName;
-        updates.handle = $scope.account.handle;
+        updates.emailAddress = $scope.account.emailAddress;
 
         var jsonString = JSON.stringify(updates);
 
@@ -68,4 +85,8 @@ angular.module('app').controller('userDetailController', function($scope, $locat
                 $scope.getAccount();
             })
     };
+
+    $scope.startFollowing = function() {
+
+    }
 });
