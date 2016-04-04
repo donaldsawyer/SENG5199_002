@@ -1,4 +1,6 @@
 angular.module('app').controller('searchController', function ($scope, $location, $http, authService, accountService) {
+    if(!authService.isLoggedIn())
+        $location.path("/home");
 
     $scope.message = "Search tweets";
 

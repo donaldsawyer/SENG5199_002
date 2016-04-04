@@ -1,3 +1,16 @@
+<div>
+    Auth Token: {{ auth.token }}
+</div>
+<div>
+    Auth Account: {{ auth.account }}
+</div>
+<div>
+    My Page?: {{ myDetail }}
+</div>
+<div>
+    Am I Following?: {{ account.amIfollowing }}
+</div>
+<br/>
 
 <div data-ng-init="getAccount()">
     Account Details for {{ account.displayName }}
