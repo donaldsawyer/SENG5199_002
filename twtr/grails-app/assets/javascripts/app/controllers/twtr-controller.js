@@ -39,13 +39,13 @@ angular.module('app').controller('mainController', function ($scope, $location, 
     }
 });
 
-angular.module('app').controller('searchController', function ($scope, $location, $http, authService) {
-
-    $scope.message = "Search Controller";
-
-    $scope.auth = {};
-    $scope.auth.token = authService.getToken();
-});
+//angular.module('app').controller('searchController', function ($scope, $location, $http, authService) {
+//
+//    $scope.message = "Search Controller";
+//
+//    $scope.auth = {};
+//    $scope.auth.token = authService.getToken();
+//});
 
 //
 //app.controller('aboutController', function ($scope) {

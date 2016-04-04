@@ -1,4 +1,41 @@
-Search!
 <div>
     {{ auth.token }}
 </div>
+
+<form id="search-form">
+    <div class="form-group">
+        <h2>Search for Tweets..</h2>
+        <br>
+        <label for="messagePoster">Tweeter handle</label>
+        <input id="messagePoster" class="form-control" placeholder="tweeter handle"
+               type="text" ng-model="search.tweeterHandle" required/>
+    </div>
+
+    <div class="form-group">
+        <label for="messageContent">Tweet content</label>
+        <input id="messageContent" class="form-control" placeholder="tweet content"
+               type="text" ng-model="search.tweetMessage" required/>
+    </div>
+
+    <button id="do-search" type="submit" class="btn btn-primary" ng-click="doSearch()">Search Message</button>
+
+    <div ng-show="notFound && notFound.length > 0">{{notFound}} </div>
+
+    <div style="height: 150px; overflow: auto">
+        <table class="table table-striped" ng-show="account && account.length > 0">
+            <thead>
+            <tr>
+                <th class="column-header">Tweeter Handle</th>
+                <th class="column-header">Tweet Messages</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="tweet in account">
+                <td ng-click="goToUserDetails()"><a href=""> {{ tweet.handle }}</a></td>
+                <td> {{ tweet.messageText }}</td>
+                <td> {{ testMessage }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
