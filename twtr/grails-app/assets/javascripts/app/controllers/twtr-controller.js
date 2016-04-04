@@ -1,43 +1,43 @@
-angular.module('app').controller('headerController', function ($scope, $location) {
-    $scope.message = 'I manage the header, meaning the nav tabs';
-    $scope.isActive = function (viewLocation) {
-        return viewLocation == $location.path();
-    };
-});
+//angular.module('app').controller('headerController', function ($scope, $location) {
+//    $scope.message = 'I manage the header, meaning the nav tabs';
+//    $scope.isActive = function (viewLocation) {
+//        return viewLocation == $location.path();
+//    };
+//});
+////
+//angular.module('app').controller('mainController', function ($scope, $location, $http, authService) {
 //
-angular.module('app').controller('mainController', function ($scope, $location, $http, authService) {
-
-    $scope.auth = {};
-    $scope.auth.token = authService.getToken();
-
-    $scope.doLogin = function() {
-
-        var credentials = new Object();
-        credentials.username = $scope.auth.username;
-        credentials.password = $scope.auth.password;
-
-        var jsonString= JSON.stringify(credentials);
-
-        authService.setToken({});
-
-        //TODO: Refactor this into the authService
-        $http.post('/api/login', credentials)
-            .success(function (data) {
-                authService.setUsername(data.username);
-                authService.setToken(data.access_token);
-                //$scope.auth.roles = data.roles;
-                $scope.errorMessage = {};
-            })
-            .error(function (error) {
-                $scope.auth.authError = error;
-                $scope.errorMessage = "Invalid Login";
-            })
-            .finally(function () {
-                $scope.auth.token = authService.getToken();
-                $location.path("/home");
-            });
-    }
-});
+//    $scope.auth = {};
+//    $scope.auth.token = authService.getToken();
+//
+//    $scope.doLogin = function() {
+//
+//        var credentials = new Object();
+//        credentials.username = $scope.auth.username;
+//        credentials.password = $scope.auth.password;
+//
+//        var jsonString= JSON.stringify(credentials);
+//
+//        authService.setToken({});
+//
+//        //TODO: Refactor this into the authService
+//        $http.post('/api/login', credentials)
+//            .success(function (data) {
+//                authService.setUsername(data.username);
+//                authService.setToken(data.access_token);
+//                //$scope.auth.roles = data.roles;
+//                $scope.errorMessage = {};
+//            })
+//            .error(function (error) {
+//                $scope.auth.authError = error;
+//                $scope.errorMessage = "Invalid Login";
+//            })
+//            .finally(function () {
+//                $scope.auth.token = authService.getToken();
+//                $location.path("/home");
+//            });
+//    }
+//});
 
 //angular.module('app').controller('searchController', function ($scope, $location, $http, authService) {
 //
