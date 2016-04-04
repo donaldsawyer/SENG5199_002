@@ -1,4 +1,7 @@
 angular.module('app').controller('userDetailController', function($scope, $location, $http, authService, accountService) {
+    if(!authService.isLoggedIn())
+        $location.path("/home");
+
     $scope.message = "User Detail Controller";
 
     $scope.auth = {};

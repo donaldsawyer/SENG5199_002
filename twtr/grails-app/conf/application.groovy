@@ -12,6 +12,10 @@ grails.plugin.springsecurity.filterChain.chainMap = [
         [
                 pattern: '/message/**',
                 filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'
+        ],
+        [
+                pattern: '/api/logout**',
+                filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'
         ]
 
 ]
@@ -37,5 +41,7 @@ grails.plugin.springsecurity.interceptUrlMap = [
         ],
         [
                 [pattern: '/message/**', access: ['ROLE_READ']]
+        ],
+        [       [pattern: '/api/logout**', access: ['ROLE_READ']]
         ]
 ]
