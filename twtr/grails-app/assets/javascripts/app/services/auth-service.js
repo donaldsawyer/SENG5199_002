@@ -1,6 +1,7 @@
 app.service('authService', function() {
     var token = {};
     var username = {};
+    var account = {};
 
     var getToken = function() {
         return token;
@@ -29,11 +30,21 @@ app.service('authService', function() {
         return rval;
     };
 
+    var setAccount = function(acct) {
+        account = acct;
+    };
+
+    var getAccount = function() {
+        return account;
+    };
+
     return {
         getToken : getToken,
         setToken : setToken,
         getUsername : getUsername,
         setUsername : setUsername,
-        isLoggedIn : isLoggedIn
+        isLoggedIn : isLoggedIn,
+        setAccount : setAccount,
+        getAccount : getAccount
     };
 });

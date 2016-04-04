@@ -5,7 +5,6 @@ angular.module('app').controller('userDetailController', function($scope, $locat
     $scope.auth.token = authService.getToken();
     $scope.auth.username = authService.getUsername();
     $scope.account = accountService.getAccount();
-    //$scope.myDetail = $scope.auth.username == $scope.account.handle;
 
     var qs = $location.search();
     if(!qs['handle']) {
@@ -14,7 +13,6 @@ angular.module('app').controller('userDetailController', function($scope, $locat
     else {
         $scope.viewHandle = qs['handle'];
     }
-
 
     $scope.getAccount = function() {
         $http.get('/account/handle/' + $scope.viewHandle,
@@ -66,6 +64,35 @@ angular.module('app').controller('userDetailController', function($scope, $locat
             })
     };
 
+    $scope.getAuthAccount = function() {
+        $http.get('/account/handle/' + $scope.auth.username,
+            {headers: {'X-Auth-Token': authService.getToken().toString()}})
+            .success( function(data) {
+                authService.setAccount(data);
+            })
+            .error( function(error) {
+                //TODO: error handling
+            })
+            .finally( function() {
+                $scope.auth.account = authService.getAccount();
+                $location.path("/userDetail");
+            })
+    };
+
+    $scope.startFollowing = function() {
+        $http.post('/accounts/' + $scope.auth.account.id + '/startFollowing?followAccount=' + $scope.account.id,
+            {headers: {'X-Auth-Token': authService.getToken().toString()}})
+            .success( function(data) {
+                $scope.getAccount();
+            })
+            .error( function(error) {
+                //TODO: error handling
+            })
+            .finally( function() {
+                $location.path("/userDetail");
+            })
+    };
+
     $scope.saveDetails = function() {
         var updates = new Object();
         updates.displayName = $scope.account.displayName;
@@ -86,7 +113,6 @@ angular.module('app').controller('userDetailController', function($scope, $locat
             })
     };
 
-    $scope.startFollowing = function() {
-
-    }
+    if($scope.auth.account == null)
+        $scope.getAuthAccount();
 });

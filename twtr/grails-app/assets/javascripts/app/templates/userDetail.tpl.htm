@@ -11,11 +11,14 @@
 <div>
     Am I Following?: {{ account.amIfollowing }}
 </div>
+<div>
+    Auth Account: {{ auth.account }}
+</div>
 
 <form id="login-form">
     <div class="form-group">
         <h2>Twtr Page for @{{ account.handle }}</h2>
-        <button id="follow" class="btn" ng-disabled="myDetail" ng-show="!myDetail && !account.amIfollowing">Follow</button>
+        <button id="follow" class="btn" ng-click="startFollowing()" ng-disabled="myDetail" ng-show="!myDetail && !account.amIfollowing">Follow</button>
         <div id="follow-message" ng-show="!myDetail && account.amIfollowing"><em>You are following {{ account.displayName }}</em> </div>
 
         <br /> <br />
