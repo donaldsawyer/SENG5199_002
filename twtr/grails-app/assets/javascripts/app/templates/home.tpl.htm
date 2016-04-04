@@ -18,4 +18,5 @@
     <div id="auth-token">
         {{ auth.token }}
     </div>
+    <div class="alert-danger" ng-show="errorMessage && errorMessage.length > 0">{{errorMessage}}</div>
 </form>

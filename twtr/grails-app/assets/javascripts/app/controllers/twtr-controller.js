@@ -26,9 +26,11 @@ angular.module('app').controller('mainController', function ($scope, $location, 
                 authService.setUsername(data.username);
                 authService.setToken(data.access_token);
                 //$scope.auth.roles = data.roles;
+                $scope.errorMessage = {};
             })
             .error(function (error) {
                 $scope.auth.authError = error;
+                $scope.errorMessage = "Invalid Login";
             })
             .finally(function () {
                 $scope.auth.token = authService.getToken();
