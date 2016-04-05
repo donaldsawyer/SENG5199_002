@@ -25,15 +25,18 @@ angular.module('app').controller('mainController', function ($scope, $location, 
                 $scope.errorMessage = {};
             })
             .error(function (error) {
+                authService.logout();
                 $scope.auth.authError = error;
-                $scope.errorMessage = "Invalid Login";
+                $scope.errorMessage = "Username and Password do not match a valid user.";
             })
             .finally(function () {
+                $scope.auth.password = null;
                 $scope.auth.token = authService.getToken();
                 $scope.auth.username = authService.getUsername();
                 $scope.isLoggedIn = authService.isLoggedIn();
                 $location.path("/home");
             });
+
     };
 
     $scope.doLogout = function() {
