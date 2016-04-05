@@ -92,7 +92,7 @@ class MessageController extends RestfulController<Message> {
         def searchHandle = params.handle
 
         def results = Message.where {sentFromAccount.handle == searchHandle && messageText ==~ "%$searchText%" }.list() {
-            order('dateCreated', 'asc')
+            order('dateCreated', 'desc')
         }
 
         respond results
