@@ -26,11 +26,12 @@
             <thead>
             <tr>
                 <th class="column-header">Tweeter Handle</th>
-                <th class="column-header">Tweet Messages</th>
+                <th class="column-header">Tweet Message</th>
+                <th class="column-header">Date/Time Tweeted</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="tweet in account | orderBy:dateCreated:reverse ">
+            <tr ng-repeat="tweet in account ">
                 <td><a href="#userDetail?handle={{tweet.handle}}"> {{ tweet.handle }}</a></td>
                 <td> {{ tweet.messageText }}</td>
                 <td> {{ tweet.dateCreated }}</td>
