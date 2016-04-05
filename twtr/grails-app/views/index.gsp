@@ -12,7 +12,9 @@
 <nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">TWTR: {{ message2 }}</a>
+
+            <a class="navbar-brand" href="/">TWTR: {{ message }}</a>
+            <input type="checkbox" id="chkDebug" ng-model="isDebug"> Debug</input>
         </div>
 
         <ul class="nav navbar-nav navbar-right">
@@ -23,10 +25,28 @@
         </ul>
     </div>
 </nav>
-<a href="#userDetail?handle=luluwang">See handle: luluwang</a><br>
-<a href="#userDetail?handle=donaldsawyer">See handle: donaldsawyer</a><br>
-<a href="#userDetail?handle=mikecalvo">See handle: mikecalvo</a><br>
-<a href="#userDetail?handle=blizzard">See handle: blizzard</a><br><br><br>
+
+<div id="debug-pane" class="container well" ng-show="isDebug">
+    <h2>Debug Pane</h2>
+    <div>
+        Auth Token: {{ auth.token }}
+    </div>
+    <div>
+        Auth Account: {{ auth.account }}
+    </div>
+    <div>
+        My Page?: {{ myDetail }}
+    </div>
+    <div>
+        Am I Following?: {{ account.amIfollowing }}
+    </div>
+
+    <a href="#userDetail?handle=luluwang">See handle: luluwang</a><br>
+    <a href="#userDetail?handle=donaldsawyer">See handle: donaldsawyer</a><br>
+    <a href="#userDetail?handle=mikecalvo">See handle: mikecalvo</a><br>
+    <a href="#userDetail?handle=blizzard">See handle: blizzard</a><br><br><br>
+</div>
+
 <div ng-view></div>
 
 <footer class="jumbotron text-center">

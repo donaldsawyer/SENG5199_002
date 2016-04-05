@@ -1,27 +1,36 @@
-
-<div data-ng-init="getAccount()">
-    Account Details for {{ account.displayName }}
-</div>
 <div>
     Auth Token: {{ auth.token }}
 </div>
 <div>
+    Auth Account: {{ auth.account }}
+</div>
+<div>
     My Page?: {{ myDetail }}
 </div>
+<div>
+    Am I Following?: {{ account.amIfollowing }}
+</div>
+<br/>
+
+<div data-ng-init="getAccount()">
+    Account Details for {{ account.displayName }}
+</div>
+
 
 <form id="login-form">
     <div class="form-group">
         <h2>Twtr Page for @{{ account.handle }}</h2>
-        <br />
-        <!--<div class="control-group">-->
-            <!--<label for="userHandle" class="control-label">Twtr Handle</label>-->
-            <!--<div class="controls">-->
-                <!--<input id="userHandle" class="form-control"-->
-                       <!--type="text" ng-model="account.handle" ng-readonly="!myDetail" />-->
-            <!--</div>-->
-        <!--</div>-->
+        <button id="follow" class="btn" ng-click="startFollowing()" ng-disabled="myDetail" ng-show="!myDetail && !account.amIfollowing">Follow</button>
+        <div id="follow-message" ng-show="!myDetail && account.amIfollowing"><em>You are following {{ account.displayName }}</em> </div>
 
-        <br />
+        <br /> <br />
+        <div class="control-group">
+            <label for="userEmail" class="control-label">Email Address</label>
+            <div class="controls">
+                <input id="userEmail" class="form-control"
+                       type="text" ng-model="account.emailAddress" ng-readonly="!myDetail" />
+            </div>
+        </div>
 
         <div class="control-group">
             <label for="userDisplayName" class="control-label">Display Name</label>
@@ -33,13 +42,14 @@
         <br/>
         <button id="save-account" class="btn btn-primary" ng-click="saveDetails()" type="submit" ng-disabled="!myDetail">Save Changes</button>
     </div>
-    <!--<button id="do-login" type="submit" class="btn btn-primary" ng-click="doLogin()">Login Now</button>-->
 </form>
 
 <!--<div class="container well">-->
     <!--<button id="get-tweets" class="btn" ng-click="getTweets()">get tweets</button>-->
     <!--<br />-->
     <!--Tweets: {{ account.tweets }}-->
+<div style="height: 150px; overflow: auto">
+    <h2>Tweets by @{{ account.handle }}</h2>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -54,4 +64,4 @@
             </tr>
         </tbody>
     </table>
-<!--</div>-->
+</div>
