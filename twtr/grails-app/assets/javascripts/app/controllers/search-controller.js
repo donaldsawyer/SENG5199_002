@@ -28,14 +28,4 @@ angular.module('app').controller('searchController', function ($scope, $location
             })
     };
 
-    $scope.goToUserDetails = function() {
-        //TBD - navigate to user details page based on the handle
-        if($scope.testMessage == "Test")
-        {
-            $scope.testMessage = "Toggle Test";
-        }
-        else {
-            $scope.testMessage = "Test";
-        }
-    };
 });

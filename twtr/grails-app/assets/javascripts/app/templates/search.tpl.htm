@@ -30,10 +30,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="tweet in account">
-                <td ng-click="goToUserDetails()"><a href=""> {{ tweet.handle }}</a></td>
+            <tr ng-repeat="tweet in account | orderBy:dateCreated:reverse ">
+                <td><a href="#userDetail?handle={{tweet.handle}}"> {{ tweet.handle }}</a></td>
                 <td> {{ tweet.messageText }}</td>
-                <td> {{ testMessage }}</td>
+                <td> {{ tweet.dateCreated }}</td>
             </tr>
             </tbody>
         </table>
