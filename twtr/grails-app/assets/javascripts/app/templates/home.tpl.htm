@@ -14,7 +14,7 @@
                    type="password" ng-model="auth.password" required />
         </div>
 
-        <div class="alert-danger" ng-show="errorMessage && errorMessage.length > 0">{{errorMessage}}</div><br/>
+        <div id="error-login" class="alert-danger" ng-show="errorMessage && errorMessage.length > 0">{{errorMessage}}</div><br/>
         <button id="do-login" type="submit" class="btn btn-primary" ng-click="doLogin()">Login Now</button>
 
         <br />
