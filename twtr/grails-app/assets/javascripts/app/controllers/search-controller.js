@@ -3,6 +3,8 @@ angular.module('app').controller('searchController', function ($scope, $location
         $location.path("/home");
 
     $scope.message = "Search tweets";
+    $scope.notFound = "";
+    $scope.errorMessage = "";
 
     $scope.auth = {};
     $scope.auth.token = authService.getToken();
@@ -12,15 +14,21 @@ angular.module('app').controller('searchController', function ($scope, $location
     $scope.doSearch = function () {
         $http.get('/message/search',
             {
-                params: {handle: $scope.search.tweeterHandle, text: $scope.search.tweetMessage},
+                params: {handle: $scope.search.tweeterHandle, text: $scope.search.tweetContent},
                 headers: {'X-Auth-Token': authService.getToken().toString()}
             })
             .success(function (data) {
-                accountService.setAccount(data);
-                $scope.account = accountService.getAccount();
+                if(data.length == 0) {
+                    $scope.notFound = "No tweets found"
+                }
+                else {
+                    $scope.notFound = "";
+                    accountService.setAccount(data);
+                    $scope.account = accountService.getAccount();
+                }
             })
             .error(function (error) {
-                $scope.notFound = "No tweets found"
+                $scope.searchError = "Error searching for tweets"
             })
             .finally(function () {
                 $scope.account = accountService.getAccount();

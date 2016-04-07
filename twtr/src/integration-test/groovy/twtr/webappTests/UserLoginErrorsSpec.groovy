@@ -14,13 +14,13 @@ public class UserLoginErrorsSpec extends TwtrFunctionalTestBase {
         $("#login-form input[id=loginHandle]").value("admin")
         $("#login-form input[id=loginPassword]").value("BadPassword")
         $("#login-form button[id=do-login]").click()
-        sleep(500)
+        sleep(1000)
 
         then: 'system displays error message to user'
-        $("#auth-token").text() == ""
+        !$("#auth-token").text()
         $("#error-login").text() == "Username and Password do not match a valid user."
-        $('#logged-in-message').text() == ""
-        $('#logout').text() == ""
+        !$('#logged-in-message').text()
+        !$('#logout').text()
     }
 
     def 'mikecalvo logs in with the Login button with incorrect password'(){
@@ -29,13 +29,13 @@ public class UserLoginErrorsSpec extends TwtrFunctionalTestBase {
         $("#login-form input[id=loginHandle]").value("admin")
         $("#login-form input[id=loginPassword]").value("BadPassword")
         $("#login-form button[id=do-login]").click()
-        sleep(500)
+        sleep(1000)
 
-        then: 'system display error message to user'
-        $("#auth-token").text() == ""
+        then: 'system displays error message to user'
+        !$("#auth-token").text()
         $("#error-login").text() == "Username and Password do not match a valid user."
-        $('#logged-in-message').text() == ""
-        $('#logout').text() == ""
+        !$('#logged-in-message').text()
+        !$('#logout').text()
     }
 
     def 'luluwang logs in with the Login button with incorrect username'(){
@@ -44,12 +44,12 @@ public class UserLoginErrorsSpec extends TwtrFunctionalTestBase {
         $("#login-form input[id=loginHandle]").value("luluwang1")
         $("#login-form input[id=loginPassword]").value("abcABC123!@#")
         $("#login-form button[id=do-login]").click()
-        sleep(500)
+        sleep(1000)
 
-        then: 'system display error message to user'
-        $("#auth-token").text() == ""
+        then: 'system displays error message to user'
+        !$("#auth-token").text()
         $("#error-login").text() == "Username and Password do not match a valid user."
-        $('#logged-in-message').text() == ""
-        $('#logout').text() == ""
+        !$('#logged-in-message').text()
+        !$('#logout').text()
     }
 }

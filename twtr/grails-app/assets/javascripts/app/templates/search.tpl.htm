@@ -4,22 +4,23 @@
 
 <form id="search-form">
     <div class="form-group">
-        <h2>Search for Tweets..</h2>
+        <h2 id="h2-message">{{message}}</h2>
         <br>
-        <label for="messagePoster">Tweeter handle</label>
-        <input id="messagePoster" class="form-control" placeholder="tweeter handle"
+        <label for="tweeter-handle">Tweeter handle</label>
+        <input id="tweeter-handle" class="form-control" placeholder="tweeter handle"
                type="text" ng-model="search.tweeterHandle" required/>
     </div>
 
     <div class="form-group">
-        <label for="messageContent">Tweet content</label>
-        <input id="messageContent" class="form-control" placeholder="tweet content"
-               type="text" ng-model="search.tweetMessage" required/>
+        <label for="tweet-content">Tweet content</label>
+        <input id="tweet-content" class="form-control" placeholder="tweet content"
+               type="text" ng-model="search.tweetContent" required/>
     </div>
 
     <button id="do-search" type="submit" class="btn btn-primary" ng-click="doSearch()">Search Message</button>
 
-    <div ng-show="notFound && notFound.length > 0">{{notFound}} </div>
+    <div id="tweet-not-found" ng-show="notFound && notFound.length > 0">{{notFound}}</div>
+    <div id="tweet-search-error" ng-show="searchError && searchError.length > 0">{{searchError}}</div>
 
     <div style="height: 150px; overflow: auto">
         <table class="table table-striped" ng-show="account && account.length > 0">
@@ -31,10 +32,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="tweet in account ">
-                <td><a href="#userDetail?handle={{tweet.handle}}"> {{ tweet.handle }}</a></td>
-                <td> {{ tweet.messageText }}</td>
-                <td> {{ tweet.dateCreated }}</td>
+            <tr ng-repeat="tweet in account">
+                <td id="td-tweet-handle"><a href="#userDetail?handle={{tweet.handle}}"> {{ tweet.handle }}</a></td>
+                <td id="td-tweet-content"> {{ tweet.messageText }}</td>
+                <td id="td-tweet-date"> {{ tweet.dateCreated }}</td>
             </tr>
             </tbody>
         </table>

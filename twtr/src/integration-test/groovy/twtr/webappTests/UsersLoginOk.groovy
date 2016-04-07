@@ -15,11 +15,11 @@ public class UsersLoginOk extends TwtrFunctionalTestBase
         $("#login-form input[id=loginHandle]").value("admin")
         $("#login-form input[id=loginPassword]").value("ABCDr00t!")
         $("#login-form button[id=do-login]").click()
-        sleep(500)
+        sleep(1000)
 
         then: 'token is generated and status indicates that user is logged in'
         $("#auth-token").text() != ""
-        $("#error-login").text() == ""
+        !$("#error-login").text()
         $('#logged-in-message').text() == 'You are currently logged in as @admin'
         $('#logout').text() == "Logout"
     }
@@ -30,11 +30,11 @@ public class UsersLoginOk extends TwtrFunctionalTestBase
         $("#login-form input[id=loginHandle]").value("luluwang")
         $("#login-form input[id=loginPassword]").value("abcABC123!@#")
         $("#login-form button[id=do-login]").click()
-        sleep(500)
+        sleep(1000)
 
         then: 'token is generated and status indicates that user is logged in'
         $("#auth-token").text() != ""
-        $("#error-login").text() == ""
+        !$("#error-login").text()
         $('#logged-in-message').text() == "You are currently logged in as @luluwang"
         $('#logout').text() == "Logout"
     }
