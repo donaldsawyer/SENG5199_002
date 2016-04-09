@@ -18,10 +18,10 @@ public class UsersLoginOk extends TwtrFunctionalTestBase
         sleep(1000)
 
         then: 'token is generated and status indicates that user is logged in'
-        $("#auth-token").text() != ""
-        !$("#error-login").text()
-        $('#logged-in-message').text() == 'You are currently logged in as @admin'
-        $('#logout').text() == "Logout"
+        //$("#auth-token").text() != ""
+        $('form').find("button", id: "logout").text() == "Logout"
+        $('form').find("h2", id: "logged-in-message").text() == 'You are currently logged in as @admin'
+        !($('form').find("div", id: "error-login").text())
     }
 
     def 'User luluwang logs in with the Login button'() {
@@ -33,9 +33,9 @@ public class UsersLoginOk extends TwtrFunctionalTestBase
         sleep(1000)
 
         then: 'token is generated and status indicates that user is logged in'
-        $("#auth-token").text() != ""
-        !$("#error-login").text()
-        $('#logged-in-message').text() == "You are currently logged in as @luluwang"
-        $('#logout').text() == "Logout"
+        //$("#auth-token").text() != ""
+        $('form').find("button", id: "logout").text() == "Logout"
+        $('form').find("h2", id: "logged-in-message").text() == 'You are currently logged in as @luluwang'
+        !($('form').find("div", id: "error-login").text())
     }
 }

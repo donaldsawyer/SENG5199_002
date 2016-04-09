@@ -29,11 +29,11 @@ class SearchFunctionalSpec extends TwtrFunctionalTestBase {
         sleep(1000)
 
         then:'found 1 tweet'
-        $('#h2-message').first().text() == "Search tweets"
-        !$('#tweet-not-found').text()
-        $('#td-tweet-handle').text() == "luluwang"
-        $('#td-tweet-content').text() == "Lulu Written Message #10"
-        $('#td-tweet-date').text() != ""
+        $('form').find("h2", id:"h2-message").text() == "Search tweets"
+        !$('form').find("div", id:"tweet-not-found").text()
+        $('form').find("td", id:"td-tweet-handle").text() == "luluwang"
+        $('form').find("td", id:"td-tweet-content").text() == "Lulu Written Message #10"
+        $('form').find("td", id:"td-tweet-date").text() != ""
     }
 
     def 'found 1+ tweets with valid handle content'() {
@@ -47,11 +47,11 @@ class SearchFunctionalSpec extends TwtrFunctionalTestBase {
         //TBD: how to test data of all rows on a table?
 
         then:'Found X tweets'
-        $('#h2-message').first().text() == "Search tweets"
-        !$('#tweet-not-found').text()
-        $('#td-tweet-handle').text() == "luluwang"
-        $('#td-tweet-content').text() == "Lulu Written Message #15"
-        $('#td-tweet-date').text() != ""
+        $('form').find("h2", id:"h2-message").text() == "Search tweets"
+        !$('form').find("div", id:"tweet-not-found").text()
+        $('form').find("td", id:"td-tweet-handle").text() == "luluwang"
+        $('form').find("td", id:"td-tweet-content").text() == "Lulu Written Message #15"
+        $('form').find("td", id:"td-tweet-date").text() != ""
     }
 
     def 'tweet not found with invalid tweet content'() {
@@ -63,11 +63,11 @@ class SearchFunctionalSpec extends TwtrFunctionalTestBase {
         sleep(1000)
 
         then:'no tweets found'
-        $('#h2-message').first().text() == "Search tweets"
-        $('#tweet-not-found').text() == "No tweets found"
-        !$('#td-tweet-handle').text()
-        !$('#td-tweet-content').text()
-        !$('#td-tweet-date').text()
+        $('form').find("h2", id:"h2-message").text() == "Search tweets"
+        $('form').find("div", id:"tweet-not-found").text() == "No tweets found"
+        !$('form').find("td", id:"td-tweet-handle").text()
+        !$('form').find("td", id:"td-tweet-content").text()
+        !$('form').find("td", id:"td-tweet-date").text()
     }
 
     def 'tweet not found with invalid tweeter handle'() {
@@ -79,10 +79,10 @@ class SearchFunctionalSpec extends TwtrFunctionalTestBase {
         sleep(1000)
 
         then:'no tweets found'
-        $('#h2-message').first().text() == "Search tweets"
-        $('#tweet-not-found').text() == "No tweets found"
-        !$('#td-tweet-handle').text()
-        !$('#td-tweet-content').text()
-        !$('#td-tweet-date').text()
+        $('form').find("h2", id:"h2-message").text() == "Search tweets"
+        $('form').find("div", id:"tweet-not-found").text() == "No tweets found"
+        !$('form').find("td", id:"td-tweet-handle").text()
+        !$('form').find("td", id:"td-tweet-content").text()
+        !$('form').find("td", id:"td-tweet-date").text()
     }
 }

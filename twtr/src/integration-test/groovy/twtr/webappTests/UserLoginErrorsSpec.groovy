@@ -17,10 +17,10 @@ public class UserLoginErrorsSpec extends TwtrFunctionalTestBase {
         sleep(1000)
 
         then: 'system displays error message to user'
-        !$("#auth-token").text()
-        $("#error-login").text() == "Username and Password do not match a valid user."
-        !$('#logged-in-message').text()
-        !$('#logout').text()
+        //!$("#auth-token").text()
+        $('form').find("div", id: "error-login").text() == "Username and Password do not match a valid user."
+        !$('form').find("h2", id: "logged-in-message").text()
+        !$('form').find("button", id: "logout").text()
     }
 
     def 'mikecalvo logs in with the Login button with incorrect password'(){
@@ -32,10 +32,10 @@ public class UserLoginErrorsSpec extends TwtrFunctionalTestBase {
         sleep(1000)
 
         then: 'system displays error message to user'
-        !$("#auth-token").text()
-        $("#error-login").text() == "Username and Password do not match a valid user."
-        !$('#logged-in-message').text()
-        !$('#logout').text()
+        //!$("#auth-token").text()
+        $('form').find("div", id: "error-login").text() == "Username and Password do not match a valid user."
+        !$('form').find("h2", id: "logged-in-message").text()
+        !$('form').find("button", id: "logout").text()
     }
 
     def 'luluwang logs in with the Login button with incorrect username'(){
@@ -47,9 +47,9 @@ public class UserLoginErrorsSpec extends TwtrFunctionalTestBase {
         sleep(1000)
 
         then: 'system displays error message to user'
-        !$("#auth-token").text()
-        $("#error-login").text() == "Username and Password do not match a valid user."
-        !$('#logged-in-message').text()
-        !$('#logout').text()
+        //!$("#auth-token").text()
+        $('form').find("div", id: "error-login").text() == "Username and Password do not match a valid user."
+        !$('form').find("h2", id: "logged-in-message").text()
+        !$('form').find("button", id: "logout").text()
     }
 }
