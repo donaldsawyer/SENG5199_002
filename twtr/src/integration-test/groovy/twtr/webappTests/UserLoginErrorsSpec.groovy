@@ -14,10 +14,9 @@ public class UserLoginErrorsSpec extends TwtrFunctionalTestBase {
         $("#login-form input[id=loginHandle]").value("admin")
         $("#login-form input[id=loginPassword]").value("BadPassword")
         $("#login-form button[id=do-login]").click()
-        sleep(1000)
+        waitFor (10, 0.1) {$('form').find("div", id: "page-status").text() == "Page load complete"}
 
         then: 'system displays error message to user'
-        //!$("#auth-token").text()
         $('form').find("div", id: "error-login").text() == "Username and Password do not match a valid user."
         !$('form').find("h2", id: "logged-in-message").text()
         !$('form').find("button", id: "logout").text()
@@ -29,10 +28,9 @@ public class UserLoginErrorsSpec extends TwtrFunctionalTestBase {
         $("#login-form input[id=loginHandle]").value("admin")
         $("#login-form input[id=loginPassword]").value("BadPassword")
         $("#login-form button[id=do-login]").click()
-        sleep(1000)
+        waitFor (10, 0.1) {$('form').find("div", id: "page-status").text() == "Page load complete"}
 
         then: 'system displays error message to user'
-        //!$("#auth-token").text()
         $('form').find("div", id: "error-login").text() == "Username and Password do not match a valid user."
         !$('form').find("h2", id: "logged-in-message").text()
         !$('form').find("button", id: "logout").text()
@@ -44,10 +42,9 @@ public class UserLoginErrorsSpec extends TwtrFunctionalTestBase {
         $("#login-form input[id=loginHandle]").value("luluwang1")
         $("#login-form input[id=loginPassword]").value("abcABC123!@#")
         $("#login-form button[id=do-login]").click()
-        sleep(1000)
+        waitFor (10, 0.1) {$('form').find("div", id: "page-status").text() == "Page load complete"}
 
         then: 'system displays error message to user'
-        //!$("#auth-token").text()
         $('form').find("div", id: "error-login").text() == "Username and Password do not match a valid user."
         !$('form').find("h2", id: "logged-in-message").text()
         !$('form').find("button", id: "logout").text()

@@ -1,8 +1,9 @@
+
 <form id="login-form">
     <div id="login-container" class="container well" ng-show="!isLoggedIn">
         <div class="form-group">
-            <div ng-show="logoutHappened"><h2>We'll miss you dearly!</h2></div>
-            <div><h2>Please Login...</h2></div>
+            <div ng-show="logoutHappened"><h2 id="logged-out-message">We'll miss you dearly!</h2></div>
+            <div><h2 id="please-login">Please Login...</h2></div>
             <br>
             <label for="loginHandle">Twtr Handle</label>
             <input id="loginHandle" class="form-control" placeholder="your twtr handle"
@@ -29,5 +30,7 @@
         <h2 id="logged-in-message">You are currently logged in as @{{ auth.username }}</h2>
         <button id="logout" ng-click="doLogout()">Logout</button>
     </div>
+
+    <div id="page-status" ng-show="pageStatus && pageStatus.length > 0">{{pageStatus}}</div>
 
 </form>

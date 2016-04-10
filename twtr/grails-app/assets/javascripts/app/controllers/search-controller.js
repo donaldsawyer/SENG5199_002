@@ -5,6 +5,7 @@ angular.module('app').controller('searchController', function ($scope, $location
     $scope.message = "Search tweets";
     $scope.notFound = "";
     $scope.errorMessage = "";
+    $scope.pageStatus = "";
 
     $scope.auth = {};
     $scope.auth.token = authService.getToken();
@@ -32,6 +33,7 @@ angular.module('app').controller('searchController', function ($scope, $location
             })
             .finally(function () {
                 $scope.account = accountService.getAccount();
+                $scope.pageStatus = 'Page load complete';
                 $location.path("/search");
             })
     };
