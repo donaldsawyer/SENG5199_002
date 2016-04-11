@@ -20,8 +20,8 @@ app.service('accountService', function() {
         tweets = twts;
     };
 
-    var setFollowers = function(followers) {
-        followers = followers;
+    var setFollowers = function(flwrs) {
+        followers = flwrs;
     };
 
     var getFollowers = function() {

@@ -53,6 +53,6 @@ class AccountSecurityFunctionalSpec extends GebSpec {
 
         then:
         response.status == 200
-        response.data.size() == 1
+        response.data.size() == 5
     }
 }

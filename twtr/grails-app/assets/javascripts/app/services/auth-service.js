@@ -42,7 +42,7 @@ app.service('authService', function() {
         token = null;
         username = null;
         account = null;
-    }
+    };
 
     return {
         getToken : getToken,
