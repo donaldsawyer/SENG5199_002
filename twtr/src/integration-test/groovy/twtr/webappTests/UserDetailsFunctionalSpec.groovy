@@ -9,7 +9,6 @@ import twtr.TwtrFunctionalTestBase
 @Stepwise
 public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase
 {
-
     def setup() {
         go '/'
         $("#login-form input[id=loginHandle]").value("admin")
@@ -22,11 +21,11 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase
         when: 'user is navigated to user details page'
         go '/#/userDetail'
         waitFor (5, 0.1) {$('form').find("div", id: "feed-page-status").text() == "Page load complete"}
-        sleep(1000)
+        sleep(500)
 
         then: "user's name, email, and tweets are displayed"
-        $('#user-name').text() == "User's Name: display name"
-        $('#user-email').text() == "User's Email: abac@abc.com"
+        $('form').find('input', id:'userDisplayName').value() == "display name"
+        $('form').find('input', id:'userEmail').value() == "abac@abc.com"
         $('form').find("button", id: "save-account").enabled
         $('form').find("td", id:"td-feed-content").allElements().size() == 10
         $('form').find("td", id:"td-feed-content").allElements()[0].getText() == "Admin Written Message #20"
@@ -41,8 +40,8 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase
         waitFor (5, 0.1) {$('form').find("div", id: "feed-page-status").text() == "Page load complete"}
 
         then: "user's name and email are updated"
-        $('#user-name').text() == "User's Name: updated Name"
-        $('#user-email').text() == "User's Email: updatedemail@email.com"
+        $('form').find('input', id:'userDisplayName').value() == "updated Name"
+        $('form').find('input', id:'userEmail').value() == "updatedemail@email.com"
     }
 
 }
