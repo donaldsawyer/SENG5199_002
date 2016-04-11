@@ -9,6 +9,8 @@ angular.module('app').controller('userDetailController', function($scope, $locat
     $scope.auth.username = authService.getUsername();
     $scope.account = accountService.getAccount();
 
+    $scope.pageStatus = "";
+
     var qs = $location.search();
     if(!qs['handle']) {
         $scope.viewHandle = $scope.auth.username;
@@ -30,8 +32,7 @@ angular.module('app').controller('userDetailController', function($scope, $locat
                 //TODO: error handling
             })
             .finally( function() {
-
-                $scope.myDetail = $scope.auth.username == $scope.account.handle;
+                $scope.myDetail = ($scope.auth.username == $scope.account.handle);
                 $location.path("/userDetail");
             })
     };
@@ -83,6 +84,7 @@ angular.module('app').controller('userDetailController', function($scope, $locat
     };
 
     $scope.startFollowing = function() {
+        $scope.pageStatus = "";
         $http.post('/accounts/' + $scope.auth.account.id + '/startFollowing?followAccount=' + $scope.account.id,
             {headers: {'X-Auth-Token': authService.getToken().toString()}})
             .success( function(data) {
@@ -92,6 +94,7 @@ angular.module('app').controller('userDetailController', function($scope, $locat
                 //TODO: error handling
             })
             .finally( function() {
+                $scope.pageStatus = "Page load complete";
                 $location.path("/userDetail");
             })
     };
@@ -100,6 +103,8 @@ angular.module('app').controller('userDetailController', function($scope, $locat
         var updates = new Object();
         updates.displayName = $scope.account.displayName;
         updates.emailAddress = $scope.account.emailAddress;
+
+        $scope.pageStatus = "";
 
         var jsonString = JSON.stringify(updates);
 
@@ -113,9 +118,14 @@ angular.module('app').controller('userDetailController', function($scope, $locat
             })
             .finally (function() {
                 $scope.getAccount();
+                $scope.getAuthAccount();
+                $scope.pageStatus = "Page load complete";
+                $location.path("/userDetail");
             })
     };
 
     if($scope.auth.account == null)
         $scope.getAuthAccount();
+
+    $scope.pageStatus = "Page load complete";
 });

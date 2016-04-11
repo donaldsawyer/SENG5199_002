@@ -16,6 +16,8 @@ angular.module('app').controller('mainController', function ($scope, $location, 
         authService.setToken({});
         $scope.isLoggedIn = authService.isLoggedIn();
 
+        $scope.pageStatus = "";
+
         //TODO: Refactor this into the authService
         $http.post('/api/login', credentials)
             .success(function (data) {
@@ -34,6 +36,7 @@ angular.module('app').controller('mainController', function ($scope, $location, 
                 $scope.auth.token = authService.getToken();
                 $scope.auth.username = authService.getUsername();
                 $scope.isLoggedIn = authService.isLoggedIn();
+                $scope.pageStatus = 'Page load complete';
                 $location.path("/home");
             });
 
@@ -57,9 +60,11 @@ angular.module('app').controller('mainController', function ($scope, $location, 
         //    .finally( function() {
         //        $location.path("/home");
         //    })
+        $scope.pageStatus = "";
         authService.logout();
         $scope.auth = null;
         $scope.logoutHappened = true;
         $scope.isLoggedIn = false;
+        $scope.pageStatus = 'Page load complete';
     };
 });

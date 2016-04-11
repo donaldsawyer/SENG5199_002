@@ -1,14 +1,20 @@
 <div>
     Auth Token: {{ auth.token }}
 </div>
-<div>
+<div id="auth-account">
     Auth Account: {{ auth.account }}
 </div>
 <div>
     My Page?: {{ myDetail }}
 </div>
-<div>
+<div id="follow-status">
     Am I Following?: {{ account.amIfollowing }}
+</div>
+<div id="user-name">
+    User's Name: {{auth.account.displayName}}
+</div>
+<div id="user-email">
+    User's Email: {{auth.account.emailAddress}}
 </div>
 <br/>
 
@@ -19,7 +25,7 @@
 
 <form id="login-form">
     <div class="form-group">
-        <h2>Twtr Page for @{{ account.handle }}</h2>
+        <h2 id="twtr-page-title">Twtr Page for @{{ account.handle }}</h2>
         <button id="follow" class="btn" ng-click="startFollowing()" ng-disabled="myDetail" ng-show="!myDetail && !account.amIfollowing">Follow</button>
         <div id="follow-message" ng-show="!myDetail && account.amIfollowing"><em>You are following {{ account.displayName }}</em> </div>
 
@@ -28,7 +34,7 @@
             <label for="userEmail" class="control-label">Email Address</label>
             <div class="controls">
                 <input id="userEmail" class="form-control"
-                       type="text" ng-model="account.emailAddress" ng-readonly="!myDetail" />
+                       type="text" ng-model="account.emailAddress" ng-readonly="!myDetail" required/>
             </div>
         </div>
 
@@ -36,13 +42,13 @@
             <label for="userDisplayName" class="control-label">Display Name</label>
             <div class="controls">
                 <input id="userDisplayName" class="form-control"
-                       type="text" ng-model="account.displayName" ng-readonly="!myDetail" />
+                       type="text" ng-model="account.displayName" ng-readonly="!myDetail" required/>
             </div>
         </div>
         <br/>
         <button id="save-account" class="btn btn-primary" ng-click="saveDetails()" type="submit" ng-disabled="!myDetail">Save Changes</button>
     </div>
-</form>
+
 
 <!--<div class="container well">-->
     <!--<button id="get-tweets" class="btn" ng-click="getTweets()">get tweets</button>-->
@@ -59,9 +65,13 @@
         </thead>
         <tbody>
             <tr ng-repeat="tweet in account.tweets">
-                <td> {{ tweet.messageText }}</td>
-                <td> {{ tweet.dateCreated }}</td>
+                <td id="td-feed-content"> {{ tweet.messageText }}</td>
+                <td id="td-feed-date"> {{ tweet.dateCreated }}</td>
             </tr>
         </tbody>
     </table>
 </div>
+
+<div id="feed-page-status" ng-show="pageStatus && pageStatus.length > 0">{{pageStatus}}</div>
+
+</form>
