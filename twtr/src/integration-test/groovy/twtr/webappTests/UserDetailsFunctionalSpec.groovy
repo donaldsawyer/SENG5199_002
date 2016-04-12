@@ -31,6 +31,9 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         $('form').find("td", id: "td-feed-content").allElements()[9].getText() == "Admin Written Message #11"
         $('form').find("td", id: "td-feed-date").allElements().size() == 10
         $('form').find("td", id: "td-feed-date").allElements()[0].getText() >= $('form').find("td", id: "td-feed-date").allElements()[9].getText()
+        // verify that the tweets are scrollable by the table being larger than the div //
+        $('form').find('table', id: "user-tweets-table").height > $('form').find('div', id: "user-tweets").height
+
 
         when: "update the user's name and email"
         $("#login-form input[id=userEmail]").value("updatedemail@email.com")

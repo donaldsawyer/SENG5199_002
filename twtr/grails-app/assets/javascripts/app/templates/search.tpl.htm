@@ -22,8 +22,8 @@
     <div id="tweet-not-found" ng-show="notFound && notFound.length > 0">{{notFound}}</div>
     <div id="tweet-search-error" ng-show="searchError && searchError.length > 0">{{searchError}}</div>
 
-    <div style="height: 150px; overflow: auto">
-        <table class="table table-striped" ng-show="account && account.length > 0">
+    <div id="tweet-results" style="height: 150px; overflow: auto">
+        <table id="tweet-results-table" class="table table-striped" ng-show="account && account.length > 0">
             <thead>
             <tr>
                 <th class="column-header">Tweeter Handle</th>
