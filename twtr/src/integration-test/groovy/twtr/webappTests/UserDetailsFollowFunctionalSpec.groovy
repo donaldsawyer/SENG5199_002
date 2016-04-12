@@ -19,7 +19,6 @@ public class UserDetailsFollowFunctionalSpec extends TwtrFunctionalTestBase {
         when: "user mikecalvo's user detail page is displayed"
         go '/#/userDetail?handle=mikecalvo'
         waitFor(5, 0.1) { $('form').find("div", id: 'feed-page-status').text() == 'Page load complete' }
-        //sleep(500)
 
         then: 'admin can view mikecalvo user detail page'
         $('form').find('input', id: 'userDisplayName').value() == "Mike Calvo"
@@ -33,7 +32,6 @@ public class UserDetailsFollowFunctionalSpec extends TwtrFunctionalTestBase {
         when: 'click on follow button for mike calvo'
         $("#login-form button[id=follow").click()
         waitFor(5, 0.1) { $('form').find("div", id: 'feed-page-status').text() == 'Page load complete' }
-        //sleep(500)
 
         then: "admin can follow mikecalvo"
         $('form').find('div', id: 'follow-message').text() == 'You are following Mike Calvo'
@@ -41,7 +39,6 @@ public class UserDetailsFollowFunctionalSpec extends TwtrFunctionalTestBase {
         when: 'navigate to blizzard page'
         go '/#/userDetail?handle=blizzard'
         waitFor(5, 0.1) { $('form').find('div', id: 'feed-page-status').text() == 'Page load complete' }
-        //sleep(500)
 
         then: 'admin can view blizzard page'
         $('form').find('input', id: 'userDisplayName').value() == "Blizzard"
@@ -57,7 +54,6 @@ public class UserDetailsFollowFunctionalSpec extends TwtrFunctionalTestBase {
         when: 'navigate back to mikecalvo page'
         go '/#/userDetail?handle=mikecalvo'
         waitFor(5, 0.1) { $('form').find("div", id: 'feed-page-status').text() == 'Page load complete' }
-        //sleep(500)
 
         then: 'admin can view mikecalvo user detail page'
         $('form').find('input', id: 'userDisplayName').value() == "Mike Calvo"
