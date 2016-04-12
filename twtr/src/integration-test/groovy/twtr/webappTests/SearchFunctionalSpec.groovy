@@ -30,6 +30,9 @@ class SearchFunctionalSpec extends TwtrFunctionalTestBase {
         $('form').find("td", id: "td-tweet-handle").text() == "luluwang"
         $('form').find("td", id: "td-tweet-content").text() == "Lulu Written Message #10"
         $('form').find("td", id: "td-tweet-date").text() != ""
+        // Req S2: the results should be BELOW the search info and scrollable not scrollable here since it's one record//
+        $('form').find('div', id: "tweet-results").y > $('#search-form button[id=do-search').y
+        $('form').find('table', id: "tweet-results-table").height <= $('form').find('div', id: "tweet-results").height
     }
 
     def 'found 1+ tweets with valid handle content'() {
@@ -40,7 +43,7 @@ class SearchFunctionalSpec extends TwtrFunctionalTestBase {
         $('#search-form button[id=do-search').click()
         waitFor(5, 0.1) { $('form').find("div", id: "page-status").text() == "Page load complete" }
 
-        then: 'Found X tweets'
+        then: 'Found 15 tweets'
         $('form').find("h2", id: "h2-message").text() == "Search tweets"
         !$('form').find("div", id: "tweet-not-found").text()
         $('form').find("td", id: "td-tweet-handle").allElements().size() == 15
@@ -51,8 +54,9 @@ class SearchFunctionalSpec extends TwtrFunctionalTestBase {
         $('form').find("td", id: "td-tweet-content").allElements()[14].getText() == "Lulu Written Message #1"
         $('form').find("td", id: "td-tweet-date").allElements().size() == 15
         $('form').find("td", id: "td-tweet-date").allElements()[0].getText() >= $('form').find("td", id: "td-tweet-date").allElements()[14].getText()
-        // verify that the results are scrollable by the table being larger than the div //
+        // Req S2: the results should be BELOW the search info and scrollable //
         $('form').find('table', id: "tweet-results-table").height > $('form').find('div', id: "tweet-results").height
+        $('form').find('div', id: "tweet-results").y > $('#search-form button[id=do-search').y
     }
 
     def 'tweet not found with invalid tweet content'() {
