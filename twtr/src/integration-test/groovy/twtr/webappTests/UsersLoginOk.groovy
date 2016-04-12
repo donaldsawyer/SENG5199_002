@@ -17,6 +17,24 @@ public class UsersLoginOk extends TwtrFunctionalTestBase {
         $('form').find("h2", id: "please-login").text() == "Please Login..."
     }
 
+    def 'User cannot go to search page'() {
+        when: 'user clicks on nav bar for search'
+        $('#nav-search').click()
+        waitFor(5, 0.1) { $('form').find('div', id: 'page-status').text() == 'Page load complete' }
+
+        then:
+        getCurrentUrl().endsWith('#/home')
+    }
+
+    def 'User cannot go to user detail page'() {
+        when: 'user clicks on nav bar for user details'
+        $('#nav-userDetail').click()
+        waitFor(5, 0.1) { $('form').find('div', id: 'page-status').text() == 'Page load complete' }
+
+        then:
+        getCurrentUrl().endsWith('#/home')
+    }
+
     def 'Admin logs in with the Login button'() {
         when: 'Admin logs in successfully'
         go '/'
@@ -43,6 +61,24 @@ public class UsersLoginOk extends TwtrFunctionalTestBase {
         $('form').find("button", id: "logout").text() == "Logout"
         $('form').find("h2", id: "logged-in-message").text() == 'You are currently logged in as @luluwang'
         !($('form').find("div", id: "error-login").text())
+    }
+
+    def 'User can go to search page'() {
+        when: 'user clicks on nav bar for search'
+        $('#nav-search').click()
+        waitFor(5, 0.1) { $('form').find('div', id: 'page-status').text() == 'Page load complete' }
+
+        then:
+        getCurrentUrl().endsWith('#/search')
+    }
+
+    def 'User can go to user detail page'() {
+        when: 'user clicks on nav bar for user details'
+        $('#nav-userDetail').click()
+        waitFor(5, 0.1) { $('form').find('div', id: 'feed-page-status').text() == 'Page load complete' }
+
+        then:
+        getCurrentUrl().endsWith('#/userDetail')
     }
 
     def 'User logs out successfully'() {
