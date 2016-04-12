@@ -20,6 +20,7 @@ angular.module('app').controller('userDetailController', function ($scope, $loca
     }
 
     $scope.getAccount = function () {
+        $scope.getAccountError = "";
         $http.get('/account/handle/' + $scope.viewHandle,
             {headers: {'X-Auth-Token': authService.getToken().toString()}})
             .success(function (data) {
@@ -27,9 +28,10 @@ angular.module('app').controller('userDetailController', function ($scope, $loca
                 $scope.account = accountService.getAccount();
                 $scope.getTweets();
                 $scope.isFollower();
+                $scope.getAccountError = "";
             })
             .error(function (error) {
-                //TODO: error handling
+                $scope.getAccountError = "Get account error, please try again."
             })
             .finally(function () {
                 $scope.myDetail = ($scope.auth.username == $scope.account.handle);
@@ -38,13 +40,15 @@ angular.module('app').controller('userDetailController', function ($scope, $loca
     };
 
     $scope.getTweets = function () {
+        $scope.getTweetsError = "";
         $http.get('/accounts/' + $scope.account.id + '/messages',
             {headers: {'X-Auth-Token': authService.getToken().toString()}})
             .success(function (data) {
                 accountService.setTweets(data);
+                $scope.getTweetsError = "";
             })
             .error(function (error) {
-                //TODO: error handling
+                $scope.getTweetsError = "Get tweets error, please try again."
             })
             .finally(function () {
                 $scope.account.tweets = accountService.getTweets();
@@ -53,14 +57,16 @@ angular.module('app').controller('userDetailController', function ($scope, $loca
     };
 
     $scope.isFollower = function () {
+        $scope.isFollowerError = "";
         $http.get('/accounts/' + $scope.account.id + '/followers',
             {headers: {'X-Auth-Token': authService.getToken().toString()}})
             .success(function (data) {
                 accountService.setFollowers(data);
                 $scope.account.followers = data;
+                $scope.isFollowerError = "";
             })
             .error(function (error) {
-                //TODO: error handling
+                $scope.isFollowerError = "Get follower error, please try again."
             })
             .finally(function () {
                 $scope.account.amIfollowing = accountService.isFollower($scope.auth.username);
@@ -69,13 +75,15 @@ angular.module('app').controller('userDetailController', function ($scope, $loca
     };
 
     $scope.getAuthAccount = function () {
+        $scope.getAuthAccountError = "";
         $http.get('/account/handle/' + $scope.auth.username,
             {headers: {'X-Auth-Token': authService.getToken().toString()}})
             .success(function (data) {
                 authService.setAccount(data);
+                $scope.getAuthAccountError = ""
             })
             .error(function (error) {
-                //TODO: error handling
+                $scope.getAuthAccountError = "Get authenticated account error, please try again."
             })
             .finally(function () {
                 $scope.auth.account = authService.getAccount();
@@ -85,13 +93,15 @@ angular.module('app').controller('userDetailController', function ($scope, $loca
 
     $scope.startFollowing = function () {
         $scope.pageStatus = "";
+        $scope.startFollowError = "";
         $http.post('/accounts/' + $scope.auth.account.id + '/startFollowing?followAccount=' + $scope.account.id,
             {headers: {'X-Auth-Token': authService.getToken().toString()}})
             .success(function (data) {
                 $scope.getAccount();
+                $scope.startFollowError = "";
             })
             .error(function (error) {
-                //TODO: error handling
+                $scope.startFollowError = "Follow user error, please try again."
             })
             .finally(function () {
                 $scope.pageStatus = "Page load complete";
@@ -105,16 +115,17 @@ angular.module('app').controller('userDetailController', function ($scope, $loca
         updates.emailAddress = $scope.account.emailAddress;
 
         $scope.pageStatus = "";
+        $scope.saveUserDetailsError = "";
 
         var jsonString = JSON.stringify(updates);
 
         $http.put('/accounts/' + $scope.account.id, updates,
             {headers: {'X-Auth-Token': authService.getToken().toString()}})
             .success(function (data) {
-
+                $scope.saveUserDetailsError = "";
             })
             .error(function (error) {
-                //TODO: add error handling
+                $scope.saveUserDetailsError = "Save user details error, please try again.";
             })
             .finally(function () {
                 $scope.getAccount();

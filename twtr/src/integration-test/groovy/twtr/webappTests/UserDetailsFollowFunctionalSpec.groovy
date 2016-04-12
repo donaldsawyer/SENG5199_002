@@ -32,7 +32,7 @@ public class UserDetailsFollowFunctionalSpec extends TwtrFunctionalTestBase {
 
         when: 'click on follow button for mike calvo'
         $("#login-form button[id=follow").click()
-        //TODO: Do the waitFor here
+        waitFor(5, 0.1) { $('form').find("div", id: 'feed-page-status').text() == 'Page load complete' }
         sleep(500)
 
         then: "admin can follow mikecalvo"

@@ -72,6 +72,19 @@
         </table>
     </div>
 
+    <br/>
+
+    <div class="alert-danger" ng-show="getAccountError && getAccountError.length > 0">{{getAccountError}}</div>
+    <div class="alert-danger" ng-show="getTweetsError && getTweetsError.length > 0">{{getTweetsError}}</div>
+    <div class="alert-danger" ng-show="isFollowerError && isFollowerError.length > 0">{{isFollowerError}}</div>
+    <div class="alert-danger" ng-show="getAuthAccountError && getAuthAccountError.length > 0">{{getAuthAccountError}}
+    </div>
+    <div class="alert-danger" ng-show="startFollowError && startFollowError.length > 0">{{startFollowError}}</div>
+    <div class="alert-danger" ng-show="saveUserDetailsError && saveUserDetailsError.length > 0">
+        {{saveUserDetailsError}}
+    </div>
+
+    <br/>
     <div id="feed-page-status" ng-show="pageStatus && pageStatus.length > 0">{{pageStatus}}</div>
 
 </form>
