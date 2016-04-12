@@ -18,9 +18,9 @@
         </div>
 
         <ul class="nav navbar-nav navbar-right">
-            <li ng-class="{ active: isActive('/home')}"><a href="#home">Home</a></li>
-            <li ng-class="{ active: isActive('/search')}"><a href="#search">Find Messages</a></li>
-            <li ng-class="{ active: isActive('/userDetail')}"><a href="#userDetail">User Details</a></li>
+            <li ng-class="{ active: isActive('/home')}"><a id="nav-home" href="#home">Home</a></li>
+            <li ng-class="{ active: isActive('/search')}"><a id="nav-search" href="#search">Find Messages</a></li>
+            <li ng-class="{ active: isActive('/userDetail')}"><a id="nav-userDetail" href="#userDetail">User Details</a></li>
         </ul>
     </div>
 </nav>

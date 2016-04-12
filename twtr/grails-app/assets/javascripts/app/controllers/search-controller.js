@@ -13,6 +13,7 @@ angular.module('app').controller('searchController', function ($scope, $location
     $scope.account = accountService.getAccount();
 
     $scope.doSearch = function () {
+        $scope.pageStatus = "";
         $http.get('/message/search',
             {
                 params: {handle: $scope.search.tweeterHandle, text: $scope.search.tweetContent},
@@ -38,4 +39,5 @@ angular.module('app').controller('searchController', function ($scope, $location
             })
     };
 
+    $scope.pageStatus = 'Page load complete';
 });

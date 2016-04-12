@@ -4,6 +4,7 @@ angular.module('app').controller('mainController', function ($scope, $location, 
     $scope.auth.username = authService.getUsername();
     $scope.isLoggedIn = authService.isLoggedIn();
     $scope.logoutHappened = false;
+    $scope.pageStatus = "";
 
     $scope.doLogin = function () {
 
@@ -49,4 +50,6 @@ angular.module('app').controller('mainController', function ($scope, $location, 
         $scope.isLoggedIn = false;
         $scope.pageStatus = 'Page load complete';
     };
+
+    $scope.pageStatus = "Page load complete";
 });
