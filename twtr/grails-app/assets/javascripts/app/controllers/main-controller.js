@@ -5,20 +5,19 @@ angular.module('app').controller('mainController', function ($scope, $location, 
     $scope.isLoggedIn = authService.isLoggedIn();
     $scope.logoutHappened = false;
 
-    $scope.doLogin = function() {
+    $scope.doLogin = function () {
 
         var credentials = new Object();
         credentials.username = $scope.auth.username;
         credentials.password = $scope.auth.password;
 
-        var jsonString= JSON.stringify(credentials);
+        var jsonString = JSON.stringify(credentials);
 
         authService.setToken({});
         $scope.isLoggedIn = authService.isLoggedIn();
 
         $scope.pageStatus = "";
 
-        //TODO: Refactor this into the authService
         $http.post('/api/login', credentials)
             .success(function (data) {
                 authService.setUsername(data.username);
@@ -42,24 +41,7 @@ angular.module('app').controller('mainController', function ($scope, $location, 
 
     };
 
-    $scope.doLogout = function() {
-
-        //TODO: logout api doesn't work from web, but works from postman.  might need to fix this.
-        //      for now, just clear out the token and let it expire.
-        //$http.post('/api/logout',
-        //    {headers: {'X-Auth-Token': authService.getToken().toString()}})
-        //    .success( function(data) {
-        //        authService.logout();
-        //        $scope.auth = null;
-        //        $scope.logoutHappened = true;
-        //        $scope.isLoggedIn = false;
-        //    })
-        //    .error( function(error) {
-        //        //TODO: error handling
-        //    })
-        //    .finally( function() {
-        //        $location.path("/home");
-        //    })
+    $scope.doLogout = function () {
         $scope.pageStatus = "";
         authService.logout();
         $scope.auth = null;
