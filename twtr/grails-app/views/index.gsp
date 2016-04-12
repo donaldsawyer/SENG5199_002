@@ -21,25 +21,12 @@
             <li ng-class="{ active: isActive('/home')}"><a href="#home">Home</a></li>
             <li ng-class="{ active: isActive('/search')}"><a href="#search">Find Messages</a></li>
             <li ng-class="{ active: isActive('/userDetail')}"><a href="#userDetail">User Details</a></li>
-            %{--<li ng-class="{ active: isActive('/userDetail')}"><a href=#userDetail">My Details</a></li>--}%
         </ul>
     </div>
 </nav>
 
 <div id="debug-pane" class="container well" ng-show="isDebug">
     <h2>Debug Pane</h2>
-    <div>
-        Auth Token: {{ auth.token }}
-    </div>
-    <div>
-        Auth Account: {{ auth.account }}
-    </div>
-    <div>
-        My Page?: {{ myDetail }}
-    </div>
-    <div>
-        Am I Following?: {{ account.amIfollowing }}
-    </div>
 
     <a href="#userDetail?handle=luluwang">See handle: luluwang</a><br>
     <a href="#userDetail?handle=donaldsawyer">See handle: donaldsawyer</a><br>
