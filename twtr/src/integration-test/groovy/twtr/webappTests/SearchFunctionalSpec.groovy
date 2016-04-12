@@ -51,6 +51,8 @@ class SearchFunctionalSpec extends TwtrFunctionalTestBase {
         $('form').find("td", id: "td-tweet-content").allElements()[14].getText() == "Lulu Written Message #1"
         $('form').find("td", id: "td-tweet-date").allElements().size() == 15
         $('form').find("td", id: "td-tweet-date").allElements()[0].getText() >= $('form').find("td", id: "td-tweet-date").allElements()[14].getText()
+        // verify that the results are scrollable by the table being larger than the div //
+        $('form').find('table', id: "tweet-results-table").height > $('form').find('div', id: "tweet-results").height
     }
 
     def 'tweet not found with invalid tweet content'() {
