@@ -21,6 +21,8 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         waitFor(5, 0.1) { $('form').find("div", id: "feed-page-status").text() == "Page load complete" }
 
         then: "user's name, email, and tweets are displayed"
+        !$('form').find('input', id: 'userEmail').readOnly
+        !$('form').find('input', id: 'userDisplayName').readOnly
         $('form').find('input', id: 'userDisplayName').value() == "display name"
         $('form').find('input', id: 'userEmail').value() == "abac@abc.com"
         $('form').find("button", id: "save-account").enabled
