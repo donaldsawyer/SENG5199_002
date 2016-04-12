@@ -1,0 +1,35 @@
+<form id="login-form">
+    <div id="login-container" class="container well" ng-show="!isLoggedIn">
+        <div class="form-group">
+            <div ng-show="logoutHappened"><h2 id="logged-out-message">We'll miss you dearly!</h2></div>
+            <div><h2 id="please-login">Please Login...</h2></div>
+            <br>
+            <label for="loginHandle">Twtr Handle</label>
+            <input id="loginHandle" class="form-control" placeholder="your twtr handle"
+                   type="text" ng-model="auth.username" required/>
+        </div>
+        <div class="form-group">
+            <label for="loginPassword">Login Password</label>
+            <input id="loginPassword" class="form-control" placeholder="your twtr password"
+                   type="password" ng-model="auth.password" required/>
+        </div>
+
+        <div id="error-login" class="alert-danger" ng-show="errorMessage && errorMessage.length > 0">{{errorMessage}}
+        </div>
+        <br/>
+        <button id="do-login" type="submit" class="btn btn-primary" ng-click="doLogin()">Login Now</button>
+
+        <br/>
+        <div id="auth-token">
+            {{ auth.token }}
+        </div>
+
+    </div>
+    <div id="logout-container" class="container well" ng-show="isLoggedIn">
+        <h2 id="logged-in-message">You are currently logged in as @{{ auth.username }}</h2>
+        <button id="logout" ng-click="doLogout()">Logout</button>
+    </div>
+
+    <div id="page-status" ng-show="pageStatus && pageStatus.length > 0">{{pageStatus}}</div>
+
+</form>

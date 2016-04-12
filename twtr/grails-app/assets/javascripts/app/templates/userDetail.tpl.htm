@@ -1,0 +1,90 @@
+<!--<div>-->
+    <!--Auth Token: {{ auth.token }}-->
+<!--</div>-->
+<!--<div id="auth-account">-->
+    <!--Auth Account: {{ auth.account }}-->
+<!--</div>-->
+<!--<div>-->
+    <!--My Page?: {{ myDetail }}-->
+<!--</div>-->
+<!--<div id="follow-status">-->
+    <!--Am I Following?: {{ account.amIfollowing }}-->
+<!--</div>-->
+<!--<div id="user-name">-->
+    <!--User's Name: {{auth.account.displayName}}-->
+<!--</div>-->
+<!--<div id="user-email">-->
+    <!--User's Email: {{auth.account.emailAddress}}-->
+<!--</div>-->
+<!--<br/>-->
+
+<!--<div data-ng-init="getAccount()">-->
+    <!--Account Details for {{ account.displayName }}-->
+<!--</div>-->
+
+
+<form id="login-form" data-ng-init="getAccount()">
+    <div class="form-group">
+        <h2 id="twtr-page-title">Twtr Page for @{{ account.handle }}</h2>
+        <button id="follow" class="btn" ng-click="startFollowing()" ng-disabled="myDetail"
+                ng-show="!myDetail && !account.amIfollowing">Follow
+        </button>
+        <div id="follow-message" ng-show="!myDetail && account.amIfollowing"><em>You are following {{
+            account.displayName }}</em></div>
+
+        <br/> <br/>
+        <div class="control-group">
+            <label for="userEmail" class="control-label">Email Address</label>
+            <div class="controls">
+                <input id="userEmail" class="form-control"
+                       type="text" ng-model="account.emailAddress" ng-readonly="!myDetail" required/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="userDisplayName" class="control-label">Display Name</label>
+            <div class="controls">
+                <input id="userDisplayName" class="form-control"
+                       type="text" ng-model="account.displayName" ng-readonly="!myDetail" required/>
+            </div>
+        </div>
+        <br/>
+        <button id="save-account" class="btn btn-primary" ng-click="saveDetails()" type="submit"
+                ng-disabled="!myDetail">Save Changes
+        </button>
+    </div>
+
+    <div id="user-tweets" style="height: 150px; overflow: auto">
+        <h2>Tweets by @{{ account.handle }}</h2>
+        <table id="user-tweets-table" class="table table-striped">
+            <thead>
+            <tr>
+                <th class="column-header">Tweet Text</th>
+                <th class="column-header">Date/Time Tweeted</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="tweet in account.tweets">
+                <td id="td-feed-content"> {{ tweet.messageText }}</td>
+                <td id="td-feed-date"> {{ tweet.dateCreated }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br/>
+
+    <div class="alert-danger" ng-show="getAccountError && getAccountError.length > 0">{{getAccountError}}</div>
+    <div class="alert-danger" ng-show="getTweetsError && getTweetsError.length > 0">{{getTweetsError}}</div>
+    <div class="alert-danger" ng-show="isFollowerError && isFollowerError.length > 0">{{isFollowerError}}</div>
+    <div class="alert-danger" ng-show="getAuthAccountError && getAuthAccountError.length > 0">{{getAuthAccountError}}
+    </div>
+    <div class="alert-danger" ng-show="startFollowError && startFollowError.length > 0">{{startFollowError}}</div>
+    <div class="alert-danger" ng-show="saveUserDetailsError && saveUserDetailsError.length > 0">
+        {{saveUserDetailsError}}
+    </div>
+
+    <br/>
+    <div id="feed-page-status" ng-show="pageStatus && pageStatus.length > 0">{{pageStatus}}</div>
+
+</form>
