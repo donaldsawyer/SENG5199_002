@@ -33,7 +33,8 @@
             </thead>
             <tbody>
             <tr ng-repeat="tweet in account">
-                <td id="td-tweet-handle"><a id="tweet-handle-link" href="#userDetail?handle={{tweet.handle}}"> {{ tweet.handle }}</a></td>
+                <td id="td-tweet-handle"><a id="tweet-handle-link" href="#userDetail?handle={{tweet.handle}}"> {{
+                    tweet.handle }}</a></td>
                 <td id="td-tweet-content"> {{ tweet.messageText }}</td>
                 <td id="td-tweet-date"> {{ tweet.dateCreated }}</td>
             </tr>

@@ -1,38 +1,38 @@
-app.service('accountService', function() {
+app.service('accountService', function () {
 
     var account;
     var tweets;
     var followers;
 
-    var getAccount = function() {
+    var getAccount = function () {
         return account;
     };
 
-    var setAccount = function(acct) {
+    var setAccount = function (acct) {
         account = acct;
     };
 
-    var getTweets = function() {
+    var getTweets = function () {
         return tweets;
     };
 
-    var setTweets = function(twts) {
+    var setTweets = function (twts) {
         tweets = twts;
     };
 
-    var setFollowers = function(flwrs) {
+    var setFollowers = function (flwrs) {
         followers = flwrs;
     };
 
-    var getFollowers = function() {
+    var getFollowers = function () {
         return followers;
     };
 
-    var isFollower = function(handle) {
+    var isFollower = function (handle) {
         var found = false;
 
-        for(var i = 0; i < account.followers.length; i++) {
-            if(account.followers[i].handle == handle)
+        for (var i = 0; i < account.followers.length; i++) {
+            if (account.followers[i].handle == handle)
                 found = true;
         }
 
@@ -40,12 +40,12 @@ app.service('accountService', function() {
     };
 
     return {
-        getAccount : getAccount,
-        setAccount : setAccount,
-        getTweets : getTweets,
-        setTweets : setTweets,
-        setFollowers : setFollowers,
-        getFollowers : getFollowers,
-        isFollower : isFollower
+        getAccount: getAccount,
+        setAccount: setAccount,
+        getTweets: getTweets,
+        setTweets: setTweets,
+        setFollowers: setFollowers,
+        getFollowers: getFollowers,
+        isFollower: isFollower
     };
 });

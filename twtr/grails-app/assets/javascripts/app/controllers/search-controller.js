@@ -1,5 +1,5 @@
 angular.module('app').controller('searchController', function ($scope, $location, $http, authService, accountService) {
-    if(!authService.isLoggedIn())
+    if (!authService.isLoggedIn())
         $location.path("/home");
 
     $scope.message = "Search tweets";
@@ -19,7 +19,7 @@ angular.module('app').controller('searchController', function ($scope, $location
                 headers: {'X-Auth-Token': authService.getToken().toString()}
             })
             .success(function (data) {
-                if(data.length == 0) {
+                if (data.length == 0) {
                     $scope.notFound = "No tweets found"
                 }
                 else {

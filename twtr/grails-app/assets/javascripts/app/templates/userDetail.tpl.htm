@@ -26,10 +26,13 @@
 <form id="login-form">
     <div class="form-group">
         <h2 id="twtr-page-title">Twtr Page for @{{ account.handle }}</h2>
-        <button id="follow" class="btn" ng-click="startFollowing()" ng-disabled="myDetail" ng-show="!myDetail && !account.amIfollowing">Follow</button>
-        <div id="follow-message" ng-show="!myDetail && account.amIfollowing"><em>You are following {{ account.displayName }}</em> </div>
+        <button id="follow" class="btn" ng-click="startFollowing()" ng-disabled="myDetail"
+                ng-show="!myDetail && !account.amIfollowing">Follow
+        </button>
+        <div id="follow-message" ng-show="!myDetail && account.amIfollowing"><em>You are following {{
+            account.displayName }}</em></div>
 
-        <br /> <br />
+        <br/> <br/>
         <div class="control-group">
             <label for="userEmail" class="control-label">Email Address</label>
             <div class="controls">
@@ -46,32 +49,29 @@
             </div>
         </div>
         <br/>
-        <button id="save-account" class="btn btn-primary" ng-click="saveDetails()" type="submit" ng-disabled="!myDetail">Save Changes</button>
+        <button id="save-account" class="btn btn-primary" ng-click="saveDetails()" type="submit"
+                ng-disabled="!myDetail">Save Changes
+        </button>
     </div>
 
-
-<!--<div class="container well">-->
-    <!--<button id="get-tweets" class="btn" ng-click="getTweets()">get tweets</button>-->
-    <!--<br />-->
-    <!--Tweets: {{ account.tweets }}-->
-<div style="height: 150px; overflow: auto">
-    <h2>Tweets by @{{ account.handle }}</h2>
-    <table class="table table-striped">
-        <thead>
+    <div style="height: 150px; overflow: auto">
+        <h2>Tweets by @{{ account.handle }}</h2>
+        <table class="table table-striped">
+            <thead>
             <tr>
                 <th class="column-header">Tweet Text</th>
                 <th class="column-header">Date/Time Tweeted</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <tr ng-repeat="tweet in account.tweets">
                 <td id="td-feed-content"> {{ tweet.messageText }}</td>
                 <td id="td-feed-date"> {{ tweet.dateCreated }}</td>
             </tr>
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
 
-<div id="feed-page-status" ng-show="pageStatus && pageStatus.length > 0">{{pageStatus}}</div>
+    <div id="feed-page-status" ng-show="pageStatus && pageStatus.length > 0">{{pageStatus}}</div>
 
 </form>
