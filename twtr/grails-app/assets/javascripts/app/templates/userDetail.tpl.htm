@@ -1,29 +1,29 @@
-<div>
-    Auth Token: {{ auth.token }}
-</div>
-<div id="auth-account">
-    Auth Account: {{ auth.account }}
-</div>
-<div>
-    My Page?: {{ myDetail }}
-</div>
-<div id="follow-status">
-    Am I Following?: {{ account.amIfollowing }}
-</div>
-<div id="user-name">
-    User's Name: {{auth.account.displayName}}
-</div>
-<div id="user-email">
-    User's Email: {{auth.account.emailAddress}}
-</div>
-<br/>
+<!--<div>-->
+    <!--Auth Token: {{ auth.token }}-->
+<!--</div>-->
+<!--<div id="auth-account">-->
+    <!--Auth Account: {{ auth.account }}-->
+<!--</div>-->
+<!--<div>-->
+    <!--My Page?: {{ myDetail }}-->
+<!--</div>-->
+<!--<div id="follow-status">-->
+    <!--Am I Following?: {{ account.amIfollowing }}-->
+<!--</div>-->
+<!--<div id="user-name">-->
+    <!--User's Name: {{auth.account.displayName}}-->
+<!--</div>-->
+<!--<div id="user-email">-->
+    <!--User's Email: {{auth.account.emailAddress}}-->
+<!--</div>-->
+<!--<br/>-->
 
-<div data-ng-init="getAccount()">
-    Account Details for {{ account.displayName }}
-</div>
+<!--<div data-ng-init="getAccount()">-->
+    <!--Account Details for {{ account.displayName }}-->
+<!--</div>-->
 
 
-<form id="login-form">
+<form id="login-form" data-ng-init="getAccount()">
     <div class="form-group">
         <h2 id="twtr-page-title">Twtr Page for @{{ account.handle }}</h2>
         <button id="follow" class="btn" ng-click="startFollowing()" ng-disabled="myDetail"
