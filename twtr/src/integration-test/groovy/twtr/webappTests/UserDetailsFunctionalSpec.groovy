@@ -19,7 +19,7 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         when: 'user is navigated to user details page'
         go '/#/userDetail'
         waitFor(5, 0.1) { $('form').find("div", id: "feed-page-status").text() == "Page load complete" }
-        sleep(500)
+        //sleep(500)
 
         then: "user's name, email, and tweets are displayed"
         $('form').find('input', id: 'userDisplayName').value() == "display name"

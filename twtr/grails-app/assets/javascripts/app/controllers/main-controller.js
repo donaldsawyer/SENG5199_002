@@ -18,7 +18,6 @@ angular.module('app').controller('mainController', function ($scope, $location, 
 
         $scope.pageStatus = "";
 
-        //TODO: Refactor this into the authService
         $http.post('/api/login', credentials)
             .success(function (data) {
                 authService.setUsername(data.username);

@@ -23,7 +23,6 @@ app.service('authService', function () {
         var rval = false;
 
         if (token) {
-            //TODO: check to see if token is expired
             rval = true;
         }
         return rval;
