@@ -33,8 +33,10 @@ public class UserDetailsFollowFunctionalSpec extends TwtrFunctionalTestBase {
         $("#login-form button[id=follow").click()
         waitFor(5, 0.1) { $('form').find("div", id: 'feed-page-status').text() == 'Page load complete' }
 
+        // REQ R4 //
         then: "admin can follow mikecalvo"
         $('form').find('div', id: 'follow-message').text() == 'You are following Mike Calvo'
+        $('#followingStatus')
 
         when: 'navigate to blizzard page'
         go '/#/userDetail?handle=blizzard'
@@ -46,7 +48,10 @@ public class UserDetailsFollowFunctionalSpec extends TwtrFunctionalTestBase {
         $('form').find('input', id: 'userDisplayName').readOnly
         $('form').find('input', id: 'userEmail').readOnly
         !$('form').find('button', id: 'save-account').enabled
+        // REQ R4 //
         $('form').find('button', id: 'follow').enabled
+        $('#followingStatus')
+
         $('form').find("td", id: "td-feed-content").allElements().size() == 1
         $('form').find("td", id: "td-feed-content").allElements()[0].getText() == "Message 4_1"
         $('form').find("td", id: "td-feed-date").allElements().size() == 1
@@ -62,6 +67,8 @@ public class UserDetailsFollowFunctionalSpec extends TwtrFunctionalTestBase {
         $('form').find('input', id: 'userEmail').readOnly
         !$('form').find('button', id: 'save-account').enabled
         $('form').find("td", id: "td-feed-content").allElements().size() == 0
+        // REQ R4 //
         $('form').find('div', id: 'follow-message').text() == 'You are following Mike Calvo'
+        $('#followingStatus')
     }
 }

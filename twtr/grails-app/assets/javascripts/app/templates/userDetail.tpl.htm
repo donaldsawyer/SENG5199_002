@@ -26,11 +26,7 @@
 <form id="login-form" data-ng-init="getAccount()">
     <div class="form-group">
         <h2 id="twtr-page-title">Twtr Page for @{{ account.handle }}</h2>
-        <button id="follow" class="btn" ng-click="startFollowing()" ng-disabled="myDetail"
-                ng-show="!myDetail && !account.amIfollowing">Follow
-        </button>
-        <div id="follow-message" ng-show="!myDetail && account.amIfollowing"><em>You are following {{
-            account.displayName }}</em></div>
+        <div><following-status id="followingStatus"/></div>
 
         <br/> <br/>
         <div class="control-group">
