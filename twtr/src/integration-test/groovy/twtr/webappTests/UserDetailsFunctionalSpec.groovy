@@ -1,12 +1,17 @@
 package twtr.webappTests
 
 import grails.test.mixin.integration.Integration
+import spock.lang.Shared
 import spock.lang.Stepwise
 import twtr.TwtrFunctionalTestBase
 
 @Integration
 @Stepwise
 public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
+
+    @Shared
+    def months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
     def setup() {
         go '/'
         $("#login-form input[id=loginHandle]").value("admin")
@@ -31,6 +36,13 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         $('form').find("td", id: "td-feed-content").allElements()[9].getText() == "Admin Written Message #11"
         $('form').find("td", id: "td-feed-date").allElements().size() == 10
         $('form').find("td", id: "td-feed-date").allElements()[0].getText() >= $('form').find("td", id: "td-feed-date").allElements()[9].getText()
+
+        // REQ R5 //
+        $('form').find("td", id: "td-feed-date").allElements()[0].getText().size() == 6
+        months.contains($('form').find("td", id: "td-feed-date").allElements()[0].getText().substring(0,3))
+        $('form').find("td", id: "td-feed-date").allElements()[0].getText()[3] == ' '
+        $('form').find("td", id: "td-feed-date").allElements()[0].getText().substring(4,6).isNumber()
+
         // verify that the tweets are scrollable by the table being larger than the div //
         $('form').find('table', id: "user-tweets-table").height > $('form').find('div', id: "user-tweets").height
 
