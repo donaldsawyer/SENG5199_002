@@ -62,7 +62,7 @@
             <tbody>
             <tr ng-repeat="tweet in account.tweets">
                 <td id="td-feed-content"> {{ tweet.messageText }}</td>
-                <td id="td-feed-date"> {{ tweet.dateCreated }}</td>
+                <td id="td-feed-date" type="date"> {{ tweet.dateCreated | date: 'MMM dd' }}</td>
             </tr>
             </tbody>
         </table>
