@@ -36,9 +36,6 @@
 
 <div ng-view></div>
 
-<footer class="jumbotron text-center">
-    <p>Footer Content</p>
-</footer>
 
 </body>
 </html>

@@ -135,6 +135,40 @@ angular.module('app').controller('userDetailController', function ($scope, $loca
             })
     };
 
+    $scope.tweetMessage = function() {
+        var message = new Object();
+        message.messageText = $scope.account.messageContent;
+
+        $scope.pageStatus = "";
+        $scope.messagePosted = "";
+        $scope.messagePostedError = "";
+
+        var jsonString = JSON.stringify(message);
+
+        $http.post('/message/tweet?accountId=' + $scope.account.id, message,
+            {
+                headers: {'X-Auth-Token': authService.getToken().toString()}
+            })
+            .success(function(data){
+                $scope.messagePosted = "New Tweet-message posted";
+                $scope.messagePostedError = "";
+            })
+            .error(function (error) {
+                $scope.messagePostedError = "Error posting message";
+                $scope.messagePosted = "";
+            })
+            .finally(function () {
+                $scope.account = accountService.getAccount();
+                $scope.pageStatus = "Page load complete";
+                $location.path("/userDetail");
+            })
+    };
+
+    $scope.reset=function(tweetForm) {
+        tweetForm.$setPristine();
+        tweetForm.$setUntouched();
+    };
+
     if ($scope.auth.account == null)
         $scope.getAuthAccount();
 

@@ -23,7 +23,7 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
     def 'user details page displays the users name and tweets'() {
         when: 'user is navigated to user details page'
         go '/#/userDetail'
-        waitFor(5, 0.1) { $('form').find("div", id: "feed-page-status").text() == "Page load complete" }
+        waitFor(5, 0.1) { $("#feed-page-status").text() == "Page load complete"}
 
         then: "user's name, email, and tweets are displayed"
         !$('form').find('input', id: 'userEmail').readOnly
@@ -46,16 +46,59 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         // verify that the tweets are scrollable by the table being larger than the div //
         $('form').find('table', id: "user-tweets-table").height > $('form').find('div', id: "user-tweets").height
 
-
         when: "update the user's name and email"
         $("#login-form input[id=userEmail]").value("updatedemail@email.com")
         $("#login-form input[id=userDisplayName]").value("updated Name")
         $("#login-form button[id=save-account]").click()
-        waitFor(5, 0.1) { $('form').find("div", id: "feed-page-status").text() == "Page load complete" }
+        waitFor(5, 0.1) { $("#feed-page-status").text() == "Page load complete"}
 
         then: "user's name and email are updated"
         $('form').find('input', id: 'userDisplayName').value() == "updated Name"
         $('form').find('input', id: 'userEmail').value() == "updatedemail@email.com"
+    }
+
+    def 'user details page allows user to post a new message'() {
+        when: 'user is navigated to user details page'
+        go '/#/userDetail'
+        waitFor(5, 0.1) { $("#feed-page-status").text() == "Page load complete"}
+
+        then: 'user can tweet a new message'
+        $('form').find('input', id: 'message-to-post')
+        $('form').find('button', id: 'reset-button').enabled
+        !$('form').find('button', id: 'tweet-button').enabled
+
+        when: 'user tweet a new message'
+        $("#tweet-form input[id=message-to-post]").value("New Tweet from Admin")
+
+        then:
+        $("#tweet-form button[id=tweet-button]").enabled
+
+        when:
+        $("#tweet-form button[id=tweet-button]").click()
+        waitFor(5, 0.1) { $("#feed-page-status").text() == "Page load complete"}
+
+        then: 'status indicate that new message is posted'
+        $('form').find('div', id: "tweet-message-status").text() == "New Tweet-message posted"
+        !$('form').find('div', id: "tweet-message-error").text()
+
+//        when: 'tweet message field is empty'
+//        $("#tweet-form input[id=message-to-post]").value("")
+//        waitFor(5, 0.1) { $("#feed-page-status").text() == "Page load complete"}
+//
+//        then: 'error message displays'
+//        !$('form').find('button', id: 'tweet-button').enabled
+//        $('form').find('div', id: 'invalid-message-span').text() == "Invalid message"
+    }
+
+    def "Other user's page is not allowed to post a new message"() {
+        when: 'user is navigated to user details page'
+        go '/#/userDetail?handle=luluwang'
+        waitFor(5, 0.1) { $("#feed-page-status").text() == "Page load complete"}
+
+        then: "tweet a new message option is not available"
+        !$('form').find('input', id: 'message-to-post').text()
+        !$('form').find('button', id: 'reset-button').text()
+        !$('form').find('button', id: 'tweet-button').text()
     }
 
 }
