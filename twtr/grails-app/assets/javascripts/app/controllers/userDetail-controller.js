@@ -169,7 +169,7 @@ angular.module('app').controller('userDetailController', function ($scope, $loca
     $scope.reset=function(tweetForm) {
         tweetForm.$setPristine();
         tweetForm.$setUntouched();
-        tweetForm.getElementById('message-to-post').value = ""; //TBD: this doesn't seem to clear the textbox
+        $scope.account.messageContent = "";
     };
 
     $scope.closeAlert = function() {
