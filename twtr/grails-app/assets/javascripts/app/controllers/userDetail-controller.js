@@ -140,8 +140,7 @@ angular.module('app').controller('userDetailController', function ($scope, $loca
         message.messageText = $scope.account.messageContent;
 
         $scope.pageStatus = "";
-        $scope.messagePosted = "";
-        $scope.messagePostedError = "";
+        $scope.showAlert = true;
 
         var jsonString = JSON.stringify(message);
 
@@ -150,12 +149,15 @@ angular.module('app').controller('userDetailController', function ($scope, $loca
                 headers: {'X-Auth-Token': authService.getToken().toString()}
             })
             .success(function(data){
-                $scope.messagePosted = "New Tweet-message posted";
-                $scope.messagePostedError = "";
+                $scope.alerts = [
+                    { type: 'success', msg: 'Message posted successfully' }
+                ];
+                $scope.getTweets();
             })
             .error(function (error) {
-                $scope.messagePostedError = "Error posting message";
-                $scope.messagePosted = "";
+                $scope.alerts = [
+                    { type: 'danger', msg: 'Error posting message' }
+                ];
             })
             .finally(function () {
                 $scope.account = accountService.getAccount();
@@ -167,6 +169,11 @@ angular.module('app').controller('userDetailController', function ($scope, $loca
     $scope.reset=function(tweetForm) {
         tweetForm.$setPristine();
         tweetForm.$setUntouched();
+        tweetForm.getElementById('message-to-post').value = ""; //TBD: this doesn't seem to clear the textbox
+    };
+
+    $scope.closeAlert = function() {
+        $scope.showAlert = false;
     };
 
     if ($scope.auth.account == null)

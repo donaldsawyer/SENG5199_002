@@ -70,16 +70,17 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         when: 'user tweet a new message'
         $("#tweet-form input[id=message-to-post]").value("New Tweet from Admin")
 
-        then:
+        then: 'tweet button is enabled'
         $("#tweet-form button[id=tweet-button]").enabled
 
-        when:
+        when: 'click on tweet button'
         $("#tweet-form button[id=tweet-button]").click()
         waitFor(5, 0.1) { $("#feed-page-status").text() == "Page load complete"}
 
         then: 'status indicate that new message is posted'
         $('form').find('div', id: "tweet-message-status").text() == "New Tweet-message posted"
         !$('form').find('div', id: "tweet-message-error").text()
+        $('form').find("td", id: "td-feed-content").allElements()[0].getText() == "New Tweet from Admin"
 
 //        when: 'tweet message field is empty'
 //        $("#tweet-form input[id=message-to-post]").value("")
