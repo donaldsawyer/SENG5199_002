@@ -10,5 +10,7 @@ classes/
 .project
 .settings
 .classpath
-*node_modules*
-
+node_modules/
+grails-app/assets/bower
+coverage/
+TESTS-*.xml

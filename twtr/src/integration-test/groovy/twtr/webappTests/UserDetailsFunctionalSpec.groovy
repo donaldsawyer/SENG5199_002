@@ -78,8 +78,9 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         waitFor(5, 0.1) { $("#feed-page-status").text() == "Page load complete"}
 
         then: 'status indicate that new message is posted'
-        $('form').find('div', id: "tweet-message-status").text() == "New Tweet-message posted"
-        !$('form').find('div', id: "tweet-message-error").text()
+//        $('form').find('div', id: "tweet-message-status").text() == "New Tweet-message posted"
+//        !$('form').find('div', id: "tweet-message-error").text()
+        //$('form').find('uib-alert', id: "tweet-post-alert").text() == "Message posted successfully" //to be added in
         $('form').find("td", id: "td-feed-content").allElements()[0].getText() == "New Tweet from Admin"
 
 //        when: 'tweet message field is empty'

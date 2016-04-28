@@ -104,7 +104,7 @@
     </button>
 
     <div>
-        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" ng-if="showAlert" close="closeAlert()"
+        <uib-alert id="tweet-post-alert" ng-repeat="alert in alerts" type="{{alert.type}}" ng-if="showAlert" close="closeAlert()"
                    dismiss-on-timeout="5000">{{alert.msg}}
         </uib-alert>
     </div>
