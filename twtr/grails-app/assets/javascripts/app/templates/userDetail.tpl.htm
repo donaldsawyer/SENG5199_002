@@ -1,32 +1,34 @@
 <!--<div>-->
-    <!--Auth Token: {{ auth.token }}-->
+<!--Auth Token: {{ auth.token }}-->
 <!--</div>-->
 <!--<div id="auth-account">-->
-    <!--Auth Account: {{ auth.account }}-->
+<!--Auth Account: {{ auth.account }}-->
 <!--</div>-->
 <!--<div>-->
-    <!--My Page?: {{ myDetail }}-->
+<!--My Page?: {{ myDetail }}-->
 <!--</div>-->
 <!--<div id="follow-status">-->
-    <!--Am I Following?: {{ account.amIfollowing }}-->
+<!--Am I Following?: {{ account.amIfollowing }}-->
 <!--</div>-->
 <!--<div id="user-name">-->
-    <!--User's Name: {{auth.account.displayName}}-->
+<!--User's Name: {{auth.account.displayName}}-->
 <!--</div>-->
 <!--<div id="user-email">-->
-    <!--User's Email: {{auth.account.emailAddress}}-->
+<!--User's Email: {{auth.account.emailAddress}}-->
 <!--</div>-->
 <!--<br/>-->
 
 <!--<div data-ng-init="getAccount()">-->
-    <!--Account Details for {{ account.displayName }}-->
+<!--Account Details for {{ account.displayName }}-->
 <!--</div>-->
 
 
 <form id="login-form" data-ng-init="getAccount()">
     <div class="form-group">
         <h2 id="twtr-page-title">Twtr Page for @{{ account.handle }}</h2>
-        <div><following-status id="followingStatus"/></div>
+        <div>
+            <following-status id="followingStatus"/>
+        </div>
 
         <br/> <br/>
         <div class="control-group">
@@ -80,7 +82,35 @@
         {{saveUserDetailsError}}
     </div>
 
-    <br/>
     <div id="feed-page-status" ng-show="pageStatus && pageStatus.length > 0">{{pageStatus}}</div>
+    <br/>
+</form>
 
+<form id="tweet-form" name="tweetForm" ng-show="myDetail" data-ng-init="getAccount()" novalidate>
+
+    <div class="form-group">
+        <label>Tweet new message</label>
+        <input id="message-to-post" type="text" name="messageContent" maxlength="40"
+               ng-model="account.messageContent" required=""/>
+        <span id="invalid-message-span"
+              ng-show="tweetForm.messageContent.$error.required && (tweetForm.$submitted || tweetForm.messageContent.$touched)"
+              class="alert-danger">Invalid message</span>
+    </div>
+
+    <button id="reset-button" type="button" ng-click="reset(tweetForm)" class="btn btn-primary">Reset</button>
+    <button id="tweet-button" type="submit" ng-class="{'disabled': tweetForm.$invalid}" ng-click="tweetMessage()"
+            ng-disabled="tweetForm.$invalid" name="tweet" class="btn btn-primary">Tweet
+    </button>
+
+    <div id="alert-div">
+        <uib-alert id="tweet-post-alert" ng-repeat="alert in alerts" type="{{alert.type}}" ng-if="showAlert"
+                   close="closeAlert()"
+                   dismiss-on-timeout="5000">{{alert.msg}}
+        </uib-alert>
+    </div>
+
+    <br/>
+    <br/>
+    <div id="feed-page-status2" ng-show="pageStatus && pageStatus.length > 0">{{pageStatus}}</div>
+    <br/>
 </form>
