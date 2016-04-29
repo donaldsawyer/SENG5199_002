@@ -92,10 +92,9 @@
         <label>Tweet new message</label>
         <input id="message-to-post" type="text" name="messageContent" maxlength="40"
                ng-model="account.messageContent" required=""/>
-        <uib-alert class="alert-danger" type="danger"
-                   ng-show="tweetForm.messageContent.$error.required && (tweetForm.$submitted || tweetForm.messageContent.$touched)">
-            Invalid message
-        </uib-alert>
+        <span id="invalid-message-span"
+              ng-show="tweetForm.messageContent.$error.required && (tweetForm.$submitted || tweetForm.messageContent.$touched)"
+              class="alert-danger">Invalid message</span>
     </div>
 
     <button id="reset-button" type="button" ng-click="reset(tweetForm)" class="btn btn-primary">Reset</button>
@@ -103,14 +102,12 @@
             ng-disabled="tweetForm.$invalid" name="tweet" class="btn btn-primary">Tweet
     </button>
 
-    <div>
-        <uib-alert id="tweet-post-alert" ng-repeat="alert in alerts" type="{{alert.type}}" ng-if="showAlert" close="closeAlert()"
+    <div id="alert-div">
+        <uib-alert id="tweet-post-alert" ng-repeat="alert in alerts" type="{{alert.type}}" ng-if="showAlert"
+                   close="closeAlert()"
                    dismiss-on-timeout="5000">{{alert.msg}}
         </uib-alert>
     </div>
-
-    <!--<div id="tweet-message-status" class="alert-info" ng-show="messagePosted && messagePosted.length > 0">{{messagePosted}}</div>-->
-    <!--<div id="tweet-message-error" class="alert-danger" ng-show="messagePostedError && messagePostedError.length > 0">{{messagePostedError}}</div>-->
 
     <br/>
     <br/>

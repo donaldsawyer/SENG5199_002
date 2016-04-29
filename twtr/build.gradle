@@ -16,7 +16,7 @@ buildscript {
 plugins {
     id "io.spring.dependency-management" version "0.5.4.RELEASE"
     id 'com.craigburke.bower-installer' version '2.5.1'
-    id 'com.craigburke.karma' version '1.4.3'
+    //id 'com.craigburke.karma' version '1.4.3'
 }
 
 version "0.1"
@@ -102,7 +102,7 @@ task wrapper(type: Wrapper) {
 
 bower {
 
-    'jquery'('2.2.x') {
+    'jquery'('2.1.x') {
         source 'dist/jquery.js'
     }
 
@@ -141,29 +141,49 @@ bower {
     }
 
 }
+//
+//karma {
+//    profile 'default'
+//    colors = true
+//
+//    browsers = ['Chrome']
+//    frameworks = ['jasmine', 'requirejs']
+//    reporters = ['junit', 'progress', 'coverage']
+//    preprocessors = [
+//            '**/grails-app/assets/javascripts/app/**/*.js': ['coverage']
+//    ]
+//
+//    profile('default') {
+//        libraryBases = ['**/grails-app/assets/bower/']
+//        libraryFiles = ['**/jquery.js', '**/angular.js', '**/!(jquery|angular).js']
+//
+//        sourceBases = ['**/grails-app/assets/javascripts/']
+//        sourceFiles = ['application.js', 'app/**/*.js']
+//
+//        testBases = ['**/src/test/javascript/']
+//        testFiles = ['*.js']
+//    }
+//}
 
-karma {
-    profile 'default'
-    colors = true
 
-    browsers = ['Chrome']
-    frameworks = ['jasmine']
-    reporters = ['junit', 'progress', 'coverage']
-    preprocessors = [
-            '**/grails-app/assets/javascripts/app/**/*.js': ['coverage']
-    ]
-
-    profile('default') {
-        libraryBases = ['**/grails-app/assets/bower/']
-        libraryFiles = ['**/jquery.js', '**/angular.js', '**/!(jquery|angular).js']
-
-        sourceBases = ['**/grails-app/assets/javascripts/']
-        sourceFiles = ['application.js', 'app/**/*.js']
-
-        testBases = ['**/src/test/javascript/']
-        testFiles = ['*.js']
-    }
-}
+//bower {
+//    'bootstrap'('3.3.x') {
+//        source 'dist/css/bootstrap.css' >> 'css/'
+//        source 'dist/css/bootstrap-theme.css' >> 'css/'
+//        source 'dist/fonts/**' >> 'fonts/'
+//        source 'dist/js/bootstrap.js'
+//        excludes 'jquery'
+//    }
+//
+//    'angular-route'('1.5.x') {
+//        source 'angular-route.js'
+//    }
+//
+//    'angular'('1.5.x') {
+//        source 'angular.js'
+//        source 'angular-csp.css'
+//    }
+//}
 
 compileJava.dependsOn bowerInstall
 clean.dependsOn bowerClean

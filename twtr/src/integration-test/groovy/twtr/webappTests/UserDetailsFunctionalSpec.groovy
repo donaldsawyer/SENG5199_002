@@ -75,21 +75,22 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
 
         when: 'click on tweet button'
         $("#tweet-form button[id=tweet-button]").click()
-        waitFor(5, 0.1) { $("#feed-page-status").text() == "Page load complete"}
+        waitFor(3, 0.1) { $("#feed-page-status").text() == "Page load complete"}
 
         then: 'status indicate that new message is posted'
-//        $('form').find('div', id: "tweet-message-status").text() == "New Tweet-message posted"
-//        !$('form').find('div', id: "tweet-message-error").text()
-        //$('form').find('uib-alert', id: "tweet-post-alert").text() == "Message posted successfully" //to be added in
+        //$("#tweet-post-alert").text() == "Message Posted!"
+        //$("#alert-div").allElements()
         $('form').find("td", id: "td-feed-content").allElements()[0].getText() == "New Tweet from Admin"
 
-//        when: 'tweet message field is empty'
-//        $("#tweet-form input[id=message-to-post]").value("")
-//        waitFor(5, 0.1) { $("#feed-page-status").text() == "Page load complete"}
-//
-//        then: 'error message displays'
-//        !$('form').find('button', id: 'tweet-button').enabled
-//        $('form').find('div', id: 'invalid-message-span').text() == "Invalid message"
+        when: 'tweet message field is empty'
+        $("#tweet-form input[id=message-to-post]").value("testValue")
+        $("#tweet-form input[id=message-to-post]").value("")
+        $("#login-form input[id=userEmail]").value("a@b.com")
+        sleep(2000)
+
+        then: 'error message displays'
+        !$("#tweet-button").enabled
+        $("#invalid-message-span").text() == "Invalid message"
     }
 
     def "Other user's page is not allowed to post a new message"() {

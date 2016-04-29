@@ -150,7 +150,7 @@ angular.module('app').controller('userDetailController', function ($scope, $loca
             })
             .success(function(data){
                 $scope.alerts = [
-                    { type: 'success', msg: 'Message posted successfully' }
+                    { type: 'success', msg: 'Message Posted!' }
                 ];
                 $scope.getTweets();
             })
