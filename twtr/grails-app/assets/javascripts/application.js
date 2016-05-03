@@ -7,7 +7,6 @@
 //
 //= require jquery-2.1.3.js
 //= require ../bower/jquery/dist/jquery.js
-//= require ../bower/bootstrap/dist/js/bootstrap.js
 //= require ../bower/bootstrap.js
 //= require ../bower/angular/angular.js
 //= require ../bower/angular-bootstrap/ui-bootstrap.js
@@ -20,6 +19,4 @@
 //= require_tree .
 
 // Create the angular application called 'app'
-//var app = angular.module('app', ["ngRoute"]);
-
 var app = angular.module('app', ['ngRoute', 'ngResource', 'ui.bootstrap', 'webStorageModule']);
