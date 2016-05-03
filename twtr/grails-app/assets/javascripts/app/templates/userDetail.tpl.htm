@@ -93,7 +93,7 @@
         <input id="message-to-post" type="text" name="messageContent" maxlength="40"
                ng-model="account.messageContent" required=""/>
         <span id="invalid-message-span"
-              ng-show="tweetForm.messageContent.$error.required && (tweetForm.$submitted || tweetForm.messageContent.$touched)"
+              ng-show="tweetForm.messageContent.$error.required && (tweetForm.$submitted || tweetForm.messageContent.$touched) && !tweetForm.messageContent.$error.maxlength"
               class="alert-danger">Invalid message</span>
     </div>
 

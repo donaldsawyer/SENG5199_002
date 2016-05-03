@@ -78,9 +78,10 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         waitFor(3, 0.1) { $("#feed-page-status").text() == "Page load complete"}
 
         then: 'status indicate that new message is posted'
-        //$("#tweet-post-alert").text() == "Message Posted!"
-        //$("#alert-div").allElements()
+        // REQ R0 //
         $('form').find("td", id: "td-feed-content").allElements()[0].getText() == "New Tweet from Admin"
+        // REQ R1 //
+        //TBD: test to verify that the alert window is "Message Posted!"
 
         when: 'tweet message field is empty'
         $("#tweet-form input[id=message-to-post]").value("testValue")
@@ -89,6 +90,7 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         sleep(2000)
 
         then: 'error message displays'
+        // REQ R2 //
         !$("#tweet-button").enabled
         $("#invalid-message-span").text() == "Invalid message"
     }
