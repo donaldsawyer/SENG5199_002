@@ -82,7 +82,8 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         // REQ R0 //
         $('form').find("td", id: "td-feed-content").allElements()[0].getText() == "New Tweet from Admin"
         // REQ R1 //
-        //TBD: test to verify that the alert window is "Message Posted!"
+        $('#tweet-post-alert').displayed
+        $('#tweet-post-alert').text().contains("Message Posted!")
 
         when: 'tweet message field is empty'
         $("#tweet-form input[id=message-to-post]").value("testValue")
