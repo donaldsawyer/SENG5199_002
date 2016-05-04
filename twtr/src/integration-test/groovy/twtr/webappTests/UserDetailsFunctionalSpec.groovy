@@ -71,6 +71,7 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         $("#tweet-form input[id=message-to-post]").value("New Tweet from Admin")
 
         then: 'tweet button is enabled'
+        // REQ R0 //
         $("#tweet-form button[id=tweet-button]").enabled
 
         when: 'click on tweet button'
