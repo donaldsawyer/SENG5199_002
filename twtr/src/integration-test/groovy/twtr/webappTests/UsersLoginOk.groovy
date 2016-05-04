@@ -12,15 +12,15 @@ public class UsersLoginOk extends TwtrFunctionalTestBase {
         go '/'
 
         then:
-        $('form').find("input", id: "loginHandle").displayed
-        $('form').find("input", id: "loginPassword").displayed
-        $('form').find("h2", id: "please-login").text() == "Please Login..."
+        $('#loginHandle').displayed
+        $('#loginPassword').displayed
+        $('#please-login').text() == "Please Login..."
     }
 
     def 'User cannot go to search page'() {
         when: 'user clicks on nav bar for search'
         $('#nav-search').click()
-        waitFor(5, 0.1) { $('form').find('div', id: 'page-status').text() == 'Page load complete' }
+        waitFor(5, 0.1) { $('#page-status').text() == 'Page load complete' }
 
         then:
         getCurrentUrl().endsWith('#/home')
@@ -29,7 +29,7 @@ public class UsersLoginOk extends TwtrFunctionalTestBase {
     def 'User cannot go to user detail page'() {
         when: 'user clicks on nav bar for user details'
         $('#nav-userDetail').click()
-        waitFor(5, 0.1) { $('form').find('div', id: 'page-status').text() == 'Page load complete' }
+        waitFor(5, 0.1) { $('#page-status').text() == 'Page load complete' }
 
         then:
         getCurrentUrl().endsWith('#/home')
@@ -38,35 +38,35 @@ public class UsersLoginOk extends TwtrFunctionalTestBase {
     def 'Admin logs in with the Login button'() {
         when: 'Admin logs in successfully'
         go '/'
-        $("#login-form input[id=loginHandle]").value("admin")
-        $("#login-form input[id=loginPassword]").value("ABCDr00t!")
-        $("#login-form button[id=do-login]").click()
-        waitFor(5, 0.1) { $('form').find("div", id: "page-status").text() == "Page load complete" }
+        $('#loginHandle').value("admin")
+        $('#loginPassword').value("ABCDr00t!")
+        $('#do-login').click()
+        waitFor(5, 0.1) { $('#page-status').text() == "Page load complete" }
 
         then: 'token is generated and status indicates that user is logged in'
-        $('form').find("button", id: "logout").text() == "Logout"
-        $('form').find("h2", id: "logged-in-message").text() == 'You are currently logged in as @admin'
-        !($('form').find("div", id: "error-login").text())
+        $('#logout').text() == "Logout"
+        $('#logged-in-message').text() == 'You are currently logged in as @admin'
+        !($('#error-login').text())
     }
 
     def 'User luluwang logs in with the Login button'() {
         when: 'luluwang logs in successfully'
         go '/'
-        $("#login-form input[id=loginHandle]").value("luluwang")
-        $("#login-form input[id=loginPassword]").value("abcABC123!@#")
-        $("#login-form button[id=do-login]").click()
-        waitFor(5, 0.1) { $('form').find("div", id: "page-status").text() == "Page load complete" }
+        $('#loginHandle').value("luluwang")
+        $('#loginPassword').value("abcABC123!@#")
+        $('#do-login').click()
+        waitFor(5, 0.1) { $('#page-status').text() == "Page load complete" }
 
         then: 'token is generated and status indicates that user is logged in'
-        $('form').find("button", id: "logout").text() == "Logout"
-        $('form').find("h2", id: "logged-in-message").text() == 'You are currently logged in as @luluwang'
-        !($('form').find("div", id: "error-login").text())
+        $('#logout').text() == "Logout"
+        $('#logged-in-message').text() == 'You are currently logged in as @luluwang'
+        !($('#error-login').text())
     }
 
     def 'User can go to search page'() {
         when: 'user clicks on nav bar for search'
         $('#nav-search').click()
-        waitFor(5, 0.1) { $('form').find('div', id: 'page-status').text() == 'Page load complete' }
+        waitFor(5, 0.1) { $('#page-status').text() == 'Page load complete' }
 
         then:
         getCurrentUrl().endsWith('#/search')
@@ -75,7 +75,7 @@ public class UsersLoginOk extends TwtrFunctionalTestBase {
     def 'User can go to user detail page'() {
         when: 'user clicks on nav bar for user details'
         $('#nav-userDetail').click()
-        waitFor(5, 0.1) { $('form').find('div', id: 'feed-page-status').text() == 'Page load complete' }
+        waitFor(5, 0.1) { $('#feed-page-status').text() == 'Page load complete' }
 
         then:
         getCurrentUrl().endsWith('#/userDetail')
@@ -84,25 +84,25 @@ public class UsersLoginOk extends TwtrFunctionalTestBase {
     def 'User logs out successfully'() {
         when: 'Admin logs in successfully'
         go '/'
-        $("#login-form input[id=loginHandle]").value("admin")
-        $("#login-form input[id=loginPassword]").value("ABCDr00t!")
-        $("#login-form button[id=do-login]").click()
-        waitFor(5, 0.1) { $('form').find("div", id: "page-status").text() == "Page load complete" }
+        $('#loginHandle').value("admin")
+        $('#loginPassword').value("ABCDr00t!")
+        $('#do-login').click()
+        waitFor(5, 0.1) { $('#page-status').text() == "Page load complete" }
 
         then: 'token is generated and status indicates that user is logged in'
-        $('form').find("button", id: "logout").text() == "Logout"
-        $('form').find("h2", id: "logged-in-message").text() == 'You are currently logged in as @admin'
-        !($('form').find("div", id: "error-login").text())
+        $('#logout').text() == "Logout"
+        $('#logged-in-message').text() == 'You are currently logged in as @admin'
+        !($('#error-login').text())
 
         when: 'logout button is clicked'
-        $("#login-form button[id=logout").click()
-        waitFor(5, 0.1) { $('form').find("div", id: "page-status").text() == "Page load complete" }
+        $('#logout').click()
+        waitFor(5, 0.1) { $('#page-status').text() == "Page load complete" }
 
         then: 'status indicates that user is logged out'
-        $('form').find("h2", id: "logged-out-message").text() == "We'll miss you dearly!"
-        !$('form').find("h2", id: "logged-in-message").text()
-        $('form').find("h2", id: "please-login").text() == "Please Login..."
-        $('form').find("input", id: "loginHandle").displayed
-        $('form').find("input", id: "loginPassword").displayed
+        $('#logged-out-message').text() == "We'll miss you dearly!"
+        !$('#logged-in-message').text()
+        $('#please-login').text() == "Please Login..."
+        $('#loginHandle').displayed
+        $('#loginPassword').displayed
     }
 }

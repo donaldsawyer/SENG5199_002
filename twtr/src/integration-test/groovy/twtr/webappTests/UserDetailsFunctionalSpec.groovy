@@ -14,10 +14,10 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
 
     def setup() {
         go '/'
-        $("#login-form input[id=loginHandle]").value("admin")
-        $("#login-form input[id=loginPassword]").value("ABCDr00t!")
-        $("#login-form button[id=do-login]").click()
-        waitFor(5, 0.1) { $('form').find("div", id: "page-status").text() == "Page load complete" }
+        $("#loginHandle").value("admin")
+        $("#loginPassword").value("ABCDr00t!")
+        $("#do-login").click()
+        waitFor(5, 0.1) { $('#page-status').text() == "Page load complete" }
     }
 
     def 'user details page displays the users name and tweets'() {
@@ -26,35 +26,35 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         waitFor(5, 0.1) { $("#feed-page-status").text() == "Page load complete"}
 
         then: "user's name, email, and tweets are displayed"
-        !$('form').find('input', id: 'userEmail').readOnly
-        !$('form').find('input', id: 'userDisplayName').readOnly
-        $('form').find('input', id: 'userDisplayName').value() == "display name"
-        $('form').find('input', id: 'userEmail').value() == "abac@abc.com"
-        $('form').find("button", id: "save-account").enabled
-        $('form').find("td", id: "td-feed-content").allElements().size() == 10
-        $('form').find("td", id: "td-feed-content").allElements()[0].getText() == "Admin Written Message #20"
-        $('form').find("td", id: "td-feed-content").allElements()[9].getText() == "Admin Written Message #11"
-        $('form').find("td", id: "td-feed-date").allElements().size() == 10
-        $('form').find("td", id: "td-feed-date").allElements()[0].getText() >= $('form').find("td", id: "td-feed-date").allElements()[9].getText()
+        !$('#userEmail').readOnly
+        !$('#userDisplayName').readOnly
+        $('#userDisplayName').value() == "display name"
+        $('#userEmail').value() == "abac@abc.com"
+        $('#save-account').enabled
+        $('#td-feed-content').allElements().size() == 10
+        $('#td-feed-content').allElements()[0].getText() == "Admin Written Message #20"
+        $('#td-feed-content').allElements()[9].getText() == "Admin Written Message #11"
+        $('#td-feed-date').allElements().size() == 10
+        $('#td-feed-date').allElements()[0].getText() >= $('#td-feed-date').allElements()[9].getText()
 
         // REQ R5 //
-        $('form').find("td", id: "td-feed-date").allElements()[0].getText().size() == 6
-        months.contains($('form').find("td", id: "td-feed-date").allElements()[0].getText().substring(0,3))
-        $('form').find("td", id: "td-feed-date").allElements()[0].getText()[3] == ' '
-        $('form').find("td", id: "td-feed-date").allElements()[0].getText().substring(4,6).isNumber()
+        $('#td-feed-date').allElements()[0].getText().size() == 6
+        months.contains($('#td-feed-date').allElements()[0].getText().substring(0,3))
+        $('#td-feed-date').allElements()[0].getText()[3] == ' '
+        $('#td-feed-date').allElements()[0].getText().substring(4,6).isNumber()
 
         // verify that the tweets are scrollable by the table being larger than the div //
-        $('form').find('table', id: "user-tweets-table").height > $('form').find('div', id: "user-tweets").height
+        $('#user-tweets-table').height > $('#user-tweets').height
 
         when: "update the user's name and email"
-        $("#login-form input[id=userEmail]").value("updatedemail@email.com")
-        $("#login-form input[id=userDisplayName]").value("updated Name")
-        $("#login-form button[id=save-account]").click()
+        $('#userEmail').value("updatedemail@email.com")
+        $('#userDisplayName').value("updated Name")
+        $('#save-account').click()
         waitFor(5, 0.1) { $("#feed-page-status").text() == "Page load complete"}
 
         then: "user's name and email are updated"
-        $('form').find('input', id: 'userDisplayName').value() == "updated Name"
-        $('form').find('input', id: 'userEmail').value() == "updatedemail@email.com"
+        $('#userDisplayName').value() == "updated Name"
+        $('#userEmail').value() == "updatedemail@email.com"
     }
 
     def 'user details page allows user to post a new message'() {
@@ -63,32 +63,32 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         waitFor(5, 0.1) { $("#feed-page-status").text() == "Page load complete"}
 
         then: 'user can tweet a new message'
-        $('form').find('input', id: 'message-to-post')
-        $('form').find('button', id: 'reset-button').enabled
-        !$('form').find('button', id: 'tweet-button').enabled
+        $('#message-to-post')
+        $('#reset-button').enabled
+        !$('#tweet-button').enabled
 
         when: 'user tweet a new message'
-        $("#tweet-form input[id=message-to-post]").value("New Tweet from Admin")
+        $('#message-to-post').value("New Tweet from Admin")
 
         then: 'tweet button is enabled'
         // REQ R0 //
-        $("#tweet-form button[id=tweet-button]").enabled
+        $('#tweet-button').enabled
 
         when: 'click on tweet button'
-        $("#tweet-form button[id=tweet-button]").click()
+        $('#tweet-button').click()
         waitFor(3, 0.1) { $("#feed-page-status").text() == "Page load complete"}
 
         then: 'status indicate that new message is posted'
         // REQ R0 //
-        $('form').find("td", id: "td-feed-content").allElements()[0].getText() == "New Tweet from Admin"
+        $('#td-feed-content').allElements()[0].getText() == "New Tweet from Admin"
         // REQ R1 //
         $('#tweet-post-alert').displayed
         $('#tweet-post-alert').text().contains("Message Posted!")
 
-        when: 'tweet message field is empty'
-        $("#tweet-form input[id=message-to-post]").value("testValue")
-        $("#tweet-form input[id=message-to-post]").value("")
-        $("#login-form input[id=userEmail]").value("a@b.com")
+        when: 'empty tweet message field'
+        $('#message-to-post').value("testValue")
+        $('#message-to-post').value("")
+        $('#userEmail').value("a@b.com")
         sleep(2000)
 
         then: 'error message displays'
@@ -103,9 +103,9 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         waitFor(5, 0.1) { $("#feed-page-status").text() == "Page load complete"}
 
         then: "tweet a new message option is not available"
-        !$('form').find('input', id: 'message-to-post').text()
-        !$('form').find('button', id: 'reset-button').text()
-        !$('form').find('button', id: 'tweet-button').text()
+        !$('message-to-post').text()
+        !$('reset-button').text()
+        !$('tweet-button').text()
     }
 
 }
