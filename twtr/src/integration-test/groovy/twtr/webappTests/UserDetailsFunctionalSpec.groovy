@@ -95,6 +95,18 @@ public class UserDetailsFunctionalSpec extends TwtrFunctionalTestBase {
         // REQ R2 //
         !$("#tweet-button").enabled
         $("#invalid-message-span").text() == "Invalid message"
+
+        when: 'tweet message is too long (>40 characters)'
+        $('#message-to-post').value("aaaaabbbbbcccccdddddeeeeefffffggggghhhhh12345")
+        $('#tweet-button').click()
+        waitFor(3, 0.1) { $("#feed-page-status").text() == "Page load complete"}
+
+        // REQ R2 //
+        then: 'message is truncated to 40 characters'
+        $('#tweet-button').enabled
+        $('#td-feed-content').allElements()[0].getText() == "aaaaabbbbbcccccdddddeeeeefffffggggghhhhh"
+        $('#tweet-post-alert').displayed
+        $('#tweet-post-alert').text().contains("Message Posted!")
     }
 
     def "Other user's page is not allowed to post a new message"() {
