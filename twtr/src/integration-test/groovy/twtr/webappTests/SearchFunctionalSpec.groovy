@@ -10,108 +10,108 @@ class SearchFunctionalSpec extends TwtrFunctionalTestBase {
 
     def setup() {
         go '/'
-        $("#login-form input[id=loginHandle]").value("admin")
-        $("#login-form input[id=loginPassword]").value("ABCDr00t!")
-        $("#login-form button[id=do-login]").click()
-        waitFor(5, 0.1) { $('form').find("div", id: "page-status").text() == "Page load complete" }
+        $('#loginHandle').value("admin")
+        $('#loginPassword').value("ABCDr00t!")
+        $('#do-login').click()
+        waitFor(5, 0.1) { $('#page-status').text() == "Page load complete" }
     }
 
     def 'found 1 tweet with valid handle and content'() {
         when: 'search with handle=luluwang and content=10'
         go '/#/search'
-        $('#search-form input[id=tweeter-handle').value('luluwang')
-        $('#search-form input[id=tweet-content').value('10')
-        $('#search-form button[id=do-search').click()
-        waitFor(5, 0.1) { $('form').find("div", id: "page-status").text() == "Page load complete" }
+        $('#tweeter-handle').value('luluwang')
+        $('#tweet-content').value('10')
+        $('#do-search').click()
+        waitFor(5, 0.1) { $('#page-status').text() == "Page load complete" }
 
         then: 'found 1 tweet'
-        $('form').find("h2", id: "h2-message").text() == "Search tweets"
-        !$('form').find("div", id: "tweet-not-found").text()
-        $('form').find("td", id: "td-tweet-handle").text() == "luluwang"
-        $('form').find("td", id: "td-tweet-content").text() == "Lulu Written Message #10"
-        $('form').find("td", id: "td-tweet-date").text() != ""
+        $('#h2-message').text() == "Search tweets"
+        !$('#tweet-not-found').text()
+        $('#td-tweet-handle').text() == "luluwang"
+        $('#td-tweet-content').text() == "Lulu Written Message #10"
+        $('#td-tweet-date').text() != ""
         // Req S2: the results should be BELOW the search info and scrollable not scrollable here since it's one record//
-        $('form').find('div', id: "tweet-results").y > $('#search-form button[id=do-search').y
-        $('form').find('table', id: "tweet-results-table").height <= $('form').find('div', id: "tweet-results").height
+        $('#tweet-results').y > $('#do-search').y
+        $('#tweet-results-table').height <= $('#tweet-results').height
     }
 
     def 'found 1+ tweets with valid handle content'() {
         when: 'search with handle=luluwang and content=Message'
         go '/#/search'
-        $('#search-form input[id=tweeter-handle').value('luluwang')
-        $('#search-form input[id=tweet-content').value('Message')
-        $('#search-form button[id=do-search').click()
-        waitFor(5, 0.1) { $('form').find("div", id: "page-status").text() == "Page load complete" }
+        $('#tweeter-handle').value('luluwang')
+        $('#tweet-content').value('Message')
+        $('#do-search').click()
+        waitFor(5, 0.1) { $('#page-status').text() == "Page load complete" }
 
         then: 'Found 15 tweets'
-        $('form').find("h2", id: "h2-message").text() == "Search tweets"
-        !$('form').find("div", id: "tweet-not-found").text()
-        $('form').find("td", id: "td-tweet-handle").allElements().size() == 15
-        $('form').find("td", id: "td-tweet-handle").allElements()[0].getText() == "luluwang"
-        $('form').find("td", id: "td-tweet-handle").allElements()[14].getText() == "luluwang"
-        $('form').find("td", id: "td-tweet-content").allElements().size() == 15
-        $('form').find("td", id: "td-tweet-content").allElements()[0].getText() == "Lulu Written Message #15"
-        $('form').find("td", id: "td-tweet-content").allElements()[14].getText() == "Lulu Written Message #1"
-        $('form').find("td", id: "td-tweet-date").allElements().size() == 15
-        $('form').find("td", id: "td-tweet-date").allElements()[0].getText() >= $('form').find("td", id: "td-tweet-date").allElements()[14].getText()
+        $('#h2-message').text() == "Search tweets"
+        !$('#tweet-not-found').text()
+        $('#td-tweet-handle').allElements().size() == 15
+        $('#td-tweet-handle').allElements()[0].getText() == "luluwang"
+        $('#td-tweet-handle').allElements()[14].getText() == "luluwang"
+        $('#td-tweet-content').allElements().size() == 15
+        $('#td-tweet-content').allElements()[0].getText() == "Lulu Written Message #15"
+        $('#td-tweet-content').allElements()[14].getText() == "Lulu Written Message #1"
+        $('#td-tweet-date').allElements().size() == 15
+        $('#td-tweet-date').allElements()[0].getText() >= $('#td-tweet-date').allElements()[14].getText()
         // Req S2: the results should be BELOW the search info and scrollable //
-        $('form').find('table', id: "tweet-results-table").height > $('form').find('div', id: "tweet-results").height
-        $('form').find('div', id: "tweet-results").y > $('#search-form button[id=do-search').y
+        $('#tweet-results-table').height > $('#tweet-results').height
+        $('#tweet-results').y > $('#do-search').y
     }
 
     def 'tweet not found with invalid tweet content'() {
         when: 'search with handle=luluwang and content=Message'
         go '/#/search'
-        $('#search-form input[id=tweeter-handle').value('luluwang')
-        $('#search-form input[id=tweet-content').value('This tweet does not exist')
-        $('#search-form button[id=do-search').click()
-        waitFor(5, 0.1) { $('form').find("div", id: "page-status").text() == "Page load complete" }
+        $('#tweeter-handle').value('luluwang')
+        $('#tweet-content').value('This tweet does not exist')
+        $('#do-search').click()
+        waitFor(5, 0.1) { $('#page-status').text() == "Page load complete" }
 
         then: 'no tweets found'
-        $('form').find("h2", id: "h2-message").text() == "Search tweets"
-        $('form').find("div", id: "tweet-not-found").text() == "No tweets found"
-        !$('form').find("td", id: "td-tweet-handle").text()
-        !$('form').find("td", id: "td-tweet-content").text()
-        !$('form').find("td", id: "td-tweet-date").text()
+        $('#h2-message').text() == "Search tweets"
+        $('#tweet-not-found').text() == "No tweets found"
+        !$('#td-tweet-handle').text()
+        !$('#td-tweet-content').text()
+        !$('#td-tweet-date').text()
     }
 
     def 'tweet not found with invalid tweeter handle'() {
         when: 'search with handle=luluwang and content=Message'
         go '/#/search'
-        $('#search-form input[id=tweeter-handle').value('invalidHandle')
-        $('#search-form input[id=tweet-content').value('Message')
-        $('#search-form button[id=do-search').click()
-        waitFor(5, 0.1) { $('form').find("div", id: "page-status").text() == "Page load complete" }
+        $('#tweeter-handle').value('invalidHandle')
+        $('#tweet-content').value('Message')
+        $('#do-search').click()
+        waitFor(5, 0.1) { $('#page-status').text() == "Page load complete" }
 
         then: 'no tweets found'
-        $('form').find("h2", id: "h2-message").text() == "Search tweets"
-        $('form').find("div", id: "tweet-not-found").text() == "No tweets found"
-        !$('form').find("td", id: "td-tweet-handle").text()
-        !$('form').find("td", id: "td-tweet-content").text()
-        !$('form').find("td", id: "td-tweet-date").text()
+        $('#h2-message').text() == "Search tweets"
+        $('#tweet-not-found').text() == "No tweets found"
+        !$('#td-tweet-handle').text()
+        !$('#td-tweet-content').text()
+        !$('#td-tweet-date').text()
     }
 
     def 'clicking on the user handle will navigate to the user details page'() {
         when: 'search with handle=luluwang and content=10'
         go '/#/search'
-        $('#search-form input[id=tweeter-handle').value('luluwang')
-        $('#search-form input[id=tweet-content').value('10')
-        $('#search-form button[id=do-search').click()
-        waitFor(5, 0.1) { $('form').find("div", id: "page-status").text() == "Page load complete" }
+        $('#tweeter-handle').value('luluwang')
+        $('#tweet-content').value('10')
+        $('#do-search').click()
+        waitFor(5, 0.1) { $('#page-status').text() == "Page load complete" }
 
         then: 'found 1 tweet'
-        $('form').find("h2", id: "h2-message").text() == "Search tweets"
-        !$('form').find("div", id: "tweet-not-found").text()
-        $('form').find("td", id: "td-tweet-handle").text() == "luluwang"
-        $('form').find("td", id: "td-tweet-content").text() == "Lulu Written Message #10"
-        $('form').find("td", id: "td-tweet-date").text() != ""
+        $('#h2-message').text() == "Search tweets"
+        !$('#tweet-not-found').text()
+        $('#td-tweet-handle').text() == "luluwang"
+        $('#td-tweet-content').text() == "Lulu Written Message #10"
+        $('#td-tweet-date').text() != ""
 
         when: 'clicking on the luluwang handle'
         def tweeterHandle = $("#td-tweet-handle").text()
         $('#tweet-handle-link').click()
-        waitFor(5, 0.1) { $('form').find("div", id: "feed-page-status").text() == "Page load complete" }
+        waitFor(5, 0.1) { $('#feed-page-status').text() == "Page load complete" }
 
         then: 'user is navigated to the user details page'
-        $('form').find("h2", id: "twtr-page-title").text() == "Twtr Page for @" + tweeterHandle
+        $('#twtr-page-title').text() == "Twtr Page for @" + tweeterHandle
     }
 }
