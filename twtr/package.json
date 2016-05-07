@@ -1,0 +1,23 @@
+{
+  "name": "twtr",
+  "version": "1.0.0",
+  "description": "twtr is a case study for learning how to do web programming using Grails/Groovy for SENG5199-002 Web Programming.",
+  "main": "index.js",
+  "dependencies": {
+    "bower": "^1.7.9",
+    "bower-installer": "^1.2.0",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-coverage": "^1.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-junit-reporter": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
