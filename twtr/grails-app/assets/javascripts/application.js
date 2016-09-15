@@ -6,7 +6,7 @@
 // to create separate JavaScript files as needed.
 //
 //= require jquery-2.1.3.js
-//= require ../bower/jquery/dist/jquery.js
+//= require ../bower/jquery/jquery.js
 //= require ../bower/bootstrap.js
 //= require ../bower/angular/angular.js
 //= require ../bower/angular-bootstrap/ui-bootstrap.js
@@ -15,8 +15,9 @@
 //= require ../bower/angular-route/angular-route.js
 //= require ../bower/angular-webstorage/angular-webstorage.js
 //= require_self
-//= require_tree app
 //= require_tree .
+//= require_tree app
+
 
 // Create the angular application called 'app'
 var app = angular.module('app', ['ngRoute', 'ngResource', 'ui.bootstrap', 'webStorageModule']);
